@@ -76,6 +76,81 @@ Qual o próximo passo lógico de diagnóstico agora? Tarô? Leitura de mão?
 
 ___
 
-Ainda que não traga nenhuma novidade para a depuração do problema, as mensagens de DEBUG trazem algumas informações relevantes para aqueles pouco familiarizados com ETCD e como ocorre a conexão com esse negócio imprescindível para clusters Kubernetes, mas que pouquíssimas pessoas efetivamente conhecem.
+A chave para a solução do problema passa sutilmente despercebida na diretiva EtcdEndpoints:
 
-A conectividade é
+```
+...https://...
+```
+
+Esse tipo de erro obscuro, fantasma, de conexões que não começam (ou, no caso, que nunca terminal) são típicos de problemas de validação TLS. Mas que tipo de validação TLS? 
+
+Um programa "bem feito" normalmente ajuda a depuração. Vamos analisar o comportamento do comando **curl** quando exposto a diversos problemas de validação TLS:
+
+* Autoridade certificadora inválida:
+```
+# curl https://etcd1.local:2379
+curl: (60) Peer's Certificate issuer is not recognized.
+```
+* Nome do servidor não consta no certificado:
+```
+# curl --cacert tls/sp2/ca.pem --resolve hostname.invalido:2379:10.99.17.11 https://hostname.invalido:2379 
+curl: (51) Unable to communicate securely with peer: requested domain name does not match the server's certificate.
+```
+* O servidor requer autenticação com certificado válido pelo cliente, e vocẽ não enviou nenhum:
+```
+# curl --cacert tls/sp2/ca.pem https://etcd1.local:2379 
+curl: (58) NSS: client certificate not found (nickname not specified)
+```
+
+Bem, já é o suficiente.
+
+O **calicoctl**, entretanto, deixa **bastante a desejar** nesse cenário (A Tigera possivelmente acredita que você não terá problemas para reconhecer algo tão bobo?).
+
+Praticamente **todos os erros que envolvem certificados e TLS** terminam com o *calicoctl* travando por tempo indefinido.
+
+* Autoridade certificadora inválida:
+```
+# ETCD_ENDPOINTS=https://etcd1.local:2379 calicoctl -l debug get nodes
+...
+INFO[0000] Loaded client config: apiconfig.CalicoAPIConfigSpec{DatastoreType:"etcdv3", EtcdConfig:apiconfig.EtcdConfig{EtcdEndpoints:"https://etcd1.local:2379", EtcdDiscoverySrv:"", EtcdUsername:"", EtcdPassword:"", EtcdKeyFile:"", EtcdCertFile:"", EtcdCACertFile:"", EtcdKey:"", EtcdCert:"", EtcdCACert:""}, KubeConfig:apiconfig.KubeConfig{Kubeconfig:"", K8sAPIEndpoint:"", K8sKeyFile:"", K8sCertFile:"", K8sCAFile:"", K8sAPIToken:"", K8sInsecureSkipTLSVerify:false, K8sDisableNodePoll:false, K8sUsePodCIDR:false, KubeconfigInline:"", K8sClientQPS:0}} 
+... 
+^C
+```
+
+* Nome do servidor não consta no certificado:
+```
+# # Criei uma entrada no /etc/hosts para etcd.devsres.com, o nome não resolve.
+# ETCD_ENDPOINTS=https://etcd.devsres.com:2379 ETCD_CA_CERT_FILE=tls/tls.ca calicoctl -l debug get nodes
+...
+INFO[0000] Loaded client config: apiconfig.CalicoAPIConfigSpec{DatastoreType:"etcdv3", EtcdConfig:apiconfig.EtcdConfig{EtcdEndpoints:"https://etcd.devsres.com:2379", EtcdDiscoverySrv:"", EtcdUsername:"", EtcdPassword:"", EtcdKeyFile:"", EtcdCertFile:"", EtcdCACertFile:"tls/tls.ca", EtcdKey:"", EtcdCert:"", EtcdCACert:"tls/tls.ca"}, KubeConfig:apiconfig.KubeConfig{Kubeconfig:"", K8sAPIEndpoint:"", K8sKeyFile:"", K8sCertFile:"", K8sCAFile:"", K8sAPIToken:"", K8sInsecureSkipTLSVerify:false, K8sDisableNodePoll:false, K8sUsePodCIDR:false, KubeconfigInline:"", K8sClientQPS:0}} 
+... 
+^C
+```
+* O servidor requer autenticação com certificado válido pelo cliente, e vocẽ não enviou nenhum: 
+```
+# ETCD_ENDPOINTS=https://sp2srvvpkv00001:2379 ETCD_CA_CERT_FILE=tls/tls.ca calicoctl -l debug get nodes 
+...
+INFO[0000] Loaded client config: apiconfig.CalicoAPIConfigSpec{DatastoreType:"etcdv3", EtcdConfig:apiconfig.EtcdConfig{EtcdEndpoints:"https://sp2srvvpkv00001:2379", EtcdDiscoverySrv:"", EtcdUsername:"", EtcdPassword:"", EtcdKeyFile:"", EtcdCertFile:"", EtcdCACertFile:"tls/tls.ca", EtcdKey:"", EtcdCert:"", EtcdCACert:""}, KubeConfig:apiconfig.KubeConfig{Kubeconfig:"", K8sAPIEndpoint:"", K8sKeyFile:"", K8sCertFile:"", K8sCAFile:"", K8sAPIToken:"", K8sInsecureSkipTLSVerify:false, K8sDisableNodePoll:false, K8sUsePodCIDR:false, KubeconfigInline:"", K8sClientQPS:0}} 
+...
+^C
+```
+
+Enfim, você não pode confiar que o *calicoctl* irá te contar se houver qualquer tipo de falha na validação TLS, seja ela do lado do servidor ou do cliente.
+
+A mensagem que me permitiu diagnosticar adequadamente o problema foi a consulta dos logs dos servidores ETCD diretamente:
+
+```
+Oct 15 12:18:29 etcd1.local docker[832]: 2020-10-15 15:18:29.066104 I | embed: rejected connection from "192.168.255.42:54608" (error "tls: failed to verify client's certificate: x509: certificate has expired or is not yet valid", ServerName " etcd1.local")
+
+Oct 15 12:18:59  etcd1.local docker[832]: 2020-10-15 15:18:59.136121 I | embed: rejected connection from "192.168.255.42:56290" (error "tls: failed to verify client's certificate: x509: certificate has expired or is not yet valid", ServerName " etcd1.local")
+
+```
+
+Aqui, diagnóstico trivial: os **pseudo administradores** deste ambiente deixaram os certificados do cliente calicoctl **expirarem**.
+___
+
+Conclusão:
+
+* Conectividade TLS pode ser um horror para depurar;
+* Se você gera certificados para sua Intranet, implemente um controle adequado para saber quando estes estiverem próximos de expirar;
+
