@@ -1,2 +1,0 @@
-# marcelo
-devsres.com/marcelo

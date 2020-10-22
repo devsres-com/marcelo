@@ -1,0 +1,372 @@
++++
+title = "Kubernetes HPA com Custom Metrics On-Prem"
+description = "Laboratório prático implementação 100% operacional"
+author = "Marcelo Andrade"
+date = "2020-09-29"
+tags = ["kubernete", "avançado", "prometheus", "hpa"]
+categories = ["Kubernetes", "prometheus"]
+[[images]]
+  src = "img/reusable/tug-of-war.jpg"
+  alt = "Tug-of-war"
+  stretch = ""
++++
+
+O [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) é uma das implementações que mais chama atenção no deploy de aplicações: ele oferece a possibilidade de auto escalar o número de réplicas de um deployment de acordo com condições pré especificadas. Vou mostrar aqui um laboratório experimental que pode oferecer ideias de como usar métricas customizadas do **Prometheus** para escalar uma aplicação.
+
+--- 
+
+**Traduzindo se você não entendeu nada**: uma aplicação que usa HPA pode aumentar o número de instâncias para dar mais vazão em períodos de bastante carga, e também remover essas instâncias extras em horários com baixa procura, com um mínimo de complexidade.
+
+Esta funcionalidade, combinada com o [Cluster Auto Scaler](https://github.com/kubernetes/autoscaler)  te oferece a possibilidade de o cluster se "auto administrar" com relação à carga, instanciando não apenas novos Pods como novos **Nós**; removendo-os quando não são mais necessários. Imagina a economia que isso pode garantir em um provedor de nuvem! Mas este é um assunto para outro momento!
+
+**Prometheus** é uma popular ferramenta de monitoração e alertas amplamente usados em projetos Cloud Native.
+
+---
+
+## 1. Kubernetes HorizontalPodAutoscaling 
+
+A versão original do objeto HorizontalPodAutoscaler está disponível na api **autoscaling/v1** é a atualmente considerada **estável** e suporta apenas o óbvio uso de CPU pelo Pod. Mas já faz algum tempo que existem alternativas.
+
+A api **autoscaling/v2beta2** está disponível (sob esta mesma versão) desde no mínimo a versão 1.15, e oferece suporte a uso de memória e **métricas customizáveis**!
+
+Mas, antes de dar esse passo, é importante entender o básico. Eis o exemplo de um objeto do tipo HorizontalPodAutoscaling (HPA, a partir de agora) usando a métrica de CPU oferecida pelo Metrics Server do seu cluster para definir suas regras:
+
+Este yaml é o exemplo descrito pela documentação oficial como exemplo:
+
+```
+# https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+```
+
+A partir daqui, a documentação do Kubernetes se transforma em um gigantesco poço indecifrável de YAMLs e parâmetros enlameados que você não tem a menor ideia de onde vem. E isso acontece por uma razão bem simples: elas **não estão disponíveis para o seu cluster instalado fora dos grandes provedores de nuvem**. Você precisa extrair essa informação das seguintes sentenças:
+
+> There are two other types of metrics, both of which are considered custom metrics: pod metrics and object metrics. These metrics may have names which are cluster specific, and require a more advanced cluster monitoring setup.
+
+Então, de maneira semelhante aos **Service External IPs** e os objetos **Ingress**, você precisa se virar se quiser fazer algo como usar métricas customizadas para escalar sua aplicação.
+
+## 2. Usando Custom metrics com k8s-prometheus-adapter
+
+A maneira mais simples de viabilizar o uso de suas métricas armazenadas no **Prometheus** é usar o projeto [k8s-prometheus-adapter](https://github.com/DirectXMan12/k8s-prometheus-adapter) como referência. 
+
+(E aproveito para indicar que, **muito provavelmente**, a ideia do idealizador do projeto é essa: ser usado como **referência**. Então - e aqui é uma opinião minha - eu pessoalmente acredito que este projeto não seja exatamente uma escolha pronta e "*battle tested*" para uso intenso em produção.)
+
+O parágrafo de instalação é genial:
+
+```
+helm install --name my-release stable/prometheus-adapter
+```
+
+Se você fizer isso, vai instalar um helm chart marcado como deprecated na sua descrição:
+
+> description: DEPRECATED A Helm chart for k8s prometheus adapter
+
+Então, cuidado ao seguir instruções aleatórias dos próprios projetos! 
+
+Vou documentar aqui as etapas descritas pelo [Walkthrough] do projeto, fazendo um pouco diferente em algumas etapas para mostrar algumas peças do quebra-cabeça que faltam para realmente entender o que está acontecendo.
+
+## 3. Lançando a aplicação exemplo
+
+Por simplicidade, vou usar a aplicação descrita no próprio walkthrough do projeto.
+
+Este é o **Deployment** da aplicação. 
+
+```
+$ cat << EOF | kubectl apply  -f -
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  labels:
+    app: sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+      - image: luxas/autoscale-demo:v0.1.2
+        name: metrics-provider
+        ports:
+        - name: http
+          containerPort: 8080
+
+EOF
+```
+
+Também é uma boa criar um **Service**, embora, para o teste, seja irrelevante:
+
+```
+$ kubectl expose deploy/sample-app --port 80 --target-port 8080
+```
+
+O que essa aplicação faz?
+
+```
+$ kubectl exec -t deploy/sample-app -- wget -q 127.0.0.1:8080 -O /dev/stdout
+Hello! My name is sample-app-847c9b7cdf-wzfdb. I have served 57 requests so far.
+```
+
+Mas o segredo é seu *Prometheus exporter* embarcado:
+
+```
+kubectl exec -t deploy/sample-app -- wget -q 127.0.0.1:8080/metrics -O /dev/stdout
+# HELP http_requests_total The amount of requests served by the server in total
+# TYPE http_requests_total counter
+http_requests_total 62
+```
+
+A ideia é coletar a métrica exposta acima usando um Prometheus.
+
+## 4. Configurando o seu Prometheus
+
+Aqui, fiz um pouco diferente. Em vez de usar o [**Prometheus Operator**](https://github.com/prometheus-operator/prometheus-operator), sugerido pelo Walkthrough, preferi lançar minha própria configuração, para reusar um Prometheus que já estava pronto.
+
+Para isso, criei o seguinte *Job*:
+
+```
+scrape_configs:
+...
+# demais configurações
+...
+- job_name: 'lab-custom-metrics-pods'
+
+  kubernetes_sd_configs:
+  - role: pod 
+    namespaces:
+      names:
+      # ATENÇÃO: mude a namespace se relevante pra você! 
+      - default
+ 
+    selectors:
+    - role: pod
+      label: "app=sample-app"
+
+
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_namespace]
+    separator: ;
+    regex: (.*)
+    target_label: namespace
+
+  - action: labelmap
+    regex: __meta_kubernetes_pod_label_(.+)
+
+```
+
+Não usar o *Prometheus Operator* me obrigou a entender como a métrica precisa ser coletada e que **"labels"** são relevantes.
+
+Explicando alguns elementos relevantes:
+
+* Será necessário coletar métricas de **Pods**, portanto precisamos do 'role: pod'. Se você optar por **não restringir namespace**, o Prometheus irá buscar todos os *Pods* do seu cluster, e isso não é muito relevante para este laboratório. Aqui, ele irá coletar apenas métricas de pods da namespace *default*.
+
+```
+  kubernetes_sd_configs:
+  - role: pod 
+    namespaces:
+      names:
+      - default
+```
+
+* Aqui, optei por especificar o label dos pods que deverão ter métricas coletadas. Restrição relevante, já que quase nenhum outro exporta métricas para esta finalidade.
+
+```
+    selectors:
+    - role: pod
+      label: "app=sample-app"
+```
+
+Aqui uma nota que talvez nem todo mundo que trabalha com Prometheus saiba: se eu posso usar um *selector* para restringir os labels dos *Pods*  que eu quero monitorar, deve existir uma maneira de especificar, na configuração mais acima, os *labels* das ***Namespaces*** para fazer uso de uma coleta dinâmica, correto?
+
+**Errado**. [Esta issue no Github Prometheus](https://github.com/prometheus/prometheus/issues/5776) explica porque eles sequer tentarão implementar isso.
+
+---
+Muito provavelmente o *Prometheus Operator* é algo que você deve avaliar para uso no seu cluster. Não usar foi uma mera questão de conveniência minha.
+
+Ele resolve problemas como a escolha 'dinâmica' de namespaces, simulando o uso de um selector para a diretiva 'namespaces' mencionada acima.
+
+---
+
+* É necessário criar um label 'namespace' para a métrica:
+```
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_namespace]
+    separator: ;
+    regex: (.*)
+    target_label: namespace
+```
+* Também é necessário extrair os *labels* do Pod e convertê-los em *labels* da métrica:
+
+```
+  - action: labelmap
+    regex: __meta_kubernetes_pod_label_(.+)
+```
+
+## * "Desvio": Criando um Prometheus se você não tem um
+
+Não tem um servidor Prometheus e não entendeu nada de como fazer uso do Prometheus Operator? Sem problemas. É possível subir um no próprio cluster para realizar este teste.
+
+O primeiro passo é pegar a configuração acima e subir em um **Configmap**:
+
+```
+cat << EOF | kubectl create -f - 
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: default
+data:
+  prometheus.yml: |   
+    global:
+      scrape_interval:     15s
+      evaluation_interval: 15s
+    scrape_configs:
+    - job_name: 'lab-custom-metrics-pods'
+      kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+          - dmdmbcl
+        selectors:
+        - role: pod
+          label: "app=sample-app"
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_namespace]
+        separator: ;
+        regex: (.*)
+        target_label: namespace
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+EOF        
+```
+
+E um deployment Prometheus que use o configmap:
+
+```
+cat << EOF | kubectl create -f -
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus  
+  template:
+    metadata:      
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - image: prom/prometheus:v2.21.0
+        imagePullPolicy: IfNotPresent
+        name: prometheus
+        volumeMounts:
+        - name: prometheus-config
+          mountPath: /etc/prometheus/
+      volumes:
+      - name: prometheus-config
+        configMap:
+          name: prometheus-config
+EOF
+```
+
+Isso irá executar o Prometheus, mas ainda falta algo:
+
+ ```
+ $ kubectl logs prometheus-59c748d754-qjhbk
+ ...
+ level=error ts=2020-09-30T05:23:31.202Z caller=klog.go:94 component=k8s_client_runtime func=ErrorDepth msg="/app/discovery/kubernetes/kubernetes.go:450: Failed to list *v1.Pod: pods is forbidden: User \"system:serviceaccount:zomgtcu:default\" cannot list resource \"pods\" in API group \"\" in the namespace \"default\""
+
+ ```
+
+Claro, as permissões RBAC para que o Prometheus busque as informações no Kubernetes. Como criar da maneira mais restrita possível?
+
+```
+$ kubectl create role prometheus --verb=get,list,watch --resource=pods
+
+role.rbac.authorization.k8s.io/prometheus created
+
+$ kubectl create rolebinding prometheus --role=prometheus --serviceaccount=default:default
+
+rolebinding.rbac.authorization.k8s.io/prometheus created
+
+```
+
+Ao executar o comando '*kubectl logs*' novamente, as mensagens de erro não devem mais aparecer. 
+
+Mas está funcionando mesmo?
+
+```
+ kubectl exec -t deploy/prometheus -- wget -q 'http://127.0.0.1:9090/api/v1/query?query=http_requests_total'  -O /dev/stdout  | jq '.'
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "http_requests_total",
+          "app": "sample-app",
+          "instance": "192.168.0.69:8080",
+          "job": "lab-custom-metrics-pods",
+          "namespace": "default",
+          "pod_template_hash": "847c9b7cdf"
+        },
+        "value": [
+          1601444489.655,
+          "61"
+        ]
+      }
+    ]
+  }
+}
+```
+Existe um jeito menos hostil de verificar isso, que é acessando diretamente o *Pod* Prometheus em sua interface web na sua própria maquina, na porta 9090, usando o comando '*kubectl port-forward*':
+
+```
+$ kubectl port-forward deploy/prometheus 9090
+Forwarding from 127.0.0.1:9090 -> 9090
+Forwarding from [::1]:9090 -> 9090
+Handling connection for 9090
+
+```
+
+Se os testes acima foram bem sucedidos, o Prometheus está ok e pronto para ser usado como elemento para *HPA Custom Metrics*!
+
+## 5. Deploy do k8s-prometheus-adapter, parte 2:
+
+
+
+

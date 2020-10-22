@@ -1,0 +1,13 @@
++++
+title = "Manipulando a saída do Kubectl"
+description = "Nem só de greps e seds vive o homem"
+author = "Marcelo Andrade"
+date = "2020-10-10"
+tags = ["kubernetes", "básico", ]
+categories = ["Kubernetes", "básico"]
+[[images]]
+  src = "img/reusable/tug-of-war.jpg"
+  alt = "Tug-of-war"
+  stretch = ""
++++
+
