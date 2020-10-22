@@ -6,8 +6,8 @@ date = "2020-10-06"
 tags = ["kubernetes", "intermediário", "calico"]
 categories = ["kubernetes", "intermediário", "calico"]
 [[images]]
-  src = "img/reusable/square-into-circle.jpg"
-  alt = "Square into circle and hammer"
+  src = "img/reusable/cat-claw.png"
+  alt = "Calico cat clawing the door"
   stretch = ""
 +++
 
