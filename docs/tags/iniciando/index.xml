@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iniciando on </title>
+    <link>https://devsres.com/marcelo/tags/iniciando/</link>
+    <description>Recent content in iniciando on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Mon, 21 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://devsres.com/marcelo/tags/iniciando/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Por que Docker?</title>
+      <link>https://devsres.com/marcelo/blog/why-docker/</link>
+      <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/why-docker/</guid>
+      <description>Em conversas - principalmente com pessoas dos dois extremos do espectro de idade - sobre nosso glorioso mercado de TI vez por outra surge este questionamento: por que usar Docker?
+Eu tendo a reclamação, em especial de estudantes e do pessoal novo: em casa, sem um arsenal de ferramentas de CI/CD implantadas por terceiros, parece uma incrível bobagem e perda de tempo. Dockerfile, rede virtual, putz, pra que complicar, se eu posso rodar tudo na minha máquina sem problemas?</description>
+    </item>
+    
+  </channel>
+</rss>

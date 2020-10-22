@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Kubernetes: por onde começar - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.74.3" /><meta itemprop="name" content="Kubernetes: por onde começar">
+<meta itemprop="description" content="Como dar os primeiros passos nesta tecnologia">
+<meta itemprop="datePublished" content="2020-09-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-09-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="764">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="kubernete,iniciante," />
+<meta property="og:title" content="Kubernetes: por onde começar" />
+<meta property="og:description" content="Como dar os primeiros passos nesta tecnologia" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/kubernetes-where-to-start/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-09-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-09-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Kubernetes: por onde começar"/>
+<meta name="twitter:description" content="Como dar os primeiros passos nesta tecnologia"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%3a%20por%20onde%20come%c3%a7ar&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f&amp;title=Kubernetes%3a%20por%20onde%20come%c3%a7ar" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f&amp;title=Kubernetes%3a%20por%20onde%20come%c3%a7ar" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f&amp;description=Kubernetes%3a%20por%20onde%20come%c3%a7ar" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/kubernetes-where-to-start/">Kubernetes: por onde começar</a></h2>
+    
+    
+      <p>Como dar os primeiros passos nesta tecnologia</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-09-01 00:00:00 &#43;0000 UTC">1 de September, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>4 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%3a%20por%20onde%20come%c3%a7ar&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f&amp;title=Kubernetes%3a%20por%20onde%20come%c3%a7ar" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f&amp;title=Kubernetes%3a%20por%20onde%20come%c3%a7ar" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f&amp;description=Kubernetes%3a%20por%20onde%20come%c3%a7ar" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-where-to-start%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/kubernetes-where-to-start/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg" alt="Helm on boat in real life">
+  </a>
+      <p>No último ano, aqui em Recife, tive a oportunidade de participar (e palestrar!) em alguns eventos. Em comum, havia o fato de muito de seus conteúdos - se não integralmente - estarem relacionados ao Kubernetes.</p>
+<p>Nas duas oportunidade em que fiz apresentações, entrei em detalhes sobre:</p>
+<ul>
+<li>o desafio de usar o objeto Ingress - que, até a recém-lançada versão 1.19, ainda era beta, embora exista desde a versão 1.1;</li>
+<li>uma nova abordagem de como fazer a gerência de um cluster e a entrega contínua de aplicações: GitOps;</li>
+</ul>
+<p>Embora eu sempre procure abordar o assunto de uma forma que não seja absolutamente incompreensível para quem não tenha qualquer tipo de contato com Kubernetes, em todos os eventos, me deparo com uma realidade: a de que existe muita gente interessada sobre Kubernetes, mas com bastante dificuldade de se introduzir a esta tecnologia.</p>
+<p>Sempre me é feita uma pergunta: por onde começar? Como dou os primeiros passos? E eu nunca tenho uma resposta de qualidade a oferecer:  eu já &ldquo;aprendi tudo&rdquo; lá atrás, em um passado remoto no qual inexistia bons tutorials ou cursos, e a documentação descrevia o Kube Controller como &ldquo;the program that runs the control loops that controls the state of objects&rdquo; (ou algo assim).</p>
+<p>Felizmente, os tempos mudaram, e é ampla a documentação de cada mínimo aspecto relacionado ao Kubernetes, com bastante oferta de cursos (pagos e gratuitos) sobre o assunto.</p>
+<p>Sem mais delongas, <strong>por onde começar</strong> quando quer se aprender sobre Kubernetes?</p>
+<h1 id="kubeacademy">KubeAcademy</h1>
+<ul>
+<li><a href="https://kube.academy/">https://kube.academy/</a></li>
+</ul>
+<p>A VMware disponibilizou um excelente material (e, vale ressaltar <strong>completamente gratuito</strong>) sobre containers e Kubernetes. Os conteúdos são apresentados de maneira fácil de digerir, e alguns dos cursos inclusive contam com laboratórios práticos interativos com <strong>Katacoda</strong>, o que, na minha opinião, torna este conteúdo possivelmente o melhor disponível para uma apresentação inicial.</p>
+<p>A desvantagem para quem não domina o inglês é o uso de player próprio e a inexistência de legendas, embora seja possível regular a velocidade do player para melhorar a compreensão para aqueles não tão fluentes.</p>
+<h1 id="katacoda--instruqt">Katacoda / instruqt</h1>
+<ul>
+<li><a href="https://www.katacoda.com">https://www.katacoda.com</a></li>
+<li><a href="https://play.instruqt.com/public">https://play.instruqt.com/public</a></li>
+</ul>
+<p>O Katacoda, adquirido recentemente pela tradicional editora de livros técnicos O&rsquo;Reilly, por muito tempo, serviu como laboratório prático para quem não tem recursos para subir um cluster Kubernetes para prática pessoal.</p>
+<p>Os cursos dno Katacoda são interativos e executados diretamente no navegador, o que torna o processo simples e dinâmico. Antes de produção restrita, agora o Katacoda permite que qualquer um disposto a aprender a usar a plataforma possa criar seus próprios cursos com ela - o que</p>
+<p>O ponto negativo é que a maneira de abordar o conteúdo teórico fica em segundo plano. E, acredite, muito do trabalhar bem com Kubernetes adequadamente vem de entender a maneira e o porquê optou-se por resolver os problemas desta forma.</p>
+<p>Instruqt é bastante semelhante em abordagem ao Katacoda; mas, no geral, a interface apresenta mais problemas e os cursos de Kubernetes em qualidade inferior.</p>
+<h1 id="kubernetesio">Kubernetes.io</h1>
+<p>A documentação do projeto vem crescendo em volume e qualidade a olhos vistos a cada versão que passa. A versão 1.18 introduziu a oferta em outros idiomas que não o inglês, o que nem imaginava que fosse acontecer algum dia.</p>
+<p>O destaque da documentação fica por parte dos <a href="https://kubernetes.io/docs/concepts/overview/"><strong>conceitos</strong></a>.  Muitos dos textos crípticos do começo foram reescritos de maneira compreensível, e agora as ideias são, sim, plenamente acessíveis ao &ldquo;grande público&rdquo;.</p>
+<p>Vale a pena mencionar que a documentação conta com duas seções extremamente valiosas para quem está aprendendo e pensa em tirar a certificação CKA/CKAD: a seção de <a href="https://kubernetes.io/docs/tasks/"><strong>Tasks</strong></a> e a de <a href="https://kubernetes.io/docs/tutorials/"><strong>Tutoriais</strong></a>.</p>
+<p>Embora o português esteja lá, a maior parte das páginas que acessei ainda está disponível apenas em inglês.</p>
+<h1 id="edx---introduction-to-kubernetes">EDX - Introduction to Kubernetes</h1>
+<p><a href="https://www.edx.org/course/introduction-to-kubernetes">https://www.edx.org/course/introduction-to-kubernetes</a></p>
+<p>Lembro que, à medida que novos membros chegavam à equipe, a recomendação padrão era a fazer este curso do EDX elaborado pela Linux Foundation - basicamente porque era a <strong>única opção</strong>.</p>
+<p>É possível ler grande parte dos conteúdos disponíveis sem custo adicional, mas vários recursos são oferecidos apenas aos pagantes.</p>
+<p>Deixo aqui esta entrada pelo valor histórico, mas acredito que a relevância deste curso hoje é limitada se comparado ao que já é oferecido pela documentação oficial do Kubernetes.</p>
+<h1 id="mas-e-em-português">Mas e em português?</h1>
+<p>Aqui, eu peço desculpas, mas vou ficar devendo.</p>
+<p>A qualidade dos materiais que tive a oportunidade de ler (inclusive em sites pagos) está entre o <strong>ruim</strong> e o <strong>sofrível</strong>.  Então, não tenho uma boa recomendação a oferecer.</p>
+<hr>
+<p><em>Se você conhecer algum bom site com conteúdo de Kubernetes em português e quiser recomendar, entre em contato por qualquer uma das minhas redes sociais que eu terei um prazer enorme em incluí-los nesta lista!</em></p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">Kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/iniciando/">Iniciando</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernete/">kubernete</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/iniciante/">iniciante</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+      <a href="/marcelo/blog/why-docker/" class="button left"><span>Por que Docker?</span></a>
+    
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calicoctl-stuck/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calicoctl-stuck/">Calicoctl, TLS e gestão de certificados</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/terraform-import-watch-out/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/terraform-import-watch-out/">Cuidado com terraform import</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/why-docker/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/why-docker/">Por que Docker?</a></h2>
+          <time class="published" datetime="2020-09-21 00:00:00 &#43;0000 UTC">21 de September, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-where-to-start/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg" alt="Helm on boat in real life">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-where-to-start/">Kubernetes: por onde começar</a></h2>
+          <time class="published" datetime="2020-09-01 00:00:00 &#43;0000 UTC">1 de September, 2020</time>
+        </header>
+      </article>
+      
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.74.3' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

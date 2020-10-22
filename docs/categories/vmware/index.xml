@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vmware on </title>
+    <link>https://devsres.com/marcelo/categories/vmware/</link>
+    <description>Recent content in vmware on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://devsres.com/marcelo/categories/vmware/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cuidado com terraform import</title>
+      <link>https://devsres.com/marcelo/blog/terraform-import-watch-out/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/terraform-import-watch-out/</guid>
+      <description>(Nota: eu tenho tentado produzir conteúdo de qualidade seguindo uma linha de raciocínio com começo, meio e fim, com valor histórico e altamente apreciável. Com isso, meu último post foi mês passado e eu tenho mais de 30 drafts a concluir. Portanto, vou tornar isso aqui um braindump de conteúdos aleatórios que eu julgar relevante. Foi mal!)
+ Quem não adora Terraform?
+Basta escrever meia dúzia de arquivos que algum programa magicamente interpreta tudo e cria coisas mágicas para você.</description>
+    </item>
+    
+  </channel>
+</rss>

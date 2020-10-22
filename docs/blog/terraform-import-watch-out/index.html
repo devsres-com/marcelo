@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Cuidado com terraform import - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.74.3" /><meta itemprop="name" content="Cuidado com terraform import">
+<meta itemprop="description" content="Importando recursos que usam count e for_each">
+<meta itemprop="datePublished" content="2020-10-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-10-06T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1301">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="terraform,intermediário,vmware," />
+<meta property="og:title" content="Cuidado com terraform import" />
+<meta property="og:description" content="Importando recursos que usam count e for_each" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/terraform-import-watch-out/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-10-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-06T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Cuidado com terraform import"/>
+<meta name="twitter:description" content="Importando recursos que usam count e for_each"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Cuidado%20com%20terraform%20import&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f&amp;title=Cuidado%20com%20terraform%20import" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f&amp;title=Cuidado%20com%20terraform%20import" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f&amp;description=Cuidado%20com%20terraform%20import" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/terraform-import-watch-out/">Cuidado com terraform import</a></h2>
+    
+    
+      <p>Importando recursos que usam count e for_each</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>7 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Cuidado%20com%20terraform%20import&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f&amp;title=Cuidado%20com%20terraform%20import" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f&amp;title=Cuidado%20com%20terraform%20import" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f&amp;description=Cuidado%20com%20terraform%20import" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-import-watch-out%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/terraform-import-watch-out/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+      <p>(Nota: eu tenho tentado produzir conteúdo de qualidade seguindo uma linha de raciocínio com começo, meio e fim, com valor histórico e altamente apreciável. Com isso, meu último post foi mês passado e eu tenho mais de 30 drafts a concluir. Portanto, vou tornar isso aqui um braindump de conteúdos aleatórios que eu julgar relevante. Foi mal!)</p>
+<hr>
+<p>Quem <strong>não adora Terraform</strong>?</p>
+<p>Basta escrever meia dúzia de arquivos que algum programa magicamente interpreta tudo e cria coisas mágicas para você. Fantástico! O único problema é aprender a usar direito.</p>
+<p>A Hashicorp, até alguns anos atrás, fazia documentações tão crípticas e ilegíveis que eventualmente perceberam que era necessário um esforço maior para &ldquo;mentes menores&rdquo; compreenderem seus softwares. Com isso, investiram somas substanciais de dinheiro fazendo sites como o <a href="https://learn.hashicorp.com/terraform">Learn Hashicorp</a> ou mesmo workshops gratuitos interativos com <a href="https://play.instruqt.com/hashicorp">Instruqt</a>. Eles realmente têm feito um bom trabalho nessa seara.</p>
+<p>Em muitos aspectos, o Terraform ainda é deficiente.</p>
+<p>Às vezes é <strong>pura frescura</strong>: vide o <strong>terraform-provider-kubernetes</strong>, que simplesmente se recusava a implementar APIs betas por anos, tornando-o praticamente inútil. E mesmo quando <strong>deployments</strong> chegaram à GA,  demorou <a href="https://github.com/hashicorp/terraform-provider-kubernetes/issues/3">quase um ano</a> para implementar este elemento que é considerado como pedra fundamental para qualquer aplicação Kubernetes.</p>
+<p>Mas muitas vezes nem é culpa da Hashicorp: a integração com <strong>VMware</strong>, mesmo com as últimas funcionalidades implementadas pela última versão, é, literalmente, <strong>um horror</strong>. E o problema aqui são as severas limitações funcionais das APIs públicas disponibilizadas pela própria VMWare.</p>
+<p>Mas chega de &lsquo;rant&rsquo;: vamos a conteúdo!</p>
+<h2 id="terraform-import">Terraform import</h2>
+<p>Todo mundo sabe que o Terraform precisa de total controle sobre o que cria; o que existe <strong>tem que ser criado por ele, e isso é inegociável</strong>.</p>
+<p>Quer dizer, nem tanto; eles dão uma colher de chá para você tentar adaptar uma infraestrutura já existente à sua automação: o comando <strong>terraform import</strong>.</p>
+<p>Suponha que, agora, você usa Terraform e conseguiu criar 2 máquinas usando seu novíssimo programa! Como você faz para &lsquo;incorporar&rsquo; as 2000 máqunas que já existem na sua infraestrutura? Executando 2000 vezes (no mínimo) o comando &lsquo;<em>import</em>&rsquo; especificando os &lsquo;<em>terraform resources</em>&rsquo; que as máquinas representam, bem como um identificador alienígena que varia completamente de maneira praticamente imprevisível de acordo com o tipo de &lsquo;<em>provider</em>&rsquo;! (Tudo bem, é melhor que toda infraestrutura tem que ser criado por ele e isso ser inegociável).</p>
+<p><strong>Nosso problema</strong>: cluster Kubernetes com 10 máquinas virtuais usando <strong>VMWare Vsphere</strong>. Precisamos adicionar mais 4. Obviamente não usamos Terraform no passado. Como fazer?</p>
+<p>Comando da <a href="https://registry.terraform.io/providers/hashicorp/vsphere/latest/docs/resources/virtual_machine#importing">documentação oficial</a>:</p>
+<pre><code>terraform import vsphere_virtual_machine.vm /dc1/vm/srv1
+</code></pre><p>O colega com pouca experiência que está trilhando os tortuosos caminhos dos programas Terraform criados por mim (que consigo ser ainda mais críptico que a própria Hashicorp) falou:</p>
+<blockquote>
+<p>&ldquo;Ufa! Ainda bem que é só isso, certo?&rdquo;</p>
+</blockquote>
+<p>Claro que não!</p>
+<ul>
+<li>Se o seu programa (tipo, literalmente, no diretório corrente) criar &lsquo;<strong>resources</strong>&rsquo; do tipo &lsquo;<em>vsphere_virtual_machine</em>&rsquo;  que sejam escalares (i.e., não usem &lsquo;<em>for_each</em>&rsquo; ou &lsquo;<em>count</em>'), o primeiro parãmetro do comando está correto. Caso contrário, está <strong>errado</strong>!</li>
+<li>/dc1/vm/srv1 é obviamente um placeholder; você precisa descobrir o &lsquo;caminho VMware&rsquo; das suas máquinas virtuais, e, se você não entende de VMWare, pode ter alguma dificuldade com a nomenclatura.</li>
+</ul>
+<p>A segunda parte é fácil: basta compor o nome do datacenter com a string arbitrária vm com as &lsquo;pastas&rsquo; criadas no Vcenter e, por fim, o nome dos servidores:</p>
+<ul>
+<li>&ldquo;/bsa/vm/infra/10069/kubernetes df1/hosts/master1&rdquo;</li>
+<li>&ldquo;/bsa/vm/infra/10069/kubernetes df1/hosts/master2&rdquo;</li>
+<li>&ldquo;/bsa/vm/infra/10069/kubernetes df1/hosts/worker1&rdquo;</li>
+<li>&ldquo;/bsa/vm/infra/10069/kubernetes df1/hosts/worker2&rdquo;</li>
+</ul>
+<p>Tranquilo. (Espero que tenha acesso à API do VMWare para descobrir isso!)</p>
+<p>A primeira parte, por outro lado, irá variar <strong>radicalmente</strong> de acordo com o Terraform que você está usando.</p>
+<p>Em nosso caso, por exemplo, eu criei um módulo terraform que encapsula a criação dos recursos VMWare VSphere necessários. Esse encapsulamento &lsquo;vaza&rsquo; por uma série de razões, mas me permite passar as máquinas como uma variável map para o módulo mais ou menos da seguinte forma:</p>
+<pre><code>vms = {
+   &quot;master1&quot; = {
+     &quot;profile&quot; = &quot;k8s_worker&quot;
+     &quot;hostname&quot; = &quot;master1&quot;
+     &quot;network&quot; = {
+       &quot;rede1&quot; = &quot;192.168.0.1&quot;,
+       &quot;rede2&quot; = &quot;10.0.0.1&quot;
+     }
+   }
+   &quot;worker1&quot; = {
+     &quot;profile&quot; = &quot;k8s_worker&quot;
+     &quot;hostname&quot; = &quot;worker1&quot;
+     &quot;network&quot; = {
+       &quot;rede1&quot; = &quot;192.168.0.101&quot;,
+       &quot;rede2&quot; = &quot;10.0.0.101&quot;,        
+       &quot;rede3&quot; = &quot;172.16.0.1&quot;,
+     }
+   }
+   &quot;ingress1&quot; = {
+     &quot;profile&quot; = &quot;k8s_ingress&quot;
+     &quot;hostname&quot; = &quot;ingress1&quot;
+     &quot;network&quot; = {
+       &quot;rede1&quot; = &quot;192.168.0.201&quot;,
+       &quot;rede2&quot; = &quot;10.0.0.201&quot;,        
+       &quot;rede4&quot; = &quot;200.160.2.1&quot;,
+     }
+   }
+</code></pre><hr>
+<p>(E aqui, um conselho: <strong>evite ao máximo</strong> criar maps de maps de maps ou maps de arrays de maps como eu gosto de fazer. É uma ideia idiota, que deixa seu programa Terraform praticamente incompreensível para seres humanos. Eu adoro fazer assim por razões, mas definitivamente não recomendo).</p>
+<hr>
+<p>Enfim, a criação dos meus resources estão encapsulados no módulo.</p>
+<p>Então, o comando &lsquo;<em>terraform import</em>&rsquo; deve, necessariamente, fazer referência ao resource <strong>dentro do módulo</strong>:</p>
+<ul>
+<li>module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm</li>
+</ul>
+<p>E aqui está a pegadinha: aqui está a definição do meu resource vm:</p>
+<pre><code>resource &quot;vsphere_virtual_machine&quot; &quot;vm&quot; {
+  for_each  = local.vms
+  name      = each.value.hostname
+  ...
+</code></pre><p>Portanto, o meu &lsquo;resource&rsquo; vm <strong>não</strong> é um tipo simples (ou escalar, como eu chamo), e sim um tipo complexo (por causa do uso do iterador for_each) do tipo <strong>map</strong>.</p>
+<p>O comando <strong>correto</strong> para importar máquinas já existentes, portanto, é assim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># terraform import &#39;module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm[&#34;master2&#34;]&#39; &#39;/bsa/vm/infra/10069/kubernetes df1/hosts/master2&#39;</span>
+
+<span style="color:#75715e"># terraform import &#39;module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm[&#34;worker2&#34;]&#39; &#39;/bsa/vm/infra/10069/kubernetes df1/hosts/worker2&#39;</span>
+...
+</code></pre></div><h2 id="tá-mas-e-daí">Tá, mas e daí?</h2>
+<p>E daí que: o que pode acontecer se eu executar o <strong>comando errado</strong>?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># terraform import module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm &#39;/bsa/vm/infra/10069/kubernetes df1/hosts/worker2&#39;</span>
+</code></pre></div><p>Acima, erramos o comando, e importamos &lsquo;worker2&rsquo;, que deveria ser membro de um map, para vsphere_virtual_machine.vm do módulo diretamente.</p>
+<p>O que se espera normalmente? Um erro de execução, certo?</p>
+<p>Vai dar erro, mas não no import. O import irá executar de maneira bem sucedida. Mas, depois disso, provavelmente tudo relacionado a este programa falhará.</p>
+<p>Após a execução do comando errado, fui agraciado com a seguinte mensagem:</p>
+<pre><code># terraform apply 
+...
+module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm[&quot;ingress3&quot;]: Refreshing state... [id=421ab407-1bc3-dceb-6906-72fe3fad4c0e]
+
+Error: Unsupported attribute
+
+  on .terraform/modules/vmware-cluster-k8s-raw/locals.tf line 104, in locals:
+ 104:   vms_result = { for key, value in vsphere_virtual_machine.vm : key =&gt; { for network in value.network_interface : network.network_id =&gt; network.mac_address } } 
+</code></pre><p>O que esse erro quer dizer? Quer dizer que aquela sequência mágica de &lsquo;terraform maps comprehension&rsquo; falhou. Por quê? Putz, vai adivinhar.</p>
+<p>Meu colega aplicou um <a href="https://www.youtube.com/watch?v=oTWW4GXTXS0">&ldquo;Senhor, eu desisto, Senhor!&quot;</a>:</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/oTWW4GXTXS0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>E isso, obviamente, faz qualquer sênior SRE muito feliz!</p>
+<hr>
+<p>Como fui eu que pari a besta, voltei para entender.</p>
+<p>Observei o seguinte descrevendo o arquivo de estados:</p>
+<pre><code># terraform state list
+module.vmware-cluster-k8s-raw.data.vsphere_compute_cluster.compute_cluster
+module.vmware-cluster-k8s-raw.data.vsphere_datacenter.cluster_datacenter
+module.vmware-cluster-k8s-raw.data.vsphere_datastore_cluster.cluster_datastore
+module.vmware-cluster-k8s-raw.data.vsphere_network.networks[&quot;cluster&quot;]
+module.vmware-cluster-k8s-raw.data.vsphere_network.networks[&quot;ingress&quot;]
+module.vmware-cluster-k8s-raw.data.vsphere_network.networks[&quot;management&quot;]
+module.vmware-cluster-k8s-raw.data.vsphere_network.networks[&quot;storage&quot;]
+module.vmware-cluster-k8s-raw.vsphere_folder.folder
+module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm
+module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm[&quot;worker1&quot;]
+module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm[&quot;worker2&quot;]
+</code></pre><p>Algo estranho aqui: temos dois tipos de ocorrências para o objeto que representa o map vm:</p>
+<ul>
+<li>module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm: um &lsquo;escalar&rsquo;!</li>
+<li>module.vmware-cluster-k8s-raw.vsphere_virtual_machine.vm[]: este sim com todas as ocorrências adequadas!</li>
+</ul>
+<p>O comando errado de import criou uma entrada errada no &lsquo;<em>state file</em>&rsquo; que bagunçou o funcionamento da lógica do módulo.</p>
+<p>Nossa situação foi um pouco pior, porque o comando gerou a máquina em um lugar no VMWare que ela não deveria ser criada por razões desconhecidas (novamente, em vez de dar erro!), e que não tínhamos permissão para remover também por razões desconhecidas.</p>
+<p>A <strong>solução</strong> para este caso foi a remoção da máquina problemática do &lsquo;map&rsquo; de objetos criados; após um apply bem sucedido com a remoção da máquina problemática, o Terraform foi capaz de perceber o desvio no arquivo de estado e corrigiu sozinho, removendo a entrada inválida e me poupando (desta vez!) a experiência aterrorizante de manipular o estado com &lsquo;<em>terraform state</em>&rsquo;, então, se era para isos que você veio aqui, desculpe frustrar sua expectativa!</p>
+<hr>
+<p>Para aprender com esta experiência:</p>
+<ul>
+<li>Criar módulos Terraform para tudo parece uma ideia genial, mas quanto mais você encapsula achando que está reusando código, mais estará duplicando entradas de variáveis e se distanciando das validações básicas do programa;</li>
+<li>Evite usar de maneira leviana maps, arrays, counts e for_eachs a menos que você esteja disposto a ir até o fim por suas escolhas - ou trabalhe com alguém insano que use em todo canto; aí, meu amigo, meus pêsames;</li>
+<li>Não execute &lsquo;imports&rsquo; até ter certeza absoluta do que está fazendo.</li>
+</ul>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/terraform/">terraform</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/intermedi%c3%a1rio/">intermediário</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/vmware/">vmware</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/terraform/">terraform</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/intermedi%c3%a1rio/">intermediário</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/vmware/">vmware</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+      <a href="/marcelo/blog/calicoctl-stuck/" class="button left"><span>Calicoctl, TLS e gestão de certificados</span></a>
+    
+    
+      <a href="/marcelo/blog/why-docker/" class="button right"><span>Por que Docker?</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calicoctl-stuck/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calicoctl-stuck/">Calicoctl, TLS e gestão de certificados</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/terraform-import-watch-out/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/terraform-import-watch-out/">Cuidado com terraform import</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/why-docker/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/why-docker/">Por que Docker?</a></h2>
+          <time class="published" datetime="2020-09-21 00:00:00 &#43;0000 UTC">21 de September, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-where-to-start/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg" alt="Helm on boat in real life">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-where-to-start/">Kubernetes: por onde começar</a></h2>
+          <time class="published" datetime="2020-09-01 00:00:00 &#43;0000 UTC">1 de September, 2020</time>
+        </header>
+      </article>
+      
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.74.3' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

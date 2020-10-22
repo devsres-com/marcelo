@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Por que Docker? - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.74.3" /><meta itemprop="name" content="Por que Docker?">
+<meta itemprop="description" content="Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático">
+<meta itemprop="datePublished" content="2020-09-21T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-09-21T00:00:00+00:00" />
+<meta itemprop="wordCount" content="784">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="containers,docker,iniciando," />
+<meta property="og:title" content="Por que Docker?" />
+<meta property="og:description" content="Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/why-docker/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-09-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-09-21T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Por que Docker?"/>
+<meta name="twitter:description" content="Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Por%20que%20Docker%3f&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;description=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/why-docker/">Por que Docker?</a></h2>
+    
+    
+      <p>Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-09-21 00:00:00 &#43;0000 UTC">21 de September, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>4 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Por%20que%20Docker%3f&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;description=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/why-docker/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+  </a>
+      <p>Em conversas - principalmente com pessoas dos dois extremos do espectro de idade - sobre nosso glorioso mercado de TI vez por outra surge este questionamento: por que usar Docker?</p>
+<p>Eu tendo a reclamação, em especial de estudantes e do pessoal novo: em casa, sem um arsenal de ferramentas de CI/CD implantadas por terceiros, parece uma incrível bobagem e perda de tempo. Dockerfile, rede virtual, putz, pra que complicar, se eu posso rodar tudo na minha máquina sem problemas?</p>
+<p>(Já o pessoal antigo, é preguiça e má vontade: vá aprender a usar contêineres e saia da zona de conforto imediatamente!)</p>
+<h2 id="por-que-docker">Por que Docker?</h2>
+<p>Essa resposta é trivial:</p>
+<p><strong>Docker é simples; Docker é fácil de entender; Docker &ldquo;faz tudo&rdquo;</strong>.</p>
+<p>Docker abstrai a infinidade de detalhes necessários para a execução de contêineres no Linux com um cobertor quente, bonito e agradável que permite ao seu usuário ser produtivo com um mínimo de overhead no aprendizado de uma tecnologia &ldquo;colateral&rdquo;.</p>
+<p>E mais: o &ldquo;engine Docker&rdquo; vai muito além: o software veio cuidar de praticamente todas as etapas do ciclo de vida de um contêiner, desde sua criação até viabilizar que as imagens cheguem onde desejamos - seja no host, seja no Docker Registry, mantido pelo Docker! -, passando pela execução e manutenção dos containers e imagens no servidor.</p>
+<p>Existe uma pergunta muito mais difícil, que inclusive muitos administradores de sistemas que usam contêineres todos os dias nos últimos anos não sabe responder:</p>
+<p><strong>Se você não usar Docker, vai usar o quê?</strong></p>
+<p>Até mesmo pesquisar essa resposta é <a href="#sup1">difícil<sup>1</sup></a>; muitos dos conteúdos disponíveis sobre o assunto estão ou extremamente defasados ou simplesmente errados em suas comparações. A resposta a essa pergunta <strong>não atende às necessidades da maioria dos profissionais de TI</strong>, logo é irrelevante (você tem interesse na resposta? Se sim, <a href="https://twitter.com/marcelo_devsres">me</a> <a href="https://www.instagram.com/marcelo_devsres/">deixe</a> <a href="https://www.facebook.com/devsresnetwork">saber</a>!).</p>
+<p>Enquanto a &ldquo;concorrência&rdquo; não trabalhar isso, Docker será o líder incontestável em uso.</p>
+<h2 id="por-que-containers">Por que containers?</h2>
+<p>Falando a verdade, a pergunta correta não é &ldquo;por que usar Docker&rdquo;, e sim, por que usar contêineres. Esta sim, diferentemente da primeira, é uma pergunta sem resposta direta e imediata.</p>
+<p>Eu poderia copiar definições, justificativas e citar mil livros ou páginas importantes explicando o porquê da relevância da tecnologia de conteinerização sob as diferentes <a href="#sup2">óticas<sup>2</sup></a>. Mas, em verdade, o que falta para muitos é entender que problemas essa tecnologia veio resolver, e que pode ser resumido em uma sentença:</p>
+<p><strong>Contêineres resolvem o problema de &ldquo;na minha máquina funciona!&rdquo;.</strong></p>
+<p>Historicamente, sempre coube aos profissionais de infraestrutura o processo de implantação, manutenção e resolução de problemas em ambientes que executam programas elaborados por terceiros. E um desafio tradicional dessa época era a divergência entre os ambientes em que os softwares eram desenvolvidos, homologados e, por fim, postos em produção.</p>
+<p>Não era incomum ajustes nos ambientes serem feitos &ldquo;em tempo de homologação&rdquo; para corrigir problemas e se perderem na &ldquo;não documentação&rdquo; do sistema, que era passada para as áreas de operações implantarem (e, consequentemente, falharem). Também não era incomum o uso de plataformas radicalmente diferentes e incompatíveis entre si, gerando conflitos homéricos sobre o uso de versão de um sistema operacional não internalizado pela empresa, ou a necessidade de atualização de um serviço para uma tecnologia de pouco domínio por parte dos administradores de serviços. Mesmo para tecnologias que naturalmente são pensadas para &ldquo;rodar em todo lugar&rdquo;, como Java, encontra problemas com versões e parametrizações específicas que podem se perder na transição entre ambientes.</p>
+<p>Contêineres, por definição, resolvem o problema de &ldquo;reproducibilidade de resultados&rdquo;, ou &ldquo;portabilidade&rdquo; das aplicações: uma imagem Docker é gerada para a sua aplicação, com todos os arquivos (como elementos do sistema operacional, bibliotecas e utilitários) e configurações necessários para sua execução. Uma consequência comum da adoção deste modelo é a obrigatoriedade de adoção de um mínimo de boas práticas, como por exemplo a parametrização para que a aplicação receba configurações que variam de ambiente para ambiente.</p>
+<p>Este problema já foi amplamente abordado no passado como virtualização de servidores e tecnologias de orquestração e gestão de configuração; nenhuma delas, entretanto, resolveu com a elegância e simplicidade de simplesmente &ldquo;socar&rdquo; tudo que é necessário em uma unidade parametrizável e orquestrável.</p>
+<p>A partir desta entidade <a href="#sup3"><strong>Contêiner</strong><sup>3</sup></a> que trivializa a implantação (&quot;<em>deploy</em>&quot;) de um software, está aberto agora o caminho para a construção de novas soluções que resolvam outros problemas do processo de desenvolvimento de software e otimizem ainda mais o processo de entrega de resultados por parte das equipes.</p>
+<hr>
+<p><sup id=sup1>1</sup> Os melhores links sequer apareciam na página principal do Google:</p>
+<ul>
+<li><a href="https://www.capitalone.com/tech/cloud/container-runtime/">A Comprehensive Container Runtime Comparison</a></li>
+<li><a href="https://wiki.aquasec.com/display/containers/Docker+Alternatives+-+Rkt%2C+LXD%2C+OpenVZ%2C+Linux+VServer%2C+Windows+Containers">Aquasec: Docker Alternatives</a></li>
+</ul>
+<p><sup id=sup2>2</sup> <a href="https://duvidas.dicio.com.br/optica-optico-otica-ou-otico/">&ldquo;Ópticas&rdquo; é muito feio.</a></p>
+<p><sup id=sup2>3</sup> Observe que, no Linux, &ldquo;Contêiner&rdquo; <strong>não</strong> é uma primitiva do sistema operacional, e sim um conjunto destas. Do ponto de vista prático, acaba sendo uma.</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/containers/">containers</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/docker/">docker</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/iniciando/">Iniciando</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/containers/">containers</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/docker/">docker</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/iniciando/">iniciando</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+      <a href="/marcelo/blog/terraform-import-watch-out/" class="button left"><span>Cuidado com terraform import</span></a>
+    
+    
+      <a href="/marcelo/blog/kubernetes-where-to-start/" class="button right"><span>Kubernetes: por onde começar</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calicoctl-stuck/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calicoctl-stuck/">Calicoctl, TLS e gestão de certificados</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/terraform-import-watch-out/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/terraform-import-watch-out/">Cuidado com terraform import</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/why-docker/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/why-docker/">Por que Docker?</a></h2>
+          <time class="published" datetime="2020-09-21 00:00:00 &#43;0000 UTC">21 de September, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-where-to-start/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/kubernetes-helm-reallife.jpg" alt="Helm on boat in real life">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-where-to-start/">Kubernetes: por onde começar</a></h2>
+          <time class="published" datetime="2020-09-01 00:00:00 &#43;0000 UTC">1 de September, 2020</time>
+        </header>
+      </article>
+      
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.74.3' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

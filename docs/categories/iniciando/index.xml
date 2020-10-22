@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Iniciando on </title>
+    <link>https://devsres.com/marcelo/categories/iniciando/</link>
+    <description>Recent content in Iniciando on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Mon, 21 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://devsres.com/marcelo/categories/iniciando/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Por que Docker?</title>
+      <link>https://devsres.com/marcelo/blog/why-docker/</link>
+      <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/why-docker/</guid>
+      <description>Em conversas - principalmente com pessoas dos dois extremos do espectro de idade - sobre nosso glorioso mercado de TI vez por outra surge este questionamento: por que usar Docker?
+Eu tendo a reclamação, em especial de estudantes e do pessoal novo: em casa, sem um arsenal de ferramentas de CI/CD implantadas por terceiros, parece uma incrível bobagem e perda de tempo. Dockerfile, rede virtual, putz, pra que complicar, se eu posso rodar tudo na minha máquina sem problemas?</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes: por onde começar</title>
+      <link>https://devsres.com/marcelo/blog/kubernetes-where-to-start/</link>
+      <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/kubernetes-where-to-start/</guid>
+      <description>No último ano, aqui em Recife, tive a oportunidade de participar (e palestrar!) em alguns eventos. Em comum, havia o fato de muito de seus conteúdos - se não integralmente - estarem relacionados ao Kubernetes.
+Nas duas oportunidade em que fiz apresentações, entrei em detalhes sobre:
+ o desafio de usar o objeto Ingress - que, até a recém-lançada versão 1.19, ainda era beta, embora exista desde a versão 1.1; uma nova abordagem de como fazer a gerência de um cluster e a entrega contínua de aplicações: GitOps;  Embora eu sempre procure abordar o assunto de uma forma que não seja absolutamente incompreensível para quem não tenha qualquer tipo de contato com Kubernetes, em todos os eventos, me deparo com uma realidade: a de que existe muita gente interessada sobre Kubernetes, mas com bastante dificuldade de se introduzir a esta tecnologia.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,41 @@
++++
+title = "SRE: o que é isso?"
+description = "Uma nova maneira de enxergar Ops"
+author = "Marcelo Andrade"
+date = "2020-09-01"
+tags = ["sre", "ops"]
+categories = ["sre"]
+[[images]]
+  src = "img/reusable/ops-life.jpg"
+  alt = "Changing tires while running"
+  stretch = ""
+  draft = true
++++
+
+É impossível definir quantas carreiras diferentes existem no universo de TI - qualquer tentativa de classificar em áreas-macro está fadada ao fracasso pela subjetividade. [Aqui](https://www.thebalancecareers.com/list-of-information-technology-it-job-titles-2061498) é possível ler uma lista relativamente bem organizada sobre o assunto.
+
+Em um passado não muito distante, era bastante comum usar um simples critério como divisor fundamental de carreiras: aqueles que trabalham **diretamente no desenvolvimento de software** e aqueles que **não**. 
+
+Essa divisão é bastante simples de se observar em faculdades e cursos técnicos: aqueles que se entusiasmam em programar, compilar e criar coisas novas vestem a camisa **Dev**. Os demais - aqueles  que não suportam a ideia de trabalhar com código, compilação, debug e etc - normalmente são classificados como **Ops**, ou aqueles que trabalham na operação do negócio.
+
+Historicamente, o papel das equipes Dev terminam na construção da versão final do software (*build*). A partir daí, cabem aos Ops a preparação do ambiente, a implantação (*deploy*) e sua manutenção. Por esta razão, Devs e Ops nem sempre se dão bem, tendo em vista o claro conflito de interesses:
+* quem trabalha na operação gosta de manter sistemas estáveis no ar, com poucas (e conhecidas) falhas a remediar. 
+* trabalhar com desenvolvimento significa atender às necessidades crescentes dos sistemas implementando novas funcionalidades - que possivelmente trarão consigo novos bugs que causarão novas falhas
+
+Ninguém gosta de ser acordado de madrugada porque um sistema caiu. E aqui a principal razão do conflito: Devs introduzem falhas, mas cabem aos Ops resolverem o problema. Como Ops não trabalham no desenvolvimento do software, normalmente a solução é uma reversão (*rollback*) à versão anterior, mais estável.
+
+Já faz algum tempo que não é assim que o mundo de TI funciona. Múltiplas revoluções já aconteceram - **Serviços de nuvem** e a **Integração contínua** as mais relevantes para este contexto. 
+
+Com variável grau de adesão por parte das empresas, o tempo para deploy de novas versões tem sido cada vez mais curto, e o número de pessoas dedicadas à manutenção da infraestrutura reduzido devido ao uso de técnicas de automação cada vez mais avançadas. 
+
+A **vida Dev** mudou; mas a mudança veio como uma evolução natural da carreira, que agora demanda mais agilidade, dinamismo e versatilidade no uso de tecnologias para implementar produtos.  Já a **vida Ops** sofreu tantas revoluções em sequência, transformando de maneira tão abrupta o núcleo principal do trabalho chega a ser difícil entender como da mesma categoria o profissional de ontem e o que se procura hoje.
+
+A ideia de implantar uma cultura **DevOps**, que rompe a barreira que divide os dois times e busca uma relação mais fluida e natural do desenvolvimento de sistemas com sua implantação impacta ambos os lados: agora, os times de desenvolvimento precisam arcar com as consequências de seus deploys. 
+
+Mas a principal mudança de mentalidade (para que usar *mindset*, não é?) precisa vir da **operação**: agora é necessário abraçar o desenvolvimento e trabalhar para aumentar o máximo possível a eficiência do processo de produção da empresa. **A operação precisa deixar de ser o gargalo**.
+
+À época dos antigos mainframes, apenas **operadores de computador** especializados estavam aptos a interagir com a máquina. 
+
+---
+
+Esse longo - e talvez desnecessário preâmbulo - serve para ilustrar o processo de transformação ao qual o profissional de operações está submetido. 

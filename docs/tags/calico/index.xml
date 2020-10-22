@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>calico on </title>
+    <link>https://devsres.com/marcelo/tags/calico/</link>
+    <description>Recent content in calico on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://devsres.com/marcelo/tags/calico/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Calicoctl, TLS e gestão de certificados</title>
+      <link>https://devsres.com/marcelo/blog/calicoctl-stuck/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/calicoctl-stuck/</guid>
+      <description>Estava precisando configurar algumas GlobalNetworkPolicies em um cluster Kubernetes; para isso, é necessário intervir diretamente no Calico, pois o Kubernetes ainda não conta com objetos de Networkpolicies que não sejam &amp;lsquo;namespaced&amp;rsquo;.
+Obviamente, usamos &amp;lsquo;backend&amp;rsquo; ETCD: por que simplificaríamos tudo usando CRDs no próprio Kubernetes, não é? Deixamos isso para os amadores!
+(PS: fazemos assim porque somos tão pioneiros em usar tecnologias &amp;lsquo;bleeding edge&amp;rsquo; que, à época da implantação, usar Kubernetes como backend sequer era uma opção - sim, nós somos &amp;lsquo;that old school&amp;rsquo;!</description>
+    </item>
+    
+  </channel>
+</rss>
