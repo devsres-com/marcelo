@@ -3,291 +3,311 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://devsres.com/</loc>
+    <loc>https://devsres.com/marcelo/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://devsres.com/en/"
+                href="https://devsres.com/marcelo/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="https://devsres.com/fr/"
+                href="https://devsres.com/marcelo/fr/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="https://devsres.com/pl/"
+                href="https://devsres.com/marcelo/pl/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="de"
-                href="https://devsres.com/de/"
+                href="https://devsres.com/marcelo/de/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="https://devsres.com/es/"
+                href="https://devsres.com/marcelo/es/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://devsres.com/zh-cn/"
+                href="https://devsres.com/marcelo/zh-cn/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-tw"
-                href="https://devsres.com/zh-tw/"
+                href="https://devsres.com/marcelo/zh-tw/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="https://devsres.com/ja/"
+                href="https://devsres.com/marcelo/ja/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="nl"
-                href="https://devsres.com/nl/"
+                href="https://devsres.com/marcelo/nl/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="https://devsres.com/"
+                href="https://devsres.com/marcelo/"
                 />
   </url>
   
   <url>
-    <loc>https://devsres.com/blog/</loc>
+    <loc>https://devsres.com/marcelo/blog/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/</loc>
+    <loc>https://devsres.com/marcelo/tags/calico/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/calico/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/blog/calicoctl-stuck/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://devsres.com/en/categories/"
+                href="https://devsres.com/marcelo/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="https://devsres.com/fr/categories/"
+                href="https://devsres.com/marcelo/fr/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="https://devsres.com/pl/categories/"
+                href="https://devsres.com/marcelo/pl/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="de"
-                href="https://devsres.com/de/categories/"
+                href="https://devsres.com/marcelo/de/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="https://devsres.com/es/categories/"
+                href="https://devsres.com/marcelo/es/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://devsres.com/zh-cn/categories/"
+                href="https://devsres.com/marcelo/zh-cn/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-tw"
-                href="https://devsres.com/zh-tw/categories/"
+                href="https://devsres.com/marcelo/zh-tw/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="https://devsres.com/ja/categories/"
+                href="https://devsres.com/marcelo/ja/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="nl"
-                href="https://devsres.com/nl/categories/"
+                href="https://devsres.com/marcelo/nl/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="https://devsres.com/categories/"
+                href="https://devsres.com/marcelo/categories/"
                 />
   </url>
   
   <url>
-    <loc>https://devsres.com/blog/terraform-import-watch-out/</loc>
+    <loc>https://devsres.com/marcelo/blog/terraform-import-watch-out/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/intermedi%C3%A1rio/</loc>
+    <loc>https://devsres.com/marcelo/tags/intermedi%C3%A1rio/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/intermedi%C3%A1rio/</loc>
+    <loc>https://devsres.com/marcelo/categories/intermedi%C3%A1rio/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/</loc>
+    <loc>https://devsres.com/marcelo/tags/kubernetes/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/kubernetes/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://devsres.com/en/tags/"
+                href="https://devsres.com/marcelo/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
-                href="https://devsres.com/fr/tags/"
+                href="https://devsres.com/marcelo/fr/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="https://devsres.com/pl/tags/"
+                href="https://devsres.com/marcelo/pl/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="de"
-                href="https://devsres.com/de/tags/"
+                href="https://devsres.com/marcelo/de/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="https://devsres.com/es/tags/"
+                href="https://devsres.com/marcelo/es/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://devsres.com/zh-cn/tags/"
+                href="https://devsres.com/marcelo/zh-cn/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-tw"
-                href="https://devsres.com/zh-tw/tags/"
+                href="https://devsres.com/marcelo/zh-tw/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="https://devsres.com/ja/tags/"
+                href="https://devsres.com/marcelo/ja/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="nl"
-                href="https://devsres.com/nl/tags/"
+                href="https://devsres.com/marcelo/nl/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="https://devsres.com/tags/"
+                href="https://devsres.com/marcelo/tags/"
                 />
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/terraform/</loc>
+    <loc>https://devsres.com/marcelo/tags/terraform/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/terraform/</loc>
+    <loc>https://devsres.com/marcelo/categories/terraform/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/vmware/</loc>
+    <loc>https://devsres.com/marcelo/tags/vmware/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/vmware/</loc>
+    <loc>https://devsres.com/marcelo/categories/vmware/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/containers/</loc>
+    <loc>https://devsres.com/marcelo/tags/containers/</loc>
     <lastmod>2020-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/containers/</loc>
+    <loc>https://devsres.com/marcelo/categories/containers/</loc>
     <lastmod>2020-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/docker/</loc>
+    <loc>https://devsres.com/marcelo/tags/docker/</loc>
     <lastmod>2020-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/docker/</loc>
+    <loc>https://devsres.com/marcelo/categories/docker/</loc>
     <lastmod>2020-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/iniciando/</loc>
+    <loc>https://devsres.com/marcelo/categories/iniciando/</loc>
     <lastmod>2020-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/iniciando/</loc>
+    <loc>https://devsres.com/marcelo/tags/iniciando/</loc>
     <lastmod>2020-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/blog/why-docker/</loc>
+    <loc>https://devsres.com/marcelo/blog/why-docker/</loc>
     <lastmod>2020-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/about/</loc>
+    <loc>https://devsres.com/marcelo/about/</loc>
     <lastmod>2020-09-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/iniciante/</loc>
+    <loc>https://devsres.com/marcelo/tags/iniciante/</loc>
     <lastmod>2020-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/tags/kubernete/</loc>
+    <loc>https://devsres.com/marcelo/tags/kubernete/</loc>
     <lastmod>2020-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/categories/kubernetes/</loc>
+    <loc>https://devsres.com/marcelo/blog/kubernetes-where-to-start/</loc>
     <lastmod>2020-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://devsres.com/blog/kubernetes-where-to-start/</loc>
-    <lastmod>2020-09-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/contact/</loc>
+    <loc>https://devsres.com/marcelo/contact/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="de"
-                href="https://devsres.com/de/contact/"
+                href="https://devsres.com/marcelo/de/contact/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="https://devsres.com/es/contact/"
+                href="https://devsres.com/marcelo/es/contact/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://devsres.com/zh-cn/contact/"
+                href="https://devsres.com/marcelo/zh-cn/contact/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="https://devsres.com/contact/"
+                href="https://devsres.com/marcelo/contact/"
                 />
   </url>
   
