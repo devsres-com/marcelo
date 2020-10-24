@@ -400,7 +400,7 @@ A troca abaixo "resolve" o problema:
 por 
 
 ```
-ln -sf /proc/1/fd/1 /var/log/app/aplication.log && \
+    ln -sf /proc/1/fd/1 /var/log/app/aplication.log && \
 ```
 
 Um truque sujo, simples, porém altamente eficaz e com o mínimo de trauma no deploy da aplicação. O **stdout** do pid 1 **não é** /dev/null, e agora o logs da aplicação aparecem normalmente.
