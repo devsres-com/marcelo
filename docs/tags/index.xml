@@ -6,10 +6,28 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://devsres.com/marcelo/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>docker</title>
+      <link>https://devsres.com/marcelo/tags/docker/</link>
+      <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://devsres.com/marcelo/tags/linux/</link>
+      <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/linux/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>calico</title>
@@ -62,15 +80,6 @@
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/tags/containers/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://devsres.com/marcelo/tags/docker/</link>
-      <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/docker/</guid>
       <description></description>
     </item>
     

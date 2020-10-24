@@ -6,10 +6,20 @@
     <description>Recent content in Blog on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://devsres.com/marcelo/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux, contâineres e descritores de arquivos</title>
+      <link>https://devsres.com/marcelo/blog/linux-containers-and-file-descriptors/</link>
+      <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/linux-containers-and-file-descriptors/</guid>
+      <description>O mundo mudou, e tudo hoje é &amp;ldquo;software engineer&amp;rdquo; e containers em todas as direções. X as a Code, &amp;ldquo;abordagem dev para tudo&amp;rdquo;, &amp;ldquo;o que um dev faria?&amp;rdquo;, e assim vai. E como fica o profissional de infraestrutura? Aquele cara que hoje é conhecido como Ops puro sangue, e que foi basicamente substituído por desenvolvedores que entendem um pouco mais de operação que os outros?
+Eu sou um desses caras. Um Guru Linux das antigas, dos tempos do Slackware, dependency chain download e das configurações de X que queimavam monitores.</description>
+    </item>
     
     <item>
       <title>Calicoctl, TLS e gestão de certificados</title>
