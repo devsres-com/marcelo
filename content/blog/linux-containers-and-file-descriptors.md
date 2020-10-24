@@ -1,5 +1,5 @@
 +++
-title = "Linux, contâineres e descritores de arquivos"
+title = "Linux, contêineres e descritores de arquivos"
 description = "Ou: por que você PRECISA de um Linux guru na sua equipe de 'software engineers'"
 author = "Marcelo Andrade"
 date = "2020-10-23"
