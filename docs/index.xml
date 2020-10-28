@@ -6,10 +6,21 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Fri, 23 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 28 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://devsres.com/marcelo/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>De repente, CKA</title>
+      <link>https://devsres.com/marcelo/blog/suddenly-cka/</link>
+      <pubDate>Wed, 28 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/suddenly-cka/</guid>
+      <description>Com alguns anos de atraso&amp;hellip;
+A história com Kubernetes e seus colegas Cloud Native vem de 2016 quando a área em que estava acabou e a equipe inteira seria &amp;ldquo;despejada&amp;rdquo; em uma área qualquer. Um grupo dissidente da empresa estava procurando almas perdidas e desenganadas para participar de um projeto esquisito, que, segundo eles, seria altamente diferenciado.
+Nenhuma grande empresa de tecnologia jamais dedicaria esforço montando uma infraestrutura alternativa com um software de nome estranho que pouca gente do corpo gerencial sequer ouviu falar, ainda mais mantido por uma &amp;ldquo;skeleton crew&amp;rdquo; de poucos nomes desconihecidos.</description>
+    </item>
     
     <item>
       <title>Linux, contêineres e descritores de arquivos</title>
@@ -41,17 +52,6 @@ Obviamente, usamos &amp;lsquo;backend&amp;rsquo; ETCD: por que simplificaríamos
       <description>(Nota: eu tenho tentado produzir conteúdo de qualidade seguindo uma linha de raciocínio com começo, meio e fim, com valor histórico e altamente apreciável. Com isso, meu último post foi mês passado e eu tenho mais de 30 drafts a concluir. Portanto, vou tornar isso aqui um braindump de conteúdos aleatórios que eu julgar relevante. Foi mal!)
  Quem não adora Terraform?
 Basta escrever meia dúzia de arquivos que algum programa magicamente interpreta tudo e cria coisas mágicas para você.</description>
-    </item>
-    
-    <item>
-      <title>De repente, CKA</title>
-      <link>https://devsres.com/marcelo/blog/suddenly-cka/</link>
-      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/blog/suddenly-cka/</guid>
-      <description>Com alguns anos de atraso&amp;hellip;
-A história com Kubernetes e seus colegas Cloud Native vem de 2016 quando a área em que estava acabou e a equipe inteira seria &amp;ldquo;despejada&amp;rdquo; em uma área qualquer. Um grupo dissidente da empresa estava procurando almas perdidas e desenganadas para participar de um projeto esquisito, que, segundo eles, seria altamente diferenciado.
-Nenhuma grande empresa de tecnologia jamais dedicaria esforço montando uma infraestrutura alternativa com um software de nome estranho que pouca gente do corpo gerencial sequer ouviu falar, ainda mais mantido por uma &amp;ldquo;skeleton crew&amp;rdquo; de poucos nomes desconihecidos.</description>
     </item>
     
     <item>

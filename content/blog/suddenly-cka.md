@@ -2,7 +2,7 @@
 title = "De repente, CKA"
 description = "4 anos de 'estudo' para uma certificação"
 author = "Marcelo Andrade"
-date = "2020-10-06"
+date = "2020-10-28"
 tags = ["kubernetes"]
 categories = ["kubernetes"]
 [[images]]
