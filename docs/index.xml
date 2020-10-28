@@ -44,6 +44,17 @@ Basta escrever meia dúzia de arquivos que algum programa magicamente interpreta
     </item>
     
     <item>
+      <title>De repente, CKA</title>
+      <link>https://devsres.com/marcelo/blog/suddenly-cka/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/suddenly-cka/</guid>
+      <description>Com alguns anos de atraso&amp;hellip;
+A história com Kubernetes e seus colegas Cloud Native vem de 2016 quando a área em que estava acabou e a equipe inteira seria &amp;ldquo;despejada&amp;rdquo; em uma área qualquer. Um grupo dissidente da empresa estava procurando almas perdidas e desenganadas para participar de um projeto esquisito, que, segundo eles, seria altamente diferenciado.
+Nenhuma grande empresa de tecnologia jamais dedicaria esforço montando uma infraestrutura alternativa com um software de nome estranho que pouca gente do corpo gerencial sequer ouviu falar, ainda mais mantido por uma &amp;ldquo;skeleton crew&amp;rdquo; de poucos nomes desconihecidos.</description>
+    </item>
+    
+    <item>
       <title>Por que Docker?</title>
       <link>https://devsres.com/marcelo/blog/why-docker/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
