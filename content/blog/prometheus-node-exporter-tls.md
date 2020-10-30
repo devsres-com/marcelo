@@ -2,7 +2,7 @@
 title = "Prometheus node exporter com TLS"
 description = "Restringindo acesso ao endpoint de métricas da sua máquina"
 author = "Marcelo Andrade"
-date = "2020-10-06"
+date = "2020-10-30"
 tags = ["prometheus", "node-exporter", "tls"]
 categories = ["prometheus", "node-exporter", "tls"]
 [[images]]
