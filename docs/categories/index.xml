@@ -57,11 +57,38 @@
     </item>
     
     <item>
+      <title>node-exporter</title>
+      <link>https://devsres.com/marcelo/categories/node-exporter/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/categories/node-exporter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>prometheus</title>
+      <link>https://devsres.com/marcelo/categories/prometheus/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/categories/prometheus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>terraform</title>
       <link>https://devsres.com/marcelo/categories/terraform/</link>
       <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/categories/terraform/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tls</title>
+      <link>https://devsres.com/marcelo/categories/tls/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/categories/tls/</guid>
       <description></description>
     </item>
     

@@ -243,12 +243,47 @@
   </url>
   
   <url>
+    <loc>https://devsres.com/marcelo/tags/node-exporter/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/node-exporter/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/prometheus/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/prometheus/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/blog/prometheus-node-exporter-tls/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://devsres.com/marcelo/tags/terraform/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://devsres.com/marcelo/categories/terraform/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/tls/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/tls/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   

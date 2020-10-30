@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>prometheus on </title>
+    <link>https://devsres.com/marcelo/tags/prometheus/</link>
+    <description>Recent content in prometheus on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://devsres.com/marcelo/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Prometheus node exporter com TLS</title>
+      <link>https://devsres.com/marcelo/blog/prometheus-node-exporter-tls/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/prometheus-node-exporter-tls/</guid>
+      <description>Ah, Prometheus. O mundo &amp;ldquo;cloud-native&amp;rdquo; simplesmente adora.
+Desde sua recepção pela CNCF em 2016 como primeiro projeto - após o Kubernetes - a ser incubado, a adesão e admiração tem sido crescente, a ponto de você encontrar issues como esta em projetos aleatórios na Internet:
+ jnovack commented on Apr 1, 2018 I&amp;rsquo;m pretty sure Prometheus-compatible metrics exposure is almost a requirement in 2018 for project adoption.
+ (Ps: o projeto em questão ainda não exporta métricas)</description>
+    </item>
+    
+  </channel>
+</rss>

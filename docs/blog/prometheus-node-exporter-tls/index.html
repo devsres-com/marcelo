@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Prometheus node exporter com TLS - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.74.3" /><meta itemprop="name" content="Prometheus node exporter com TLS">
+<meta itemprop="description" content="Restringindo acesso ao endpoint de métricas da sua máquina">
+<meta itemprop="datePublished" content="2020-10-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-10-06T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1451">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="prometheus,node-exporter,tls," />
+<meta property="og:title" content="Prometheus node exporter com TLS" />
+<meta property="og:description" content="Restringindo acesso ao endpoint de métricas da sua máquina" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/prometheus-node-exporter-tls/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-10-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-06T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Prometheus node exporter com TLS"/>
+<meta name="twitter:description" content="Restringindo acesso ao endpoint de métricas da sua máquina"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Prometheus%20node%20exporter%20com%20TLS&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f&amp;title=Prometheus%20node%20exporter%20com%20TLS" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f&amp;title=Prometheus%20node%20exporter%20com%20TLS" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f&amp;description=Prometheus%20node%20exporter%20com%20TLS" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/prometheus-node-exporter-tls/">Prometheus node exporter com TLS</a></h2>
+    
+    
+      <p>Restringindo acesso ao endpoint de métricas da sua máquina</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>7 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Prometheus%20node%20exporter%20com%20TLS&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f&amp;title=Prometheus%20node%20exporter%20com%20TLS" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f&amp;title=Prometheus%20node%20exporter%20com%20TLS" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f&amp;description=Prometheus%20node%20exporter%20com%20TLS" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fprometheus-node-exporter-tls%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/prometheus.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/prometheus.png" alt="Prometheus having its liver devoured by the eagle">
+  </a>
+      <p>Ah, Prometheus. O mundo &ldquo;<em>cloud-native</em>&rdquo; simplesmente <strong>adora</strong>.</p>
+<p>Desde sua recepção pela CNCF em 2016 como primeiro projeto - após o Kubernetes - a ser incubado, a adesão e admiração tem sido crescente, a ponto de você encontrar issues como esta em <a href="https://github.com/goharbor/harbor/issues/4557#issuecomment-377801119">projetos aleatórios na Internet</a>:</p>
+<blockquote>
+<p>jnovack commented on Apr 1, 2018
+I&rsquo;m pretty sure Prometheus-compatible metrics exposure is almost a requirement in 2018 for project adoption.</p>
+</blockquote>
+<p>(Ps: o projeto em questão ainda não exporta métricas)</p>
+<p>E isso antes mesmo de ser considerado um projeto &ldquo;graduado&rdquo;</p>
+<p>Logo, como somos modistas, vamos substituir <strong>todas as monitorações internas</strong> por Prometheus porque a gente <strong>pode</strong>.</p>
+<p>(Algum dia faço uma análise se isso é estúpido ou genial!)</p>
+<p>O primeiro passo é implantar o <a href="https://github.com/prometheus/node_exporter">Prometheus Node Exporter</a> para exportar métricas gerais do nó (i.e., substituir o tradicional cpu/memória/disco).</p>
+<hr>
+<h2 id="o-mínimo-que-você-precisa-saber-sobre-prometheus-para-não-passar-vergonha">O mínimo que você precisa saber sobre Prometheus para não passar vergonha</h2>
+<ul>
+<li>Você executa o programa na máquina;</li>
+<li>Ele abre um endpoint HTTP em uma porta (para o Node Exporter, o default é 9100);</li>
+<li>Os softwares que você instala e geram métricas são chamados de &ldquo;<em>exporters</em>&rdquo; (dã).</li>
+<li>Você precisa configurar o servidor para &lsquo;ir buscar&rsquo; as métricas; o nome jurídico disso em prometês é &ldquo;<em>scrape</em>&rdquo;.</li>
+</ul>
+<p>O que torna o Prometheus uma ideia genial como solução de monitoração é que o foco <strong>não são os exporters</strong>, mas sim a instrumentação do código das aplicações usando as bibliotecas do projeto. Assim, sua aplicação pode oferecer nativamente um endpoint para métricas <strong>sem precisar de um exporter</strong>.</p>
+<p>Prometheus é uma solução de monitoração que vem com sotaque &ldquo;Dev&rdquo;, não &ldquo;Ops&rdquo;.</p>
+<h2 id="prometheus-e-tls">Prometheus e TLS</h2>
+<p>O acesso aos endpoints de métricas dos exporters corriqueiramente é feito usando protocolo HTTP simples nas portas expostas, o que não incomoda a maioria das pessoas.</p>
+<p>Obviamente isso não é o mais recomendado; você não quer suas métricas expostas por aí, ou mesmo uma saraivada de portas abertas no seu host exposto à Internet, por exemplo.</p>
+<p>Ainda há um agravante: determinados exporters (o próprio Node Exporter é um desses), dependendo do tipo de carga a que a máquina está submetida, podem, por si só, onerar excessivamente a máquina em caso de muitas consultas repetidas.</p>
+<p>Nós já conseguimos simular um DoS em um host Kubernetes acessando continuamente o endpoint de métricas daquela máquina exposto via HTTP. Logo, deixar estes endpoints expostos não é uma alternativa.</p>
+<p>O problema aqui é: a maioria dos exporters não implementa a opção de controle de acesso ou mesmo HTTPS/TLS. Você precisa se virar.</p>
+<p>Existem várias alternativas para resolver este problema:</p>
+<ul>
+<li><a href="https://prometheus.io/docs/guides/tls-encryption/">A documentação oficial</a> sugere você instalar e configurar um <a href="https://www.nginx.com/">Nginx</a>;</li>
+<li>Uma <a href="https://github.com/prometheus/node_exporter/issues/1286#issuecomment-474732671">issue</a> no projeto Prometheus Node Exporter sugere o projeto <a href="https://github.com/ghostunnel/ghostunnel">Ghostunnel</a>;</li>
+<li>Para aplicações que executam em clusters Kubernetes, existe a alternativa do <a href="https://github.com/brancz/kube-rbac-proxy">Kube RBAC Proxy</a>.</li>
+</ul>
+<p>O que usamos hoje é uma solução interna baseada em Nginx que lê um configmap e expõe diversos exporters em uma única porta, usando o truque de &ldquo;<em>path redirect</em>&rdquo; dos &ldquo;<em>scrapers</em>&quot;; os diversos exporters são configurados para bind em <em>localhost</em> apenas.</p>
+<h2 id="prometheus-node-exporter-com-suporte-nativo-tls">Prometheus Node Exporter com suporte nativo TLS</h2>
+<p>Porém, se você prestou atenção na issue em que é sugerido o Ghostunell, vai observar que ela faz menção à <strong>implementação nativa</strong> de um <a href="https://github.com/prometheus/node_exporter#tls-endpoint">endpoint TLS HTTPS</a> para o Prometheus Node Exporter!</p>
+<p>Calma, esta funcionalidade ainda está descrita como experimental, e a recomendação ainda é você manter seu proxy nos ambientes de produção, ok?</p>
+<p><strong>De jeito nenhum</strong>! Aqui é bleeding edge, p@r#!&amp;!</p>
+<p>Vamos implantar isso <strong>já</strong>!</p>
+<h2 id="configurando-o-prometheus-node-exporter-tls">Configurando o Prometheus Node Exporter TLS</h2>
+<p>A documentação é tão extensa que eu vou copiar integralmente aqui:</p>
+<pre><code>TLS endpoint
+** EXPERIMENTAL **
+
+The exporter supports TLS via a new web configuration file.
+
+./node_exporter --web.config=web-config.yml
+
+See the https package for more details.
+</code></pre><p>Ok, eles criaram um README.md no diretório com o código.</p>
+<p>As orientações aqui acompanham um modelo de arquivo de configuração (o tal web-config.yml) que é indicado no exemplo acima, bem como um arquivo com a configuração mínima necessária:</p>
+<pre><code># web-config.yml
+# Minimal TLS configuration example. Additionally, a certificate and a key file
+# are needed.
+tls_server_config:
+  cert_file: server.crt
+  key_file: server.key
+</code></pre><p>A configuração acima configura o endpoint TLS. Mas, obviamente, não faz qualquer tipo de restrição ao acesso - apenas protege as informações usando criptografia.</p>
+<p>O que, no nosso caso, potencializa o ataque de DoS com o consumo extra de CPU do TLS! Só isso não nos serve! Precisamos <strong>limitar</strong> o acesso a um conjunto de certificados digitais.</p>
+<p>Observando o arquivo de configuração de exemplo, temos o seguinte trecho que interessa:</p>
+<pre><code>  # Server policy for client authentication. Maps to ClientAuth Policies.
+  # For more detail on clientAuth options: [ClientAuthType](https://golang.org/pkg/crypto/tls/#ClientAuthType)
+  [ client_auth_type: &lt;string&gt; | default = &quot;NoClientCert&quot; ]
+</code></pre><p>Ok, é isso que estamos procurando: <strong>ClientAuth</strong>. A opção padrão, naturalmente, é <em>NoClientCert</em>, ou seja, não fazer qualquer tipo de exigência, como observamos no exemplo acima.</p>
+<p>Quais são os valores aceitos por este parâmetro?</p>
+<p>Bem, era querer demais que estivesse nessa documentação, não é mesmo? Siga o link e olhe direto na biblioteca, seu preguiçoso!</p>
+<p>Ao clicar no <a href="https://golang.org/pkg/crypto/tls/#ClientAuthType">link</a> descrito no modelo de arquivo de configuração, somos recebidos por uma página com a seguinte informação:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// ClientAuthType declares the policy the server will follow for TLS Client Authentication.
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ClientAuthType</span> <span style="color:#66d9ef">int</span>
+<span style="color:#66d9ef">const</span> (
+    <span style="color:#a6e22e">NoClientCert</span> <span style="color:#a6e22e">ClientAuthType</span> = <span style="color:#66d9ef">iota</span>
+    <span style="color:#a6e22e">RequestClientCert</span>
+    <span style="color:#a6e22e">RequireAnyClientCert</span>
+    <span style="color:#a6e22e">VerifyClientCertIfGiven</span>
+    <span style="color:#a6e22e">RequireAndVerifyClientCert</span>
+)
+</code></pre></div><p>Opa, estes devem ser os valores válidos para a configuração, certo?</p>
+<p><strong>Errado</strong>!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /etc/prometheus/web-config.yml 
+
+tls_server_config:
+  cert_file: /etc/ssl/private/tls.crt
+  key_file: /etc/ssl/private/tls.key
+  client_auth_type: <span style="color:#e6db74">&#34;RequireAnyClientCert&#34;</span>
+  client_ca_file: /etc/ssl/private/tls.ca
+
+$ systemctl restart prometheus-node-exporter
+
+$ journalctl -fu prometheus-node-exporter
+...
+Oct <span style="color:#ae81ff">29</span> 23:37:21host.intranet docker<span style="color:#f92672">[</span>59791<span style="color:#f92672">]</span>: level<span style="color:#f92672">=</span>error ts<span style="color:#f92672">=</span>2020-10-30T02:37:21.312Z caller<span style="color:#f92672">=</span>node_exporter.go:194 err<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Invalid ClientAuth: RequireAnyClientCert&#34;</span>
+Oct <span style="color:#ae81ff">29</span> 23:37:21 host.intranet systemd<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: prometheus-node-exporter.service: Main process exited, code<span style="color:#f92672">=</span>exited, status<span style="color:#f92672">=</span>1/FAILURE
+</code></pre></div><p>Aproveitando que estamos aqui, <strong>nem tente</strong> remover o o parâmetro <em>client_auth_type</em> e deixar o <em>client_ca_file</em> no arquivo de configuração, você vai receber este erro aqui:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Oct <span style="color:#ae81ff">29</span> 23:40:08 host.intranet docker<span style="color:#f92672">[</span>61689<span style="color:#f92672">]</span>: level<span style="color:#f92672">=</span>error ts<span style="color:#f92672">=</span>2020-10-30T02:40:08.981Z caller<span style="color:#f92672">=</span>node_exporter.go:194 err<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Client CA&#39;s have been configured without a Client Auth Policy&#34;</span>
+</code></pre></div><p>O que nem é condenável. Por que você especificaria uma CA sem especificar um Client Auth? Seu idiota!</p>
+<p>Enfim, quais são os parâmetros?</p>
+<p>A melhor maneira de descobrir isso, obviamente, é <strong>olhando no código</strong>:</p>
+<ul>
+<li><a href="https://github.com/prometheus/node_exporter/blob/master/https/tls_config.go#L145">https://github.com/prometheus/node_exporter/blob/master/https/tls_config.go#L145</a></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">ClientAuth</span> {
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;RequestClientCert&#34;</span>:
+		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">RequestClientCert</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;RequireClientCert&#34;</span>:
+		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">RequireAnyClientCert</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;VerifyClientCertIfGiven&#34;</span>:
+		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">VerifyClientCertIfGiven</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;RequireAndVerifyClientCert&#34;</span>:
+		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">RequireAndVerifyClientCert</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;NoClientCert&#34;</span>:
+		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">NoClientCert</span>
+	<span style="color:#66d9ef">default</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;Invalid ClientAuth: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">ClientAuth</span>)
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">ClientCAs</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">NoClientCert</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;Client CA&#39;s have been configured without a Client Auth Policy&#34;</span>)
+	}
+</code></pre></div><p>Agora sim, sabemos <strong>exatamente</strong> quais são os parâmetros aceitos! E descobrimos que os caras do Prometheus Node Exporter queriam apenas zoar com a nossa cara:</p>
+<ul>
+<li>Para usar tls.RequestClientCert, use &ldquo;RequestClientCert&rdquo;;</li>
+<li>Para usar  tls.VerifyClientCertIfGiven, configure &ldquo;VerifyClientCertIfGiven&rdquo;;</li>
+<li>Para usar tls.RequireAndVerifyClientCert, configure &ldquo;RequireAndVerifyClientCert&rdquo;;</li>
+</ul>
+<p>Agora:</p>
+<ul>
+<li>Para usar tls.<em>Require<strong>Any</strong>ClientCert</em>, use &ldquo;RequireClientCert&rdquo; - sacaram a fuleragem aqui?</li>
+</ul>
+<p>Pffff!</p>
+<p>Passada esta etapa, a segunda pergunta: qual a diferença entre eles?</p>
+<p>É possível cavocar isso em lugares obscuros, mas eu vou sugerir lemos a incrível documentação escrita pelo <a href="https://doc.traefik.io/traefik/https/tls/">projeto Traefik</a> a respeito:</p>
+<pre><code>The clientAuth.clientAuthType option governs the behaviour as follows:
+
+* NoClientCert: disregards any client certificate.
+
+* RequestClientCert: asks for a certificate but proceeds anyway if none is provided.
+
+* RequireAnyClientCert: requires a certificate but does not verify if it is signed by a CA listed in clientAuth.caFiles.
+
+* VerifyClientCertIfGiven: if a certificate is provided, verifies if it is signed by a CA listed in clientAuth.caFiles. Otherwise proceeds without any certificate.
+
+* RequireAndVerifyClientCert: requires a certificate, which must be signed by a CA listed in clientAuth.caFiles.
+</code></pre><p>Basicamente:</p>
+<ul>
+<li><strong>RequestClientCert</strong>: &ldquo;exige&rdquo; o certificado do cliente, mas se o cliente não enviar, tudo bem (?!);</li>
+<li><strong>RequireAnyClientCert</strong>: &ldquo;exige&rdquo; o certificado, dá erro se nenhum for enviado, mas <strong>não verifica</strong> se ele é assinado pela CA especificada em client_ca_file!</li>
+<li><strong>VerifyClientCertIfGiven</strong>: se o usuário enviar um cerfificado, ele é verificado contra a CA especificada. Se não, prossegue sem. (?!?!?!)</li>
+<li><strong>RequireAndVerifyClientCert</strong>: exige E valida o certificado. Ufa!</li>
+</ul>
+<p>Então, se o objetivo é limitar o acesso a usuários com certificados válidos assinados pela CA, apenas o último parâmetro é efetivamente útil.</p>
+<h2 id="restrição-via-subject-dn-do-certificado">Restrição via subject (dn) do certificado</h2>
+<p>A minha solução baseada em Nginx tornava possível a autorização do acesso aos endpoints das métricas <strong>apenas para o certificado com um determinado subject</strong> (no caso, o certificado configurado no servidor Prometheus responsável pelo scraping).</p>
+<p>Para aqueles curiosos de como fazer isso no Nginx, segue a dica:</p>
+<pre><code># trechos de um arquivo de configuração de nginx:
+
+http {
+    
+  map $ssl_client_s_dn $is_allowed {
+      default no;
+      &quot;CN=prometheus-scraper&quot; yes;
+  }
+
+...
+
+    location / {
+ ...
+      if ($is_allowed = no) {
+        add_header X-SSL-Client-S-DN $ssl_client_s_dn always;
+        return 403;
+      }
+...      
+</code></pre><p>Infelizmente isso <strong>não é possível</strong> de ser feito no Prometheus Node Exporter.</p>
+<p>Se alguém acha que a validação por certificado não é forte o suficiente, existe a alternativa de configurar um par usuário/senha para complementar a autenticação como descrito na própria documentação:</p>
+<pre><code>basic_auth_users:
+  [ &lt;string&gt;: &lt;secret&gt; ... ]
+</code></pre><p>Brincadeira divertida!</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/prometheus/">prometheus</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/node-exporter/">node-exporter</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/tls/">tls</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/prometheus/">prometheus</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/node-exporter/">node-exporter</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/tls/">tls</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+      <a href="/marcelo/blog/terraform-import-watch-out/" class="button left"><span>Cuidado com terraform import</span></a>
+    
+    
+      <a href="/marcelo/blog/why-docker/" class="button right"><span>Por que Docker?</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/suddenly-cka/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/main/cka.png');">
+    <img src="https://devsres.com/marcelo/img/main/cka.png" alt="Calico cat clawing the door">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/suddenly-cka/">De repente, CKA</a></h2>
+          <time class="published" datetime="2020-10-28 00:00:00 &#43;0000 UTC">28 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/linux-containers-and-file-descriptors/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/penguins-docker.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/penguins-docker.jpg" alt="Imagem de Siggy Nowak por Pixabay">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/linux-containers-and-file-descriptors/">Linux, contêineres e descritores de arquivos</a></h2>
+          <time class="published" datetime="2020-10-23 00:00:00 &#43;0000 UTC">23 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calicoctl-stuck/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/cat-claw.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/cat-claw.png" alt="Calico cat clawing the door">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calicoctl-stuck/">Calicoctl, TLS e gestão de certificados</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/terraform-import-watch-out/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/square-into-circle.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/square-into-circle.jpg" alt="Square into circle and hammer">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/terraform-import-watch-out/">Cuidado com terraform import</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/prometheus.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/prometheus.png" alt="Prometheus having its liver devoured by the eagle">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/prometheus-node-exporter-tls/">Prometheus node exporter com TLS</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.74.3' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>
