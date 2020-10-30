@@ -371,59 +371,59 @@ tls_server_config:
 <p>Quais são os valores aceitos por este parâmetro?</p>
 <p>Bem, era querer demais que estivesse nessa documentação, não é mesmo? Siga o link e olhe direto na biblioteca, seu preguiçoso!</p>
 <p>Ao clicar no <a href="https://golang.org/pkg/crypto/tls/#ClientAuthType">link</a> descrito no modelo de arquivo de configuração, somos recebidos por uma página com a seguinte informação:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// ClientAuthType declares the policy the server will follow for TLS Client Authentication.
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ClientAuthType</span> <span style="color:#66d9ef">int</span>
-<span style="color:#66d9ef">const</span> (
-    <span style="color:#a6e22e">NoClientCert</span> <span style="color:#a6e22e">ClientAuthType</span> = <span style="color:#66d9ef">iota</span>
-    <span style="color:#a6e22e">RequestClientCert</span>
-    <span style="color:#a6e22e">RequireAnyClientCert</span>
-    <span style="color:#a6e22e">VerifyClientCertIfGiven</span>
-    <span style="color:#a6e22e">RequireAndVerifyClientCert</span>
+<pre><code>// ClientAuthType declares the policy the server will follow for TLS Client Authentication.
+
+type ClientAuthType int
+const (
+    NoClientCert ClientAuthType = iota
+    RequestClientCert
+    RequireAnyClientCert
+    VerifyClientCertIfGiven
+    RequireAndVerifyClientCert
 )
-</code></pre></div><p>Opa, estes devem ser os valores válidos para a configuração, certo?</p>
+</code></pre><p>Opa, estes devem ser os valores válidos para a configuração, certo?</p>
 <p><strong>Errado</strong>!</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat /etc/prometheus/web-config.yml 
+<pre><code>$ cat /etc/prometheus/web-config.yml 
 
 tls_server_config:
   cert_file: /etc/ssl/private/tls.crt
   key_file: /etc/ssl/private/tls.key
-  client_auth_type: <span style="color:#e6db74">&#34;RequireAnyClientCert&#34;</span>
+  client_auth_type: &quot;RequireAnyClientCert&quot;
   client_ca_file: /etc/ssl/private/tls.ca
 
 $ systemctl restart prometheus-node-exporter
 
 $ journalctl -fu prometheus-node-exporter
 ...
-Oct <span style="color:#ae81ff">29</span> 23:37:21host.intranet docker<span style="color:#f92672">[</span>59791<span style="color:#f92672">]</span>: level<span style="color:#f92672">=</span>error ts<span style="color:#f92672">=</span>2020-10-30T02:37:21.312Z caller<span style="color:#f92672">=</span>node_exporter.go:194 err<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Invalid ClientAuth: RequireAnyClientCert&#34;</span>
-Oct <span style="color:#ae81ff">29</span> 23:37:21 host.intranet systemd<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: prometheus-node-exporter.service: Main process exited, code<span style="color:#f92672">=</span>exited, status<span style="color:#f92672">=</span>1/FAILURE
-</code></pre></div><p>Aproveitando que estamos aqui, <strong>nem tente</strong> remover o o parâmetro <em>client_auth_type</em> e deixar o <em>client_ca_file</em> no arquivo de configuração, você vai receber este erro aqui:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Oct <span style="color:#ae81ff">29</span> 23:40:08 host.intranet docker<span style="color:#f92672">[</span>61689<span style="color:#f92672">]</span>: level<span style="color:#f92672">=</span>error ts<span style="color:#f92672">=</span>2020-10-30T02:40:08.981Z caller<span style="color:#f92672">=</span>node_exporter.go:194 err<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Client CA&#39;s have been configured without a Client Auth Policy&#34;</span>
-</code></pre></div><p>O que nem é condenável. Por que você especificaria uma CA sem especificar um Client Auth? Seu idiota!</p>
+Oct 29 23:37:21host.intranet docker[59791]: level=error ts=2020-10-30T02:37:21.312Z caller=node_exporter.go:194 err=&quot;Invalid ClientAuth: RequireAnyClientCert&quot;
+Oct 29 23:37:21 host.intranet systemd[1]: prometheus-node-exporter.service: Main process exited, code=exited, status=1/FAILURE
+</code></pre><p>Aproveitando que estamos aqui, <strong>nem tente</strong> remover o o parâmetro <em>client_auth_type</em> e deixar o <em>client_ca_file</em> no arquivo de configuração, você vai receber este erro aqui:</p>
+<pre><code>Oct 29 23:40:08 host.intranet docker[61689]: level=error ts=2020-10-30T02:40:08.981Z caller=node_exporter.go:194 err=&quot;Client CA's have been configured without a Client Auth Policy&quot;
+</code></pre><p>O que nem é condenável. Por que você especificaria uma CA sem especificar um Client Auth? Seu idiota!</p>
 <p>Enfim, quais são os parâmetros?</p>
 <p>A melhor maneira de descobrir isso, obviamente, é <strong>olhando no código</strong>:</p>
 <ul>
 <li><a href="https://github.com/prometheus/node_exporter/blob/master/https/tls_config.go#L145">https://github.com/prometheus/node_exporter/blob/master/https/tls_config.go#L145</a></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">ClientAuth</span> {
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;RequestClientCert&#34;</span>:
-		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">RequestClientCert</span>
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;RequireClientCert&#34;</span>:
-		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">RequireAnyClientCert</span>
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;VerifyClientCertIfGiven&#34;</span>:
-		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">VerifyClientCertIfGiven</span>
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;RequireAndVerifyClientCert&#34;</span>:
-		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">RequireAndVerifyClientCert</span>
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;NoClientCert&#34;</span>:
-		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> = <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">NoClientCert</span>
-	<span style="color:#66d9ef">default</span>:
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;Invalid ClientAuth: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">ClientAuth</span>)
+<pre><code>	switch c.ClientAuth {
+	case &quot;RequestClientCert&quot;:
+		cfg.ClientAuth = tls.RequestClientCert
+	case &quot;RequireClientCert&quot;:
+		cfg.ClientAuth = tls.RequireAnyClientCert
+	case &quot;VerifyClientCertIfGiven&quot;:
+		cfg.ClientAuth = tls.VerifyClientCertIfGiven
+	case &quot;RequireAndVerifyClientCert&quot;:
+		cfg.ClientAuth = tls.RequireAndVerifyClientCert
+	case &quot;&quot;, &quot;NoClientCert&quot;:
+		cfg.ClientAuth = tls.NoClientCert
+	default:
+		return nil, errors.New(&quot;Invalid ClientAuth: &quot; + c.ClientAuth)
 	}
 
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">ClientCAs</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">ClientAuth</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">NoClientCert</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;Client CA&#39;s have been configured without a Client Auth Policy&#34;</span>)
+	if c.ClientCAs != &quot;&quot; &amp;&amp; cfg.ClientAuth == tls.NoClientCert {
+		return nil, errors.New(&quot;Client CA's have been configured without a Client Auth Policy&quot;)
 	}
-</code></pre></div><p>Agora sim, sabemos <strong>exatamente</strong> quais são os parâmetros aceitos! E descobrimos que os caras do Prometheus Node Exporter queriam apenas zoar com a nossa cara:</p>
+</code></pre><p>Agora sim, sabemos <strong>exatamente</strong> quais são os parâmetros aceitos! E descobrimos que os caras do Prometheus Node Exporter queriam apenas zoar com a nossa cara:</p>
 <ul>
 <li>Para usar tls.RequestClientCert, use &ldquo;RequestClientCert&rdquo;;</li>
 <li>Para usar  tls.VerifyClientCertIfGiven, configure &ldquo;VerifyClientCertIfGiven&rdquo;;</li>
