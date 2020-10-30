@@ -6,7 +6,7 @@
     <description>Recent content in node-exporter on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://devsres.com/marcelo/categories/node-exporter/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Prometheus node exporter com TLS</title>
       <link>https://devsres.com/marcelo/blog/prometheus-node-exporter-tls/</link>
-      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/blog/prometheus-node-exporter-tls/</guid>
       <description>Ah, Prometheus. O mundo &amp;ldquo;cloud-native&amp;rdquo; simplesmente adora.
