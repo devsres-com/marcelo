@@ -119,7 +119,7 @@ Bem, era querer demais que estivesse nessa documentação, não é mesmo? Siga o
 
 Ao clicar no [link](https://golang.org/pkg/crypto/tls/#ClientAuthType) descrito no modelo de arquivo de configuração, somos recebidos por uma página com a seguinte informação:
 
-```go
+```
 // ClientAuthType declares the policy the server will follow for TLS Client Authentication.
 
 type ClientAuthType int
@@ -136,7 +136,7 @@ Opa, estes devem ser os valores válidos para a configuração, certo?
 
 **Errado**!
 
-```shell
+```
 $ cat /etc/prometheus/web-config.yml 
 
 tls_server_config:
@@ -155,7 +155,7 @@ Oct 29 23:37:21 host.intranet systemd[1]: prometheus-node-exporter.service: Main
 
 Aproveitando que estamos aqui, **nem tente** remover o o parâmetro *client_auth_type* e deixar o *client_ca_file* no arquivo de configuração, você vai receber este erro aqui:
 
-```bash
+```
 Oct 29 23:40:08 host.intranet docker[61689]: level=error ts=2020-10-30T02:40:08.981Z caller=node_exporter.go:194 err="Client CA's have been configured without a Client Auth Policy"
 ```
 
@@ -167,7 +167,7 @@ A melhor maneira de descobrir isso, obviamente, é **olhando no código**:
 
 * https://github.com/prometheus/node_exporter/blob/master/https/tls_config.go#L145
 
-```go
+```
 	switch c.ClientAuth {
 	case "RequestClientCert":
 		cfg.ClientAuth = tls.RequestClientCert
