@@ -1,5 +1,5 @@
 +++
-title = "Calico, Linux e tabelas de rota Linux"
+title = "Calico, Linux e tabelas de rota"
 description = "Features não documentadas vão te surpreender quando você menos espera"
 author = "Marcelo Andrade"
 date = "2020-12-01"
