@@ -6,10 +6,33 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Fri, 30 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>avançado</title>
+      <link>https://devsres.com/marcelo/tags/avan%C3%A7ado/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/avan%C3%A7ado/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="https://devsres.com/marcelo/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>calico</title>
+      <link>https://devsres.com/marcelo/tags/calico/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/calico/</guid>
+      <description></description>
+    </item>
     
+    <item>
+      <title>kubernetes</title>
+      <link>https://devsres.com/marcelo/tags/kubernetes/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/kubernetes/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>node-exporter</title>
@@ -39,15 +62,6 @@
     </item>
     
     <item>
-      <title>kubernetes</title>
-      <link>https://devsres.com/marcelo/tags/kubernetes/</link>
-      <pubDate>Wed, 28 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>docker</title>
       <link>https://devsres.com/marcelo/tags/docker/</link>
       <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
@@ -62,15 +76,6 @@
       <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>calico</title>
-      <link>https://devsres.com/marcelo/tags/calico/</link>
-      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/calico/</guid>
       <description></description>
     </item>
     

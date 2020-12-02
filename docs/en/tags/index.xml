@@ -5,10 +5,6 @@
     <link>https://devsres.com/marcelo/en/tags/</link>
     <description>Recent content in Tags on /dev/sres/marcelo</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    
-	<atom:link href="https://devsres.com/marcelo/en/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en</language><atom:link href="https://devsres.com/marcelo/en/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

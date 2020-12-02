@@ -6,11 +6,7 @@
     <description>Recent content in kubernete on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 01 Sep 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://devsres.com/marcelo/tags/kubernete/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 01 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/kubernete/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kubernetes: por onde começar</title>
       <link>https://devsres.com/marcelo/blog/kubernetes-where-to-start/</link>

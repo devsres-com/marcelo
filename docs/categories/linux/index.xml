@@ -6,11 +6,7 @@
     <description>Recent content in linux on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Fri, 23 Oct 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://devsres.com/marcelo/categories/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 23 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux, contêineres e descritores de arquivos</title>
       <link>https://devsres.com/marcelo/blog/linux-containers-and-file-descriptors/</link>

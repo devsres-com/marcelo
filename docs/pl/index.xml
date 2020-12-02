@@ -5,10 +5,6 @@
     <link>https://devsres.com/marcelo/pl/</link>
     <description>Recent content on Hugo Future Imperfect Slim po polsku</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>pl</language>
-    
-	<atom:link href="https://devsres.com/marcelo/pl/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>pl</language><atom:link href="https://devsres.com/marcelo/pl/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

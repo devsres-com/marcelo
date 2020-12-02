@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Calico, Linux e tabelas de rota Linux - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.79.0" /><meta itemprop="name" content="Calico, Linux e tabelas de rota Linux">
+<meta itemprop="description" content="Features não documentadas vão te surpreender quando você menos espera">
+<meta itemprop="datePublished" content="2020-12-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-12-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="901">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="kubernetes,avançado,calico," />
+<meta property="og:title" content="Calico, Linux e tabelas de rota Linux" />
+<meta property="og:description" content="Features não documentadas vão te surpreender quando você menos espera" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/calico-and-route-tables/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-12-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Calico, Linux e tabelas de rota Linux"/>
+<meta name="twitter:description" content="Features não documentadas vão te surpreender quando você menos espera"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f&amp;title=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f&amp;title=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f&amp;description=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/calico-and-route-tables/">Calico, Linux e tabelas de rota Linux</a></h2>
+    
+    
+      <p>Features não documentadas vão te surpreender quando você menos espera</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>5 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f&amp;title=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f&amp;title=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f&amp;description=Calico%2c%20Linux%20e%20tabelas%20de%20rota%20Linux" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-and-route-tables%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/calico-and-route-tables/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/escher-stairs.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/escher-stairs.png" alt="Escher stairs">
+  </a>
+      <p>Mudança no ambiente! Atualização de cada um dos 32 componentes do cluster Kubernetes. Tranquilo! O que pode dar errado?</p>
+<p>Após a estabilização do ambiente, começamos a atualização dos servidores que atuam como balanceadores de carga de entrada para o cluster - aqueles que executam o <a href="https://haproxy-ingress.github.io/">Haproxy Ingress Controller</a> do dev hero <a href="https://github.com/jcmoraisjr/haproxy-ingress">João Morais</a>.</p>
+<p>A métrica de erros começa a estourar do nada; e o melhor, em tese, não estamos recebendo nenhum erro - algo quebrou, e algo completamente desconhecido.</p>
+<p>E agora?</p>
+<h2 id="preâmbulo---rotas-assimétricas">Preâmbulo - rotas assimétricas</h2>
+<p>Uma coisa que comumente faz falta em equipes de desenvolvimento de software ou mesmo de infra-estrutura é entendimento adequado de como redes funcionam (e de seus detalhes de implementação nos sistemas operacionais).</p>
+<p>Não é raro eu ter que explicar que o problema de conectividade em determinada situação é causado por <a href="https://wbhegedus.me/avoiding-asymmetric-routing/">rotas assimétricas</a> e não bloqueio por firewall.</p>
+<p>Neste caso em particular, temos Pods de sistemas em execução no cluster Kubernetes acessando aplicações por meio de suas URLs públicas. Portanto:</p>
+<ul>
+<li>a comunicação chega aos balanceadores por suas interfaces públicas;</li>
+<li>os balanceadores também fazem parte do cluster Kubernetes, portanto seu caminho de retorno ocorrerá pelas interfaces privadas;</li>
+</ul>
+<p>Até aí tudo bem, fácil de entender.</p>
+<p>O que só <strong>anos de experiência como sysadmin Linux</strong> traz é o conhecimento de que, por padrão, se a situação de cima ocorrer, uma máquina Linux irá necessariamente descartar o pacote sem qualquer tipo de informação. A Red Hat descreve isso <a href="https://access.redhat.com/solutions/53031">aqui</a>, mas vale a pena copiar porque isso é feito:</p>
+<blockquote>
+<p>Current recommended practice in RFC3704 is to enable strict mode to prevent IP spoofing from DDos attacks. If using asymmetric routing or other complicated routing, then loose mode is recommended.</p>
+</blockquote>
+<p>A solução &lsquo;ruim&rsquo; é modificar este comportamento do kernel.</p>
+<p>A solução &lsquo;correta&rsquo; é interferir no roteamento, forçando a resposta a sair por onde veio.</p>
+<h3 id="preâmbulo-do-preâmbulo---roteamento-no-linux">Preâmbulo do preâmbulo - roteamento no Linux</h3>
+<p>Em uma máquina regular sem &lsquo;efeitos especiais&rsquo;, se você executar o comando abaixo, provavelmente vai receber o seguinte resultado:</p>
+<pre><code># ip rule list 
+0:      from all lookup local
+32766:  from all lookup main
+32767:  from all lookup default
+</code></pre><p>Aqui vale uma observação interessante: por &lsquo;default&rsquo;, temos três tabelas definidas nas regras: &lsquo;local&rsquo;, &lsquo;main&rsquo; e &lsquo;default&rsquo;.</p>
+<p>Se alguém te perguntar em inglês &lsquo;which is the default routing table used&rsquo;, qual tabela você chutaria que é a &lsquo;default&rsquo;?</p>
+<p>A resposta, é claro, a tabela <strong>main</strong>! Por que você escolheria &lsquo;default&rsquo;, ser ignóbil?</p>
+<pre><code># ip route show table main
+default via 172.31.48.1 dev eth0
+172.31.48.0/20 dev eth0 proto kernel scope link src 172.31.56.202
+</code></pre><p>Em algumas distribuições Linux, como o CoreOS/Flatcar, embora conste na tabela de &lsquo;rules&rsquo;, ela sequer é criada:</p>
+<pre><code># sudo ip route show table default
+Error: ipv4: FIB table does not exist.
+Dump terminated
+</code></pre><p>Uma nota relevante: esses nomes só são usados porque são especificados em algum lugar; tabelas de roteamento são representadas, no Kernel, por <strong>números</strong>. Este lugar é o arquivo <strong>/etc/iproute2/rt_tables</strong>:</p>
+<pre><code># cat /etc/iproute2/rt_tables
+#
+# reserved values
+#
+255     local
+254     main
+253     default
+0       unspec
+</code></pre><p>Aqui você pode prestigiar um pouco da história viva do Linux: em algum ponto no passado distante, a última tabela suportada pelo kernel era necessariamente a 255, usada para &lsquo;local&rsquo;. Mas vivemos tempos modernos, e você pode escolher qualquer número agora que não seja maior que 2147483647 (2^31-1).</p>
+<h2 id="de-volta-às-rotas-assimétricas">De volta às rotas assimétricas</h2>
+<p>Para permitir o reencaminhamento dos pacotes para sua interface de origem, eu devo criar uma tabela e colocar uma prioridade superior à tabela padrão do sistema (que é &lsquo;<em>main</em>') para evitar o descarte.</p>
+<p>Se o número 0, 253, 254 e 255 são reservados, e eu tenho até o número 2147483647 para minha tabela, que número eu escolheria?</p>
+<p>Tabela <strong>1</strong>, é claro. Quem precisa de tantos números?</p>
+<pre><code># cat /etc/systemd/system/routingpolicy.service
+[Unit]
+Description=Configure routes
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=-/usr/bin/ip route add default via 10.0.0.1 dev ens256 tab 1
+ExecStart=-/usr/bin/ip route add 10.0.0.1/8 dev ens256 tab 1
+ExecStart=-/usr/bin/ip rule add from 10.0.0.69/32 tab 1 priority 100
+</code></pre><p>A configuração acima resolve meu problema de rota assimétrica, alterando as regras da seguinte maneira:</p>
+<pre><code># ip rule list 
+0:      from all lookup local
+100:    from 10.0.0.69 lookup 1
+32766:  from all lookup main
+32767:  from all lookup default
+</code></pre><p>O que chegar pela Interface com IP 10.0.0.69, ele segue a tabela de rotas 1.</p>
+<p>Esta é a tabela de rota 1, criada pela configuração da unit de systemd acima:</p>
+<pre><code># ip route show table 1
+default via 10.0.0.1 dev ens256
+10.0.0.0/8 dev ens256 scope link
+</code></pre><h2 id="diagnóstico">Diagnóstico</h2>
+<p>Não foi um &lsquo;senhor&rsquo; processo de diagnóstico; sabia-se que algum dos componentes estava interferindo. A lógica aponta para o Calico, já que ele é responsável por amplas modificações nas configurações de rede da máquina.</p>
+<p>A parte triste é que isso não está listado em <strong>nenhum release notes</strong>. Então não apenas é bem difícil de diagnosticar o que aconteceu, mas também em se preparar para o que iria acontecer.</p>
+<p>A descrição do problema está na <a href="https://docs.projectcalico.org/archive/v3.14/reference/felix/configuration">página de configuração do felix</a>, a partir da versão 3.14:</p>
+<blockquote>
+<p>RouteTableRange (FELIX_ROUTETABLERANGE): Calico programs additional Linux route tables for various purposes. RouteTableRange specifies the indices of the route tables that Calico should use. [Default: 1-250]</p>
+</blockquote>
+<p>Portanto, o Calico irá limpar qualquer conteúdo associado a tabelas existentes da 1 até 250. Como usamos a tabela 1, tivemos problema.</p>
+<p>E ele não limpa apenas uma vez as instruções das tabelas; ele constantemente ajusta, ainda que não vá fazer nada com elas.</p>
+<hr>
+<p>Tá vendo? Deveríamos ter escolhido a tabela 2147483647.</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/avan%c3%a7ado/">avançado</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/calico/">calico</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/avan%c3%a7ado/">avançado</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/calico/">calico</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+    
+      <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="button right"><span>Prometheus node exporter com TLS</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calico-and-route-tables/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/escher-stairs.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/escher-stairs.png" alt="Escher stairs">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calico-and-route-tables/">Calico, Linux e tabelas de rota Linux</a></h2>
+          <time class="published" datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/prometheus.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/prometheus.png" alt="Prometheus having its liver devoured by the eagle">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/prometheus-node-exporter-tls/">Prometheus node exporter com TLS</a></h2>
+          <time class="published" datetime="2020-10-30 00:00:00 &#43;0000 UTC">30 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/suddenly-cka/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/main/cka.png');">
+    <img src="https://devsres.com/marcelo/img/main/cka.png" alt="Calico cat clawing the door">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/suddenly-cka/">De repente, CKA</a></h2>
+          <time class="published" datetime="2020-10-28 00:00:00 &#43;0000 UTC">28 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/linux-containers-and-file-descriptors/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/penguins-docker.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/penguins-docker.jpg" alt="Imagem de Siggy Nowak por Pixabay">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/linux-containers-and-file-descriptors/">Linux, contêineres e descritores de arquivos</a></h2>
+          <time class="published" datetime="2020-10-23 00:00:00 &#43;0000 UTC">23 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calicoctl-stuck/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/cat-claw.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/cat-claw.png" alt="Calico cat clawing the door">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calicoctl-stuck/">Calicoctl, TLS e gestão de certificados</a></h2>
+          <time class="published" datetime="2020-10-06 00:00:00 &#43;0000 UTC">6 de October, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">4</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.79.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

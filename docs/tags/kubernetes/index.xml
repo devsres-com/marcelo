@@ -6,10 +6,17 @@
     <description>Recent content in kubernetes on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Wed, 28 Oct 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://devsres.com/marcelo/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Calico, Linux e tabelas de rota Linux</title>
+      <link>https://devsres.com/marcelo/blog/calico-and-route-tables/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/calico-and-route-tables/</guid>
+      <description>Mudança no ambiente! Atualização de cada um dos 32 componentes do cluster Kubernetes. Tranquilo! O que pode dar errado?
+Após a estabilização do ambiente, começamos a atualização dos servidores que atuam como balanceadores de carga de entrada para o cluster - aqueles que executam o Haproxy Ingress Controller do dev hero João Morais.
+A métrica de erros começa a estourar do nada; e o melhor, em tese, não estamos recebendo nenhum erro - algo quebrou, e algo completamente desconhecido.</description>
+    </item>
     
     <item>
       <title>De repente, CKA</title>

@@ -6,11 +6,7 @@
     <description>Recent content in terraform on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://devsres.com/marcelo/tags/terraform/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/terraform/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cuidado com terraform import</title>
       <link>https://devsres.com/marcelo/blog/terraform-import-watch-out/</link>
