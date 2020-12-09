@@ -8,8 +8,8 @@
 
 <meta name="generator" content="Hugo 0.79.0" /><meta itemprop="name" content="Kubernetes on-premisses - parte 1">
 <meta itemprop="description" content="Relato histórico das decisões tomadas na implantação de um cluster Kubernetes on-premises.">
-<meta itemprop="datePublished" content="2020-12-01T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-12-01T00:00:00+00:00" />
+<meta itemprop="datePublished" content="2020-12-09T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-12-09T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1581">
 <meta itemprop="image" content="">
 
@@ -21,8 +21,8 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://devsres.com/marcelo/blog/kubernetes-on-prem-1/" />
 <meta property="og:image" content="" />
-<meta property="article:published_time" content="2020-12-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-12-01T00:00:00+00:00" />
+<meta property="article:published_time" content="2020-12-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-09T00:00:00+00:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content=""/>
 
@@ -249,7 +249,7 @@
     
   </div>
   <div class="meta">
-    <time datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+    <time datetime="2020-12-09 00:00:00 &#43;0000 UTC">9 de December, 2020</time>
     <p>Marcelo Andrade</p>
     <p>8 Minutos De Leitura</p>
   </div>
@@ -302,7 +302,7 @@
     </div>
     <div class="content">
       <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/jenga.png');">
-    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="Escher stairs">
+    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="jenga">
   </a>
       <p>Recentemente, participei do <a href="https://blog.getupcloud.com/kubicast-51-1df6d5278623">Kubicast</a>, em que pude desabafar um pouco com o <a href="https://twitter.com/juniorjbn">João Brito</a> da <a href="https://getup.io/">Getup</a> sobre como é criar e um cluster Kubernetes em um ambiente tecnologicamente inóspito e oposto ao universo super estável, escalável e redundante dos cloud providers.</p>
 <p>Recebi algumas mensagens de alguns poucos valentes que precisam trilhar esse caminho. Mas, antes, vou ressaltar uma coisa importante: neste primeiro momento, eu vou abordar a <strong>história</strong> do que foi feito e compartilhar a <strong>experiência</strong>. Provavelmente existem alternativas melhores para um começo menos pedregoso; eu vou <strong>tentar</strong> listá-las à medida que for abordando os assuntos, mas não é um requisito no momento.</p>
@@ -460,10 +460,8 @@
   
   <div class="pagination">
     
-      <a href="/marcelo/blog/calico-and-route-tables/" class="button left"><span>Calico, Linux e tabelas de rota</span></a>
     
-    
-      <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="button right"><span>Prometheus node exporter com TLS</span></a>
+      <a href="/marcelo/blog/calico-and-route-tables/" class="button right"><span>Calico, Linux e tabelas de rota</span></a>
     
   </div>
 
@@ -476,21 +474,21 @@
       </header>
       
       <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/jenga.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="jenga">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-premisses - parte 1</a></h2>
+          <time class="published" datetime="2020-12-09 00:00:00 &#43;0000 UTC">9 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
           <a href="/marcelo/blog/calico-and-route-tables/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/escher-stairs.png');">
     <img src="https://devsres.com/marcelo/img/reusable/escher-stairs.png" alt="Escher stairs">
   </a>
         <header>
           <h2><a href="/marcelo/blog/calico-and-route-tables/">Calico, Linux e tabelas de rota</a></h2>
-          <time class="published" datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
-        </header>
-      </article>
-      
-      <article class="mini-post">
-          <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/jenga.png');">
-    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="Escher stairs">
-  </a>
-        <header>
-          <h2><a href="/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-premisses - parte 1</a></h2>
           <time class="published" datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
         </header>
       </article>

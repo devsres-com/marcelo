@@ -2,12 +2,12 @@
 title = "Kubernetes on-premisses - parte 1"
 description = "Relato histórico das decisões tomadas na implantação de um cluster Kubernetes on-premises."
 author = "Marcelo Andrade"
-date = "2020-12-01"
+date = "2020-12-09"
 tags = ["kubernetes", "on-prem", "passado"]
 categories = ["kubernetes", "on-prem", "passado"]
 [[images]]
   src = "img/reusable/jenga.png"
-  alt = "Escher stairs"
+  alt = "jenga"
   stretch = ""
 +++
 

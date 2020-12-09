@@ -6,7 +6,17 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes on-premisses - parte 1</title>
+      <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</link>
+      <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</guid>
+      <description>Recentemente, participei do Kubicast, em que pude desabafar um pouco com o João Brito da Getup sobre como é criar e um cluster Kubernetes em um ambiente tecnologicamente inóspito e oposto ao universo super estável, escalável e redundante dos cloud providers.
+Recebi algumas mensagens de alguns poucos valentes que precisam trilhar esse caminho. Mas, antes, vou ressaltar uma coisa importante: neste primeiro momento, eu vou abordar a história do que foi feito e compartilhar a experiência.</description>
+    </item>
+    
     <item>
       <title>Calico, Linux e tabelas de rota</title>
       <link>https://devsres.com/marcelo/blog/calico-and-route-tables/</link>
@@ -16,16 +26,6 @@
       <description>Mudança no ambiente! Atualização de cada um dos 32 componentes do cluster Kubernetes. Tranquilo! O que pode dar errado?
 Após a estabilização do ambiente, começamos a atualização dos servidores que atuam como balanceadores de carga de entrada para o cluster - aqueles que executam o Haproxy Ingress Controller do dev hero João Morais.
 A métrica de erros começa a estourar do nada; e o melhor, em tese, não estamos recebendo nenhum erro - algo quebrou, e algo completamente desconhecido.</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes on-premisses - parte 1</title>
-      <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</link>
-      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</guid>
-      <description>Recentemente, participei do Kubicast, em que pude desabafar um pouco com o João Brito da Getup sobre como é criar e um cluster Kubernetes em um ambiente tecnologicamente inóspito e oposto ao universo super estável, escalável e redundante dos cloud providers.
-Recebi algumas mensagens de alguns poucos valentes que precisam trilhar esse caminho. Mas, antes, vou ressaltar uma coisa importante: neste primeiro momento, eu vou abordar a história do que foi feito e compartilhar a experiência.</description>
     </item>
     
     <item>
