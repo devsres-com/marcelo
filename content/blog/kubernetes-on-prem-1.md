@@ -1,5 +1,5 @@
 +++
-title = "Kubernetes on-premisses - parte 1"
+title = "Kubernetes on-premises - parte 1"
 description = "Relato histórico das decisões tomadas na implantação de um cluster Kubernetes on-premises."
 author = "Marcelo Andrade"
 date = "2020-12-09"
