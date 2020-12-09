@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Kubernetes on-premisses - parte 1 - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.79.0" /><meta itemprop="name" content="Kubernetes on-premisses - parte 1">
+<meta itemprop="description" content="Relato histórico das decisões tomadas na implantação de um cluster Kubernetes on-premises.">
+<meta itemprop="datePublished" content="2020-12-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-12-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1581">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="kubernetes,on-prem,passado," />
+<meta property="og:title" content="Kubernetes on-premisses - parte 1" />
+<meta property="og:description" content="Relato histórico das decisões tomadas na implantação de um cluster Kubernetes on-premises." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/kubernetes-on-prem-1/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-12-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Kubernetes on-premisses - parte 1"/>
+<meta name="twitter:description" content="Relato histórico das decisões tomadas na implantação de um cluster Kubernetes on-premises."/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premisses%20-%20parte%201&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f&amp;title=Kubernetes%20on-premisses%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f&amp;title=Kubernetes%20on-premisses%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f&amp;description=Kubernetes%20on-premisses%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-premisses - parte 1</a></h2>
+    
+    
+      <p>Relato histórico das decisões tomadas na implantação de um cluster Kubernetes on-premises.</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>8 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premisses%20-%20parte%201&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f&amp;title=Kubernetes%20on-premisses%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f&amp;title=Kubernetes%20on-premisses%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f&amp;description=Kubernetes%20on-premisses%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-1%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/jenga.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="Escher stairs">
+  </a>
+      <p>Recentemente, participei do <a href="https://blog.getupcloud.com/kubicast-51-1df6d5278623">Kubicast</a>, em que pude desabafar um pouco com o <a href="https://twitter.com/juniorjbn">João Brito</a> da <a href="https://getup.io/">Getup</a> sobre como é criar e um cluster Kubernetes em um ambiente tecnologicamente inóspito e oposto ao universo super estável, escalável e redundante dos cloud providers.</p>
+<p>Recebi algumas mensagens de alguns poucos valentes que precisam trilhar esse caminho. Mas, antes, vou ressaltar uma coisa importante: neste primeiro momento, eu vou abordar a <strong>história</strong> do que foi feito e compartilhar a <strong>experiência</strong>. Provavelmente existem alternativas melhores para um começo menos pedregoso; eu vou <strong>tentar</strong> listá-las à medida que for abordando os assuntos, mas não é um requisito no momento.</p>
+<h1 id="ponto-de-partida-infraestrutura">Ponto de partida: infraestrutura</h1>
+<p>Não queria perder tempo discutindo infraestrutura, mas, querendo ou não, entender o tamanho das suas limitações é importante para planejar o que se quer fazer.</p>
+<p>O que estava disponível para conduzir os meus trabalhos eram:</p>
+<ul>
+<li>Máquinas físicas (&ldquo;bare metal&rdquo;) para atuar como nós para as cargas (&ldquo;workers&rdquo;);</li>
+<li>VMWare VSphere com um datacenter dedicado e cluster datastores pré configurados para a criação de máquinas virtuais para todo o resto.</li>
+</ul>
+<p>Não posso compartilhar algo que não fiz; portanto, não vou indicar soluções de virtualização ou orquestração de máquinas virtuais que você pode implantar em máquinas físicas. Mas isso é apenas por pura <strong>falta de experiência</strong>.</p>
+<p>Além do que você &ldquo;tem&rdquo;, você precisa avaliar o que você não tem:</p>
+<p>Eu, a princípio, <strong>não tinha disponível</strong>:</p>
+<ul>
+<li>Balanceadores de carga;</li>
+<li>Acesso ao firewall;</li>
+<li>Acesso ao roteador;</li>
+<li>Acesso aos switches para configuração dinâmica das portas (para coisas tipo VLAN);</li>
+</ul>
+<p>Dependendo do tamanho da empresa e da hostilidade das equipes diante das tecnologias que você está implantando, você pode ter diversos problemas de integração do seu cluster Kubernetes ao resto da empresa.</p>
+<p>O que eu julgo mais importante nesta etapa é usar o máximo da automação pré-existente. Infelizmente, para mim, não havia nenhuma, e quantidades extenuantes de procedimentos manuais foram executados para garantir atendimento de prazos, o que cobra a conta mais tarde.</p>
+<p>Hoje usamos uma combinação de <a href="https://www.terraform.io/">Terraform</a> com instalação via PXE usando <a href="https://github.com/poseidon/matchbox">Matchbox</a> de maneira muito semelhante ao disposto pelo projeto <a href="https://github.com/poseidon/typhoon">Typhoon</a></p>
+<h1 id="definições-do-cluster">Definições do cluster</h1>
+<p>Existem algumas perguntas que você deve se fazer antes de construir o cluster. Podemos englobar todas elas em uma discussão sobre &ldquo;topologia&rdquo;, embora seja muito mais que isso.</p>
+<p>Vou elencar uma lista (não exaustiva) de algumas das decisões mais importantes que pretendo trabalhar nesta série de posts:</p>
+<ul>
+<li>Topologia do Controlplane;</li>
+<li>Como fazer o deploy do cluster;</li>
+<li>Como fazer o deploy dos &lsquo;penduricalhos&rsquo; (outros utilitários a serem usados no cluster).</li>
+<li>Sistema operacional (sim, por incrível que pareça!);</li>
+<li>Modelo de redes do cluster (i.e., qual o CNI e que recursos avançados deste usar);</li>
+<li>Modelo de tráfego de entrada - um dos maiores desafios para os clusters on-premises;</li>
+</ul>
+<h1 id="topologia-do-cluster---controlplane">Topologia do cluster - Controlplane:</h1>
+<p>Esta definição prévia é importante porque o &lsquo;salto&rsquo; de um modelo mono-master para outro multi-master acaba sendo mais trabalhoso que simplesmente implantar um multi-master de primeira.</p>
+<p>Para fazer testes breves e criar familiaridade com a tecnologia, vale a pena testar o modelo mais simples. Mas muito cuidado ao implantar &lsquo;pilotos&rsquo; e &lsquo;provas de conceito&rsquo; simplórias demais, especialmente se sua organização tem a mania de transformar estes ambientes em produção por decreto.</p>
+<p>O que se encontra de mais comum em topologia de Controlplane é uma organização &lsquo;stacked&rsquo; em que são criados 3 máquinas que combinam Master com ETCDs e uma solução de loadbalancer externa.</p>
+<p>Optamos por:</p>
+<ul>
+<li>2 VMs para loadbalancers dedicados para os Kubernetes Masters;</li>
+<li>2 VMs para Kubernetes masters;</li>
+<li>5 VMs de ETCDs dedicados para atender ao cluster Kubernetes;</li>
+<li>3 VMs de ETCDs adicionais dedicados para o Calico;</li>
+</ul>
+<p>Imagino que não seja necessário mencionar, mas um &lsquo;Kubernetes Master&rsquo; é a máquina que irá executar (no mínimo) os três principais componentes do cluster Kubernetes: o <strong>Apiserver</strong> (em que múltiplos podem estar ativos no mesmo momento) e os par <strong>Scheduler</strong>/<strong>Controller</strong>, os quais apenas um por cluster atua como ativo, funcionando a base de <em>leases</em> para identificar os líderes e assim garantir o <em>failover</em>.</p>
+<h2 id="master-loadbalancers">Master loadbalancers</h2>
+<p>Em um ambiente multi-master, você <strong>precisa</strong> de uma maneira de distribuir a carga entre eles que <strong>não seja DNS round robin</strong>. Algumas empresas contam com hardware dedicado para esta finalidade, que faz healthcheck e coisas elegantes do tipo.</p>
+<p>Por estarem fora do meu &lsquo;alcance&rsquo;, optamos por subir duas VMs com <a href="https://nginx.org/"><strong>Nginx</strong></a> atuando como proxy para os Apiservers, usando <a href="https://www.keepalived.org/"><strong>Keepalived</strong></a> para implementar VRRP para o IP virtual associado ao nome do host.</p>
+<p><strong>Nota</strong>: Interessante notar que projetos como o <a href="https://kubespray.io"><strong>Kubespray</strong></a> fazem o deploy automático de um <a href="https://kubespray.io/#/docs/ha-mode"><em>Daemonset</em> com Nginx</a> que atua como um proxy interno da comunicação entre os nós e o Apiserver. Se o acesso aos Apiservers por produtos <strong>externos ao cluster</strong> não for um requisito, de repente nem seria necessário subir essas máquinas. Não é o nosso caso, mas pode ser o seu! Ainda que não use Kubespray, pode usar a ideia como inspiração.</p>
+<h2 id="masters-não-stacked-nos-etcds">Masters não &lsquo;stacked&rsquo; nos ETCDs</h2>
+<p>A documentação do Kubernetes descreve, em sua sessão de <em>High Availability</em>, duas topologias básicas:</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#stacked-control-plane-and-etcd-nodes">Stacked control plane + ETCD nodes</a>;</li>
+<li><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#external-etcd-nodes">External ETCD nodes</a></li>
+</ul>
+<p>A esmagadora maioria das pessoas opta por uma topologia &lsquo;stacked&rsquo; em que tanto o Kubernetes Master quanto o ETCD são instalados na mesma máquina. É uma topologia óbvia e conveniente. Optamos por não o fazer, pois preferimos usar um cluster ETCD de 5 membros em vez de 3.</p>
+<p>Por que não subir 5 masters, então?</p>
+<p>Porque as máquinas ETCD praticamente não demandam recursos. Um nó ETCD pode rodar, por exemplo, com 4GB de RAM e 2 processadores. Já um Kubernetes Master demanda uma quantidade substancialmente maior de recursos. Como os recursos virtuais eram relativamente exíguos à época, optamos por apenas duas máquinas como Master Kubernetes enquanto criávamos mais máquinas ETCD com &ldquo;o que sobrou&rdquo;.</p>
+<p>Obviamente, você deve dimensionar as máquinas &lsquo;de acordo com a necessidade&rsquo;, mas qual um bom ponto de partida? Existia uma tabela interessante na documentação do Kubernetes que fazia uma correlação entre os tipos de instância dos Cloud Providers que você deveria usar de acordo com o tamanho do seu cluster. Ela foi removida na versão 1.19, mas <a href="https://v1-17.docs.kubernetes.io/docs/setup/best-practices/cluster-large/#size-of-master-and-master-components">ainda está disponível para as versões anteriores</a> (ou se você selecionar o idioma japonês!), e eu acho legal para ter uma ideia:</p>
+<blockquote>
+<p>On GCE/Google Kubernetes Engine, and AWS, kube-up automatically configures the proper VM size for your master depending on the number of nodes in your cluster. On other providers, you will need to configure it manually. For reference, the sizes we use on GCE are</p>
+</blockquote>
+<ul>
+<li>1-5 nodes: n1-standard-1</li>
+<li>6-10 nodes: n1-standard-2</li>
+<li>11-100 nodes: n1-standard-4</li>
+<li>101-250 nodes: n1-standard-8</li>
+<li>251-500 nodes: n1-standard-16</li>
+<li>more than 500 nodes: n1-standard-32</li>
+</ul>
+<blockquote>
+<p>And the sizes we use on AWS are</p>
+</blockquote>
+<ul>
+<li>1-5 nodes: m3.medium</li>
+<li>6-10 nodes: m3.large</li>
+<li>11-100 nodes: m3.xlarge</li>
+<li>101-250 nodes: m3.2xlarge</li>
+<li>251-500 nodes: c4.4xlarge</li>
+<li>more than 500 nodes: c4.8xlarge</li>
+</ul>
+<p>É importante levar em consideração o que ele chama de um nó, que seria uma máquina com não mais que 100 pods - sua realidade pode ser drasticamente diferente do esperado.</p>
+<h2 id="etcds-do-kubernetes">ETCDs do Kubernetes</h2>
+<p>O tamanho mínimo aceitável para executar ETCD que ofereça alguma tolerância a falhas corresponde a <strong>três</strong> nós. Porque <strong>cinco</strong> então?</p>
+<p>Um cluster de cinco membros permitirá a falha concorrente de <strong>dois</strong> membros. Em Cloud Providers como a AWS, você provavelmente pode sobreviver com um cluster de três máquinas espalhadas em três <em>Availability Zones</em> diferentes; dificilmente uma Region irá experimentar uma falha em duas AZs ao mesmo tempo.</p>
+<p>Em nosso ambiente, devido a problemas de performance ao usar discos virtuais com o cluster datastore oferecido via SAN, optamos por usar discos NVME locais do host VMWare em que a máquina ETCD está hospedada. Esta dependência do host faz com que valha a pena gastar recursos subindo duas máquinas a mais para essa finalidade, pois não há a flexibilidade de live migration ou outros recursos do tipo.</p>
+<p>Eu pretendo abordar ETCD em mais detalhes em outro post, mas aqui vale a ressalva: o cluster ETCD é *<em>mais importante que qualquer outra coisa</em> no ambiente (talvez, exceto, do que você usa para armazenar os dados das aplicações).</p>
+<p>Executar um cluster on-premise significa arcar com plena administração desta solução, que não é particularmente trivial: é necessário cuidado extremo com os backups (e seus testes), automação afiadíssima para reconstrução do cluster com velocidade em caso de tragédias e monitoração bastante exagerada para tentar identificar a proximidade dos possíveis gargalos de performance antes que sintomas se abatam sobre o cluster.</p>
+<h2 id="etcds-do-calico">ETCDs do Calico</h2>
+<p>O uso de ETCDs para o Calico hoje é opcional, já que o uso do <a href="https://docs.projectcalico.org/getting-started/kubernetes/hardway/the-calico-datastore#using-kubernetes-as-the-datastore">próprio Kubernetes</a> como datastore já é considerado maduro e estável o suficiente. Optar por Kubernetes Datastore normalmente demanda implantar um componente adicional do Calico (<a href="https://docs.projectcalico.org/getting-started/kubernetes/hardway/install-typha">Typha</a>) para desonerar os apiserver. Embora a recomendação seja para &lsquo;clusters grandes&rsquo;, melhor já ir se acostumando com ele do que ter que implementar emergencialmente porque a performance do cluster está degradada.</p>
+<p>Uma vantagem de ter um cluster dedicado para o Calico é que, se você eventualmente quiser fazer um &lsquo;offload&rsquo; da carga do ETCD do Kubernetes removendo, por exemplo, os Event objects como recomendado <a href="https://kubernetes.io/docs/setup/best-practices/cluster-large/#etcd-storage">aqui</a>, as máquinas já estão prontas!</p>
+<p>Uma desvantagem de usar ETCD como backend para o Calico é o fato de que todos os nós precisarão de comunicação estável com o cluster ETCD. Em algumas literaturas, uma recomendação comum de segurança é a de sugerir que as máquinas de ETCD estejam em uma rede isolada das demais máquinas, oferecendo acesso apenas ao Kubernetes Apiserver. Dependendo do tipo de rede que você precisa lidar e a quantidade de intermediários atuando entre os barramentos, isso dificilmente é uma opção neste caso.</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/passado/">passado</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/passado/">passado</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+      <a href="/marcelo/blog/calico-and-route-tables/" class="button left"><span>Calico, Linux e tabelas de rota</span></a>
+    
+    
+      <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="button right"><span>Prometheus node exporter com TLS</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calico-and-route-tables/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/escher-stairs.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/escher-stairs.png" alt="Escher stairs">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calico-and-route-tables/">Calico, Linux e tabelas de rota</a></h2>
+          <time class="published" datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/jenga.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="Escher stairs">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-premisses - parte 1</a></h2>
+          <time class="published" datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/prometheus.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/prometheus.png" alt="Prometheus having its liver devoured by the eagle">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/prometheus-node-exporter-tls/">Prometheus node exporter com TLS</a></h2>
+          <time class="published" datetime="2020-10-30 00:00:00 &#43;0000 UTC">30 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/suddenly-cka/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/main/cka.png');">
+    <img src="https://devsres.com/marcelo/img/main/cka.png" alt="Calico cat clawing the door">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/suddenly-cka/">De repente, CKA</a></h2>
+          <time class="published" datetime="2020-10-28 00:00:00 &#43;0000 UTC">28 de October, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/linux-containers-and-file-descriptors/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/penguins-docker.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/penguins-docker.jpg" alt="Imagem de Siggy Nowak por Pixabay">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/linux-containers-and-file-descriptors/">Linux, contêineres e descritores de arquivos</a></h2>
+          <time class="published" datetime="2020-10-23 00:00:00 &#43;0000 UTC">23 de October, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">5</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/on-prem/">on-prem<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/passado/">passado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.79.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

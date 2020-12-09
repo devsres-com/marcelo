@@ -153,6 +153,31 @@
   </url>
   
   <url>
+    <loc>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/on-prem/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/on-prem/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/passado/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/passado/</loc>
+    <lastmod>2020-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://devsres.com/marcelo/tags/</loc>
     <lastmod>2020-12-01T00:00:00+00:00</lastmod>
     <xhtml:link

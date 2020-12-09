@@ -19,6 +19,16 @@ A métrica de erros começa a estourar do nada; e o melhor, em tese, não estamo
     </item>
     
     <item>
+      <title>Kubernetes on-premisses - parte 1</title>
+      <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</guid>
+      <description>Recentemente, participei do Kubicast, em que pude desabafar um pouco com o João Brito da Getup sobre como é criar e um cluster Kubernetes em um ambiente tecnologicamente inóspito e oposto ao universo super estável, escalável e redundante dos cloud providers.
+Recebi algumas mensagens de alguns poucos valentes que precisam trilhar esse caminho. Mas, antes, vou ressaltar uma coisa importante: neste primeiro momento, eu vou abordar a história do que foi feito e compartilhar a experiência.</description>
+    </item>
+    
+    <item>
       <title>Prometheus node exporter com TLS</title>
       <link>https://devsres.com/marcelo/blog/prometheus-node-exporter-tls/</link>
       <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>

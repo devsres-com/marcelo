@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>on-prem on </title>
+    <link>https://devsres.com/marcelo/categories/on-prem/</link>
+    <description>Recent content in on-prem on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/on-prem/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes on-premisses - parte 1</title>
+      <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</link>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</guid>
+      <description>Recentemente, participei do Kubicast, em que pude desabafar um pouco com o João Brito da Getup sobre como é criar e um cluster Kubernetes em um ambiente tecnologicamente inóspito e oposto ao universo super estável, escalável e redundante dos cloud providers.
+Recebi algumas mensagens de alguns poucos valentes que precisam trilhar esse caminho. Mas, antes, vou ressaltar uma coisa importante: neste primeiro momento, eu vou abordar a história do que foi feito e compartilhar a experiência.</description>
+    </item>
+    
+  </channel>
+</rss>
