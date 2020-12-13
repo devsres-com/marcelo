@@ -235,7 +235,7 @@ Os **provisioners** são os 'controller' propriamente ditos, que irão monitorar
 
 São executados como *Deployments* a título de redundância, em que apenas um de seus *Pods* está ativo em um dado momento. Contém diversos containers; os comuns a ambos os drivers são:
 
-Os **provisioners** são *Pods* com múltiplos containers, e precisam "carregar" os seguintes módulos para implementar a tradução de chamadas Kubernetes via CSI:
+Os provisioners são *Pods* com múltiplos containers, e precisam "carregar" os seguintes módulos para implementar a tradução de chamadas Kubernetes via CSI:
 
 * **csi-provisioner**: o [external provisioner](https://github.com/kubernetes-csi/external-provisioner) do Kubernetes CSI; o controller responsável pela monitoração dos *PersistentVolumeClaims* criados e dispara as funções de criar e remover os volumes dos plugins CSI do Ceph.
 * **csi-attacher**: o [external-attacher](https://github.com/kubernetes-csi/external-attacher) fica com as chamadas de API CSI responsáveis pelo uso dos volumes por nodes;
