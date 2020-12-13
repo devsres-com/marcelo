@@ -225,6 +225,10 @@ A partir da análise dos *manifests*, dá para entender a dinâmica dos componen
 * **Deployment de Provisioner**;
 * **Daemonset de nodePlugin**.
 
+Eu poderia copiar as ASCII Arts do [projeto CSI](https://github.com/container-storage-interface/spec/blob/master/spec.md) que são bem legais, mas acho que a Red Hat fez um desenho que ilustra bem a ideia dos componentes descritos nas próximas sessões:
+
+![Comunicação CSI](/static/reusable/openshift-csi.png)
+
 ## Provisioners
 
 Os **provisioners** são os 'controller' propriamente ditos, que irão monitorar a API do Kubernetes e executar as principais ações relacionadas aos volumes do ponto de vista do cluster;
@@ -268,7 +272,7 @@ O terceiro container é o driver propriamente dito:
 
 **Considerações de segurança adicionais**: este *Pod*, pela sua natureza, demanda privilégios especiais; executa com as diretivas 'hostPID=true', 'hostNetwork=true' além de mapear diversos volumes. 
 
-## Observações importantes
+## Observações relevantes
 
 Entender devidamente a função de cada componente demanda leitura do [documento de design dos CSI](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/container-storage-interface.md).
 
