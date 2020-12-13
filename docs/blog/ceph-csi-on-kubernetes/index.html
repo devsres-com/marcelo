@@ -10,7 +10,7 @@
 <meta itemprop="description" content="Usando CSI para montar volumes RBD e sistemas de arquivo cephfs">
 <meta itemprop="datePublished" content="2020-12-12T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-12-12T00:00:00+00:00" />
-<meta itemprop="wordCount" content="4539">
+<meta itemprop="wordCount" content="4572">
 <meta itemprop="image" content="">
 
 
@@ -652,10 +652,12 @@ csi-snapshotter:v2.1.1
 <li><strong>Deployment de Provisioner</strong>;</li>
 <li><strong>Daemonset de nodePlugin</strong>.</li>
 </ul>
+<p>Eu poderia copiar as ASCII Arts do <a href="https://github.com/container-storage-interface/spec/blob/master/spec.md">projeto CSI</a> que são bem legais, mas acho que a Red Hat fez um desenho que ilustra bem a ideia dos componentes descritos nas próximas sessões:</p>
+<p><img src="/static/reusable/openshift-csi.png" alt="Comunicação CSI"></p>
 <h2 id="provisioners">Provisioners</h2>
 <p>Os <strong>provisioners</strong> são os &lsquo;controller&rsquo; propriamente ditos, que irão monitorar a API do Kubernetes e executar as principais ações relacionadas aos volumes do ponto de vista do cluster;</p>
 <p>São executados como <em>Deployments</em> a título de redundância, em que apenas um de seus <em>Pods</em> está ativo em um dado momento. Contém diversos containers; os comuns a ambos os drivers são:</p>
-<p>Os <strong>provisioners</strong> são <em>Pods</em> com múltiplos containers, e precisam &ldquo;carregar&rdquo; os seguintes módulos para implementar a tradução de chamadas Kubernetes via CSI:</p>
+<p>Os provisioners são <em>Pods</em> com múltiplos containers, e precisam &ldquo;carregar&rdquo; os seguintes módulos para implementar a tradução de chamadas Kubernetes via CSI:</p>
 <ul>
 <li><strong>csi-provisioner</strong>: o <a href="https://github.com/kubernetes-csi/external-provisioner">external provisioner</a> do Kubernetes CSI; o controller responsável pela monitoração dos <em>PersistentVolumeClaims</em> criados e dispara as funções de criar e remover os volumes dos plugins CSI do Ceph.</li>
 <li><strong>csi-attacher</strong>: o <a href="https://github.com/kubernetes-csi/external-attacher">external-attacher</a> fica com as chamadas de API CSI responsáveis pelo uso dos volumes por nodes;</li>
@@ -689,7 +691,7 @@ csi-snapshotter:v2.1.1
 <li><strong>csi-rbdplugin</strong> ou <strong>csi-cephfsplugin</strong>: o driver cephcsi, executando no modo apropriado, e responsável pelas operações de mapeamento dos dispositivos e montagem dos sistemas de arquivo cephfs.</li>
 </ul>
 <p><strong>Considerações de segurança adicionais</strong>: este <em>Pod</em>, pela sua natureza, demanda privilégios especiais; executa com as diretivas &lsquo;hostPID=true&rsquo;, &lsquo;hostNetwork=true&rsquo; além de mapear diversos volumes.</p>
-<h2 id="observações-importantes">Observações importantes</h2>
+<h2 id="observações-relevantes">Observações relevantes</h2>
 <p>Entender devidamente a função de cada componente demanda leitura do <a href="https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/container-storage-interface.md">documento de design dos CSI</a>.</p>
 <p><strong>Importante</strong>: como o driver CSI do Ceph e os demais componentes têm seu desenvolvimento dissociado um do outro, eles evoluem em ritmos diferentes. Consequentemente, versões mais novas de algun dos 4 componentes &lsquo;CSI&rsquo; do lado do Kubernetes não necessariamente são compatívels com as implementações dos plugins.</p>
 <p>Onde tem a informação do que é compatível com o que? <strong>Em lugar nenhum</strong>. É necessário olhar os helm charts dos releases ou os manifests de exemplo disponibilizados pelo projeto.</p>
