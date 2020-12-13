@@ -653,7 +653,7 @@ csi-snapshotter:v2.1.1
 <li><strong>Daemonset de nodePlugin</strong>.</li>
 </ul>
 <p>Eu poderia copiar as ASCII Arts do <a href="https://github.com/container-storage-interface/spec/blob/master/spec.md">projeto CSI</a> que são bem legais, mas acho que a Red Hat fez um desenho que ilustra bem a ideia dos componentes descritos nas próximas sessões:</p>
-<p><img src="static/reusable/openshift-csi.png" alt="Comunicação CSI"></p>
+<p><img src="/marcelo/static/reusable/openshift-csi.png" alt="Comunicação CSI"></p>
 <h2 id="provisioners">Provisioners</h2>
 <p>Os <strong>provisioners</strong> são os &lsquo;controller&rsquo; propriamente ditos, que irão monitorar a API do Kubernetes e executar as principais ações relacionadas aos volumes do ponto de vista do cluster;</p>
 <p>São executados como <em>Deployments</em> a título de redundância, em que apenas um de seus <em>Pods</em> está ativo em um dado momento. Contém diversos containers; os comuns a ambos os drivers são:</p>
