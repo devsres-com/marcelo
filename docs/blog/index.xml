@@ -6,7 +6,17 @@
     <description>Recent content in Blog on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Wed, 09 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ceph CSI no Kubernetes</title>
+      <link>https://devsres.com/marcelo/blog/ceph-csi-on-kubernetes/</link>
+      <pubDate>Sat, 12 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/ceph-csi-on-kubernetes/</guid>
+      <description>Aqui vai o relato fresquinho da experiência de um dos meus trabalhos mais recentes: o deploy de plugins CSI para o provisionamento automático de filesystems CephFS e volumes RBD.
+Uma nota infeliz: o cluster Ceph foi instalado e é mantido por outras pessoas, e eu não tenho qualquer tipo de acesso. Então o relato vai ser incompleto, faltando os procedimentos do lado &amp;ldquo;de lá&amp;rdquo;. Se você está esperando aqui ideias para apoiar a instalação e configuração de clusters Ceph ou uso de soluções como o Rook, este não é o texto para você.</description>
+    </item>
+    
     <item>
       <title>Kubernetes on-premises - parte 1</title>
       <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</link>
