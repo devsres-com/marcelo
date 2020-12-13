@@ -227,7 +227,7 @@ A partir da análise dos *manifests*, dá para entender a dinâmica dos componen
 
 Eu poderia copiar as ASCII Arts do [projeto CSI](https://github.com/container-storage-interface/spec/blob/master/spec.md) que são bem legais, mas acho que a Red Hat fez um desenho que ilustra bem a ideia dos componentes descritos nas próximas sessões:
 
-![Comunicação CSI](/static/reusable/openshift-csi.png)
+![Comunicação CSI](static/reusable/openshift-csi.png)
 
 ## Provisioners
 
