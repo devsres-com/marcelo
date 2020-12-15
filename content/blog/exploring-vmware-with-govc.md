@@ -37,7 +37,7 @@ Para usar o **govc**, é necessário configurar algumas variáveis de ambiente e
 
 # # Credenciais. Não preciso dizer que você não deve fazer isso em uma máquina com root compartilhado...
 # export GOVC_USERNAME=$USER
-# export GOVC_PASSWORD=Cdmp1980@69
+# export GOVC_PASSWORD='Mnh$nh@2020@69'
 ```
 Peça para os administradores VMWare criarem um usuário com 'readonly' no cluster. Não precisamos de mais nada além disso para fazer a exploração.
 
@@ -97,7 +97,7 @@ Então vamos lá.
 
 # Fase 1: o mínimo necessário
 
-## Quantos datacenters estão disponíveis no Vcenter para mim?
+## Quantos datacenters estão disponíveis?
 
 ```
 # govc find . -type Datacenter
@@ -119,7 +119,7 @@ Name:                DATACENTER-PE
   Datastores:        9
 ```
 
-## Quantos clusters de processamento diferentes existem?
+## Quantos clusters de processamento?
 
 Direto e reto:
 
@@ -130,7 +130,7 @@ Direto e reto:
 /DATACENTER-PE/host/cc_pool03
 ```
 
-## Quantas redes diferentes existem?
+## Quantas redes diferentes?
 
 Mais um direto:
 
@@ -144,7 +144,7 @@ Mais um direto:
 ./network/kubernetes_cluster_lab
 ```
 
-## Quantos datastore clusters diferentes existem?
+## Quantos datastore clusters?
 
 Nós não usamos os *Datastores* diretamente; fazemos uso do conceito de [*Datastore Clusters*](https://docs.vmware.com/en/VMware-Validated-Design/5.0/com.vmware.vvd.sddc-design.doc/GUID-90F8BCEB-F917-450F-A5D9-3C860446EF84.html).
 
@@ -185,7 +185,7 @@ Aqui confesso que vou ficar devendo um *find* melhor: o melhor que consegui foi 
 
 Mas não tome minha palavra como final. Eu estou **muito longe** de ser um especialista em VMWare.
 
-# Tenho tudo que preciso para o Terraform?
+# Tenho tudo que preciso?
 
 O meu principal uso de Terraform, no momento, é o de criar 'cascas' vazias de máquinas virtuais que irão ser instaladas usando PXE. 
 
@@ -194,7 +194,7 @@ Se você achou a ideia idiota, eu tenho minhas razões! Mas tolere essa particul
 **Nota**: Não entendeu nada dos Terraform listados abaixo? Entre em contato por qualquer canal - Twitter, Linkedin, Facebook, Instagram... E me deixe saber que você quer saber mais sobre Terraform!
 
 
-## Recuperação do objeto datacenter. 
+## Recuperação do objeto datacenter 
 Preciso:
 * do nome do datacenter;
 
@@ -204,7 +204,7 @@ data "vsphere_datacenter" "cluster_datacenter" {
 }
 ```
 
-## Recuperação do objeto datacenter. 
+## Recuperação do objeto datacenter 
 Preciso:
 * do nome do datastore cluster;
 * do id do datacenter (recuperado com a estrutura *data.vsphere_datacenter*);
@@ -215,7 +215,7 @@ data "vsphere_datastore_cluster" "cluster_datastore" {
   datacenter_id = data.vsphere_datacenter.cluster_datacenter.id
 }
 ```
-## Recuperação do cluster de computação.
+## Recuperação do cluster de computação
 Preciso:
 * do nome do cluster de computação;
 * * do id do datacenter (*data.vsphere_datacenter.nome.id*);
@@ -225,7 +225,7 @@ data "vsphere_compute_cluster" "compute_cluster" {
   datacenter_id = data.vsphere_datacenter.cluster_datacenter.id
 }
 ```
-## Recuperação das redes.
+## Recuperação das redes
 Preciso:
 * do nome da rede;
 * do id do datacenter.
