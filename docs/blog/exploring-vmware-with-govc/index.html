@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>GOVC - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.79.0" /><meta itemprop="name" content="GOVC">
+<meta itemprop="description" content="Como explorar o VMWare pela linha de comando">
+<meta itemprop="datePublished" content="2020-12-15T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-12-15T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1488">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="vmware,govc," />
+<meta property="og:title" content="GOVC" />
+<meta property="og:description" content="Como explorar o VMWare pela linha de comando" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/exploring-vmware-with-govc/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-12-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-15T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="GOVC"/>
+<meta name="twitter:description" content="Como explorar o VMWare pela linha de comando"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=GOVC&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f&amp;title=GOVC" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f&amp;title=GOVC" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f&amp;description=GOVC" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/exploring-vmware-with-govc/">GOVC</a></h2>
+    
+    
+      <p>Como explorar o VMWare pela linha de comando</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-12-15 00:00:00 &#43;0000 UTC">15 de December, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>7 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=GOVC&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f&amp;title=GOVC" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f&amp;title=GOVC" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f&amp;description=GOVC" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fexploring-vmware-with-govc%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/exploring-vmware-with-govc/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="If all you have is a hammer, everything looks like a nail.">
+  </a>
+      <p>O projeto <a href="https://github.com/vmware/govmomi"><strong>govmomi</strong></a> oferece uma biblioteca em Go Para interação com as APIs VMWare Vsphere (ESXi ou vCenter). O programa <a href="https://github.com/vmware/govmomi/tree/master/govc"><strong>govc</strong></a> é o binário que te permite executar coisas na linha de comando.</p>
+<p>Eu nunca implantei VMWare do zero; conheço um emaranhado de conceitos usando a técnica que todo ultrageneralista usa: sair aprendendo uma série de coisas desconexas sobre o objeto de estudo que são o suficiente para desempenhar determinada tarefa, torcendo para que, algum dia, eu possa voltar àquele assunto e completar o que falta.</p>
+<p>Ironicamente, tem funcionado.</p>
+<p>O objetivo de hoje? Descobrir tudo que existe no ambiente e onde estão minhas coisas já criadas.</p>
+<p>Por que isso? Para implementar a automação com <a href="https://www.terraform.io/">Terraform</a>. Eu preciso de um monte de informações, e <strong>me recuso</strong> a usar interfaces gráficas coloridas. Isso é contra os princípios de todo bom #Ops.</p>
+<h1 id="abrindo-a-caixa-de-ferramentas">Abrindo a caixa de ferramentas</h1>
+<p>A minha caixa de ferramentas, na verdade, vem com um único martelo. Portanto, daqui para frente, tudo é prego.</p>
+<p>Existem diversas opções viáveis para administrar VMWare a partir da linha de comando. Não é o que eu estou procurando. Eu quero algo que seja capaz de me trazer as informações necessárias sobre o meu ambiente para que eu possa viabilizar o uso do Terraform, já que as estruturas de dados (objetos &lsquo;<em>data</em>') que ele pode importar precisam que eu especifique nomes e IDs.</p>
+<p>Para usar o <strong>govc</strong>, é necessário configurar algumas variáveis de ambiente e um conjunto de credenciais:</p>
+<pre><code># # Deixe de ser preguiçoso e importe a CA auto assinada na sua máquina em vez de usar GOVC_INSECURE
+# export GOVC_INSECURE=true
+
+# export GOVC_URL=https://endereco-ip-do-seu-vcenter:443
+
+# # Credenciais. Não preciso dizer que você não deve fazer isso em uma máquina com root compartilhado...
+# export GOVC_USERNAME=$USER
+# export GOVC_PASSWORD=Cdmp1980@69
+</code></pre><p>Peça para os administradores VMWare criarem um usuário com &lsquo;readonly&rsquo; no cluster. Não precisamos de mais nada além disso para fazer a exploração.</p>
+<p>Existem maneiras mais inteligentes de fazer a autenticação, como, por exemplo, com um token. Mas eu ainda estou esperando isso aqui acontecer:</p>
+<pre><code># https://github.com/vmware/govmomi/issues/1824
+6 Feb 2020
+Some more info on the auth methods here: kubernetes/kubernetes#63209
+We should put some of that in the govmomi docs.
+</code></pre><p>Apenas para referência, é possível também usar algumas das variáveis abaixo:</p>
+<ul>
+<li>GOVC_TLS_CA_CERTS</li>
+<li>GOVC_TLS_KNOWN_HOSTS</li>
+<li>GOVC_TLS_HANDSHAKE_TIMEOUT</li>
+<li>GOVC_DATACENTER</li>
+<li>GOVC_DATASTORE</li>
+<li>GOVC_NETWORK</li>
+<li>GOVC_RESOURCE_POOL</li>
+<li>GOVC_HOST</li>
+</ul>
+<p>GOVC_DATACENTER, por exemplo, me economizaria todas as vezes em que eu precisei passar o atributo <em>-dc</em> nos comandos abaixo.</p>
+<p>Mas vamos ao que importa.</p>
+<h1 id="govc-find">govc find</h1>
+<p>Como descobrir TUDO que eu preciso sobre minha infraestrutura contando apenas com minhas credenciais e sabendo que, &ldquo;lá dentro&rdquo;, tem máquinas minhas?</p>
+<p>Basicamente usando o comando <strong>find</strong> do <em>govc</em>.</p>
+<p>Este comando conta com um parâmetro <em>-type</em> que será a chave para as descobertas.</p>
+<pre><code># govc find 
+...
+The '-type' flag value can be a managed entity type or one of the following aliases:
+
+  a    VirtualApp
+  c    ClusterComputeResource
+  d    Datacenter
+  f    Folder
+  g    DistributedVirtualPortgroup
+  h    HostSystem
+  m    VirtualMachine
+  n    Network
+  o    OpaqueNetwork
+  p    ResourcePool
+  r    ComputeResource
+  s    Datastore
+  w    DistributedVirtualSwitch
+...
+
+</code></pre><p>Então vamos lá.</p>
+<h1 id="fase-1-o-mínimo-necessário">Fase 1: o mínimo necessário</h1>
+<h2 id="quantos-datacenters-estão-disponíveis-no-vcenter-para-mim">Quantos datacenters estão disponíveis no Vcenter para mim?</h2>
+<pre><code># govc find . -type Datacenter
+/DATACENTER-PE
+</code></pre><p>Um. Ótimo. Menos tapetes para procurar sujeira embaixo.</p>
+<p>Quer informações sobre o que tem pela frente?</p>
+<pre><code># govc datacenter.info -dc DATACENTER-PE
+Name:                DATACENTER-PE
+  Path:              /DATACENTER-PE
+  Hosts:             9
+  Clusters:          3
+  Virtual Machines:  90
+  Networks:          6
+  Datastores:        9
+</code></pre><h2 id="quantos-clusters-de-processamento-diferentes-existem">Quantos clusters de processamento diferentes existem?</h2>
+<p>Direto e reto:</p>
+<pre><code># govc find -dc DATACENTER-PE -type ClusterComputeResource
+/DATACENTER-PE/host/cc_pool01
+/DATACENTER-PE/host/cc_pool02
+/DATACENTER-PE/host/cc_pool03
+</code></pre><h2 id="quantas-redes-diferentes-existem">Quantas redes diferentes existem?</h2>
+<p>Mais um direto:</p>
+<pre><code># govc find -dc DATACENTER-PE -type  Network
+./network/kubernetes_cluster_producao
+./network/kubernetes_cluster_homologacao
+./network/gerencia
+./network/internet
+./network/backup
+./network/kubernetes_cluster_lab
+</code></pre><h2 id="quantos-datastore-clusters-diferentes-existem">Quantos datastore clusters diferentes existem?</h2>
+<p>Nós não usamos os <em>Datastores</em> diretamente; fazemos uso do conceito de <a href="https://docs.vmware.com/en/VMware-Validated-Design/5.0/com.vmware.vvd.sddc-design.doc/GUID-90F8BCEB-F917-450F-A5D9-3C860446EF84.html"><em>Datastore Clusters</em></a>.</p>
+<p>Aqui confesso que vou ficar devendo um <em>find</em> melhor: o melhor que consegui foi listar todos os <em>Datastores</em>; o nome do <em>DatastoreCluster</em> é o nome da pasta em que o <em>Datastore</em> está, como visto abaixo:</p>
+<pre><code># govc find -dc DATACENTER-PE -type ClusterComputeResource
+/DATACENTER-PE/datastore/datastorecluster01/dsc1_1
+/DATACENTER-PE/datastore/datastorecluster01/dsc1_2
+/DATACENTER-PE/datastore/datastorecluster01/dsc1_3
+/DATACENTER-PE/datastore/datastorecluster02/dsc2_1
+/DATACENTER-PE/datastore/datastorecluster02/dsc2_2
+/DATACENTER-PE/datastore/datastorecluster02/dsc2_3
+/DATACENTER-PE/datastore/datastorecluster03/dsc3_1
+/DATACENTER-PE/datastore/datastorecluster03/dsc3_2
+/DATACENTER-PE/datastore/datastorecluster03/dsc3_3
+
+# # mas eu só quero os datastoreclusters!
+# govc find -dc DATACENTER-PE -type ClusterComputeResource | rev | cut -f2 -d'/' | rev | sort | uniq -c
+  3 datastorecluster01
+  3 datastorecluster02
+  3 datastorecluster03
+
+# # uma alternativa é usar o comando govc ls
+# govc ls -dc DATACENTER-PE'
+/DATACENTER-PE/vm
+/DATACENTER-PE/network
+/DATACENTER-PE/host
+/DATACENTER-PE/datastore
+
+# govc ls /ESTALEIRO-SPO/datastore
+/DATACENTER-PE/datastore/datastorecluster01
+/DATACENTER-PE/datastore/datastorecluster02
+/DATACENTER-PE/datastore/datastorecluster03
+</code></pre><p>É bem provável que não haja uma maneira de usar o <em>find</em> para esta finalidade, pois o comando &lsquo;<em>govc datacenter.info</em>&rsquo; mostra apenas o número de <em>Datastores</em>, enquanto para os clusters de computação, ele mostra adequadamente que tenho 3 clusters e 9 máquinas.</p>
+<p>Mas não tome minha palavra como final. Eu estou <strong>muito longe</strong> de ser um especialista em VMWare.</p>
+<h1 id="tenho-tudo-que-preciso-para-o-terraform">Tenho tudo que preciso para o Terraform?</h1>
+<p>O meu principal uso de Terraform, no momento, é o de criar &lsquo;cascas&rsquo; vazias de máquinas virtuais que irão ser instaladas usando PXE.</p>
+<p>Se você achou a ideia idiota, eu tenho minhas razões! Mas tolere essa particularidade e acompanhe abaixo o que é necessário para criar um <em>Terraform resource</em> do tipo <em>vsphere_virtual_machine</em> dessa forma:</p>
+<p><strong>Nota</strong>: Não entendeu nada dos Terraform listados abaixo? Entre em contato por qualquer canal - Twitter, Linkedin, Facebook, Instagram&hellip; E me deixe saber que você quer saber mais sobre Terraform!</p>
+<h2 id="recuperação-do-objeto-datacenter">Recuperação do objeto datacenter.</h2>
+<p>Preciso:</p>
+<ul>
+<li>do nome do datacenter;</li>
+</ul>
+<pre><code>data &quot;vsphere_datacenter&quot; &quot;cluster_datacenter&quot; {
+  name          = lookup(local.cluster_vsphere, &quot;vsphere_datacenter&quot;)
+}
+</code></pre><h2 id="recuperação-do-objeto-datacenter-1">Recuperação do objeto datacenter.</h2>
+<p>Preciso:</p>
+<ul>
+<li>do nome do datastore cluster;</li>
+<li>do id do datacenter (recuperado com a estrutura <em>data.vsphere_datacenter</em>);</li>
+</ul>
+<pre><code>data &quot;vsphere_datastore_cluster&quot; &quot;cluster_datastore&quot; {
+  name          = lookup(local.cluster_vsphere, &quot;vsphere_datastore_cluster&quot;)
+  datacenter_id = data.vsphere_datacenter.cluster_datacenter.id
+}
+</code></pre><h2 id="recuperação-do-cluster-de-computação">Recuperação do cluster de computação.</h2>
+<p>Preciso:</p>
+<ul>
+<li>do nome do cluster de computação;</li>
+<li>
+<ul>
+<li>do id do datacenter (<em>data.vsphere_datacenter.nome.id</em>);</li>
+</ul>
+</li>
+</ul>
+<pre><code>data &quot;vsphere_compute_cluster&quot; &quot;compute_cluster&quot; {
+  name          = lookup(local.cluster_vsphere, &quot;vsphere_compute_cluster&quot;)
+  datacenter_id = data.vsphere_datacenter.cluster_datacenter.id
+}
+</code></pre><h2 id="recuperação-das-redes">Recuperação das redes.</h2>
+<p>Preciso:</p>
+<ul>
+<li>do nome da rede;</li>
+<li>do id do datacenter.</li>
+</ul>
+<pre><code>data &quot;vsphere_network&quot; &quot;networks&quot; {
+  for_each = local.cluster_network_profiles
+
+  name = each.value
+  datacenter_id = data.vsphere_datacenter.cluster_datacenter.id
+}
+</code></pre><h2 id="resource-vm">Resource VM</h2>
+<p>Aqui está o resource que uso para criar as VMs.</p>
+<p>Eu posso trocar metade dos lookups por referências diretas. Mas, enquanto fazia, por incrível que pareça, ficava mais fácil para poder acertar a profundidade da estrutura de dados que eu optei usar como &lsquo;input&rsquo; no <em>terraform.tfvars</em>.</p>
+<blockquote>
+<p><strong>Cicatrizes de batalha</strong>: não faça coisas complexas no Terraform, ainda que você consiga apenas porque você pode; você não trabalha sozinho, e alguém vai precisar entender algum dia.</p>
+</blockquote>
+<p>De qualquer forma, de novo, esqueça o objeto Terraform ilegível por causa da minha tendência natural de fazer coisas absurdas. Observe que criei as máquinas com os três recursos de <em>data</em> listados acima.</p>
+<pre><code>resource &quot;vsphere_virtual_machine&quot; &quot;vm&quot; {
+  for_each  = local.vms
+  name      = each.value.hostname
+
+  # Pode pular tudo até o (1).  
+  cpu_hot_add_enabled = true
+  cpu_hot_remove_enabled = true
+  memory_hot_add_enabled = true
+  guest_id = &quot;coreos64Guest&quot;
+
+  num_cpus = lookup(lookup(local.cluster_profiles,each.value.profile), &quot;num_cpus&quot;)
+  memory   = lookup(lookup(local.cluster_profiles,each.value.profile), &quot;memory&quot;)
+  disk {
+    label = &quot;${each.value.hostname}-disk&quot;
+    size  = lookup(lookup(local.cluster_profiles,each.value.profile), &quot;disk_size&quot;)
+    unit_number = 0
+    eagerly_scrub = false
+    thin_provisioned = true
+  }
+
+  # Truque sujos necessários para falar para o Terraform não esperar as máquinas.  
+  wait_for_guest_net_timeout = 0
+
+  # (1): cluster de computação
+  resource_pool_id = data.vsphere_compute_cluster.compute_cluster.resource_pool_id
+
+  # (2): datastore cluster
+  datastore_cluster_id = data.vsphere_datastore_cluster.cluster_datastore.id
+  folder = vsphere_folder.folder.path
+  
+  # Nós gostamos de máquinas virtuais com muitas interfaces, e cada uma com uma quantidade variável delas.
+  dynamic &quot;network_interface&quot; {
+
+    for_each = each.value.network
+
+    content {
+      # (3): redes.
+      network_id = lookup(lookup(data.vsphere_network.networks, network_interface.key), &quot;id&quot;)
+    }
+
+  }
+
+  # O backup adiciona uma tag; precisamos ignorá-la ou o Terraform irá tentar apagá-la.
+  lifecycle {
+    ignore_changes= [
+      annotation,
+      # &quot;vapp.0.properties&quot;,
+    ]
+  }
+}
+</code></pre><h2 id="resumindo">Resumindo</h2>
+<p>Para a minha necessidade inicial (criação de cascas para instalação via PXE), a resposta é <strong>sim</strong>, os comandos <em>govc</em> listados acima são suficientes para que eu recupere todas as informações por meio de objetos <em>data</em> do Terraform.</p>
+<p>Por mais &lsquo;tosco&rsquo; que possa parecer, sim, o Terraform só precisa dos nomes dos objetos, e não de ids obscuros e esquisitos.</p>
+<blockquote>
+<p><strong>Cicatrizes de batalha</strong>: Se você prefere deixar para lá esse papo de linha de comando e quer usar a interface gráfica para ver todos os nomes e transcrever na mão, se prepare para surpresas desagradáveis se os seus administradores de VMWare forem tão trolls quanto os meus.</p>
+</blockquote>
+<p>O uso de nomes demanda um <strong>cuidado especial</strong> por causa da tolerância do VMware com caracteres especiais. O VMWare deixa você criar a rede da seguinte maneira na interface gráfica:</p>
+<ul>
+<li><strong>rede_cluster_kubernetes_1_192.168.69.0/24</strong></li>
+</ul>
+<p>Legal, né? Mas olha como é o nome dela de verdade:</p>
+<pre><code># govc find -dc DATACENTER-PE -type  Network
+...
+./network/kubernetes_cluster_producao_192.168.69.0%2f24
+...
+</code></pre><p>O nome que precisa ir no Terraform é o listado pelo Govc.</p>
+<h1 id="isso-é-tudo">Isso é tudo?</h1>
+<p>Infelizmente, não.</p>
+<p>Meu problema atual é que preciso &lsquo;particionar&rsquo; um host VMWare em um determinado número de máquinas virtuais, usando o disco local daquela máquina como datastore.</p>
+<p>Isso quer dizer que precisarei fazer uma parte 2 tentando levantar todas essas informações adicionais!</p>
+<p>Alguém tem interesse?</p>
+<p>(Na verdade a demanda era para criar máquinas virtuais e entregar o disco como por meio de <a href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-9E206B41-4B2D-48F0-85A3-B8715D78E846.html"><strong>Raw Device Mapping</strong></a>, mas aparentemente isso <strong>não é possível com o Terraform</strong> e <a href="https://github.com/hashicorp/terraform-provider-vsphere/issues/397"><strong>talvez nunca seja</strong></a>,)</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/vmware/">vmware</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/govc/">govc</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/vmware/">vmware</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/govc/">govc</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+    
+      <a href="/marcelo/blog/ceph-csi-on-kubernetes/" class="button right"><span>Ceph CSI no Kubernetes</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/exploring-vmware-with-govc/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="If all you have is a hammer, everything looks like a nail.">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/exploring-vmware-with-govc/">GOVC</a></h2>
+          <time class="published" datetime="2020-12-15 00:00:00 &#43;0000 UTC">15 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/ceph-csi-on-kubernetes/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg" alt="radiactive storage">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/ceph-csi-on-kubernetes/">Ceph CSI no Kubernetes</a></h2>
+          <time class="published" datetime="2020-12-12 00:00:00 &#43;0000 UTC">12 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="Se o que você tem é apenas um martelo, trate tudo como prego.">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-premises - parte 1</a></h2>
+          <time class="published" datetime="2020-12-09 00:00:00 &#43;0000 UTC">9 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calico-and-route-tables/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/escher-stairs.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/escher-stairs.png" alt="Escher stairs">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calico-and-route-tables/">Calico, Linux e tabelas de rota</a></h2>
+          <time class="published" datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/prometheus.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/prometheus.png" alt="Prometheus having its liver devoured by the eagle">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/prometheus-node-exporter-tls/">Prometheus node exporter com TLS</a></h2>
+          <time class="published" datetime="2020-10-30 00:00:00 &#43;0000 UTC">30 de October, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">6</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ceph/">ceph<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/csi/">csi<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/govc/">govc<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/on-prem/">on-prem<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/passado/">passado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.79.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

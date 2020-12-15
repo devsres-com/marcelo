@@ -6,8 +6,8 @@ date = "2020-12-09"
 tags = ["kubernetes", "on-prem", "passado"]
 categories = ["kubernetes", "on-prem", "passado"]
 [[images]]
-  src = "img/reusable/jenga.png"
-  alt = "jenga"
+  src = "img/reusable/hammer-screw.jpg"
+  alt = "Se o que você tem é apenas um martelo, trate tudo como prego."
   stretch = ""
 +++
 

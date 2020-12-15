@@ -6,7 +6,25 @@
     <description>Recent content in Categories on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Sat, 12 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>govc</title>
+      <link>https://devsres.com/marcelo/categories/govc/</link>
+      <pubDate>Tue, 15 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/categories/govc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vmware</title>
+      <link>https://devsres.com/marcelo/categories/vmware/</link>
+      <pubDate>Tue, 15 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/categories/vmware/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>ceph</title>
       <link>https://devsres.com/marcelo/categories/ceph/</link>
@@ -130,15 +148,6 @@
       <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/categories/terraform/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>vmware</title>
-      <link>https://devsres.com/marcelo/categories/vmware/</link>
-      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/categories/vmware/</guid>
       <description></description>
     </item>
     

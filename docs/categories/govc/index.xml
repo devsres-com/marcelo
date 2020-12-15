@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>govc on </title>
+    <link>https://devsres.com/marcelo/categories/govc/</link>
+    <description>Recent content in govc on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Tue, 15 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/govc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GOVC</title>
+      <link>https://devsres.com/marcelo/blog/exploring-vmware-with-govc/</link>
+      <pubDate>Tue, 15 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/exploring-vmware-with-govc/</guid>
+      <description>O projeto govmomi oferece uma biblioteca em Go Para interação com as APIs VMWare Vsphere (ESXi ou vCenter). O programa govc é o binário que te permite executar coisas na linha de comando.
+Eu nunca implantei VMWare do zero; conheço um emaranhado de conceitos usando a técnica que todo ultrageneralista usa: sair aprendendo uma série de coisas desconexas sobre o objeto de estudo que são o suficiente para desempenhar determinada tarefa, torcendo para que, algum dia, eu possa voltar àquele assunto e completar o que falta.</description>
+    </item>
+    
+  </channel>
+</rss>

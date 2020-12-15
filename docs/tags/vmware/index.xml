@@ -6,7 +6,17 @@
     <description>Recent content in vmware on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/vmware/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/vmware/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GOVC</title>
+      <link>https://devsres.com/marcelo/blog/exploring-vmware-with-govc/</link>
+      <pubDate>Tue, 15 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/exploring-vmware-with-govc/</guid>
+      <description>O projeto govmomi oferece uma biblioteca em Go Para interação com as APIs VMWare Vsphere (ESXi ou vCenter). O programa govc é o binário que te permite executar coisas na linha de comando.
+Eu nunca implantei VMWare do zero; conheço um emaranhado de conceitos usando a técnica que todo ultrageneralista usa: sair aprendendo uma série de coisas desconexas sobre o objeto de estudo que são o suficiente para desempenhar determinada tarefa, torcendo para que, algum dia, eu possa voltar àquele assunto e completar o que falta.</description>
+    </item>
+    
     <item>
       <title>Cuidado com terraform import</title>
       <link>https://devsres.com/marcelo/blog/terraform-import-watch-out/</link>
