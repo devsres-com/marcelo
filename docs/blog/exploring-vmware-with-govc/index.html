@@ -10,7 +10,7 @@
 <meta itemprop="description" content="Como explorar o VMWare pela linha de comando">
 <meta itemprop="datePublished" content="2020-12-15T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-12-15T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1488">
+<meta itemprop="wordCount" content="1784">
 <meta itemprop="image" content="">
 
 
@@ -251,7 +251,7 @@
   <div class="meta">
     <time datetime="2020-12-15 00:00:00 &#43;0000 UTC">15 de December, 2020</time>
     <p>Marcelo Andrade</p>
-    <p>7 Minutos De Leitura</p>
+    <p>9 Minutos De Leitura</p>
   </div>
 </header>
 
@@ -365,7 +365,7 @@ The '-type' flag value can be a managed entity type or one of the following alia
 
 </code></pre><p>Então vamos lá.</p>
 <h1 id="fase-1-o-mínimo-necessário">Fase 1: o mínimo necessário</h1>
-<h2 id="quantos-datacenters-estão-disponíveis-no-vcenter-para-mim">Quantos datacenters estão disponíveis no Vcenter para mim?</h2>
+<h2 id="quantos-datacenters-estão-disponíveis">Quantos datacenters estão disponíveis?</h2>
 <pre><code># govc find . -type Datacenter
 /DATACENTER-PE
 </code></pre><p>Um. Ótimo. Menos tapetes para procurar sujeira embaixo.</p>
@@ -378,13 +378,13 @@ Name:                DATACENTER-PE
   Virtual Machines:  90
   Networks:          6
   Datastores:        9
-</code></pre><h2 id="quantos-clusters-de-processamento-diferentes-existem">Quantos clusters de processamento diferentes existem?</h2>
+</code></pre><h2 id="quantos-clusters-de-processamento">Quantos clusters de processamento?</h2>
 <p>Direto e reto:</p>
 <pre><code># govc find -dc DATACENTER-PE -type ClusterComputeResource
 /DATACENTER-PE/host/cc_pool01
 /DATACENTER-PE/host/cc_pool02
 /DATACENTER-PE/host/cc_pool03
-</code></pre><h2 id="quantas-redes-diferentes-existem">Quantas redes diferentes existem?</h2>
+</code></pre><h2 id="quantas-redes-diferentes">Quantas redes diferentes?</h2>
 <p>Mais um direto:</p>
 <pre><code># govc find -dc DATACENTER-PE -type  Network
 ./network/kubernetes_cluster_producao
@@ -393,22 +393,22 @@ Name:                DATACENTER-PE
 ./network/internet
 ./network/backup
 ./network/kubernetes_cluster_lab
-</code></pre><h2 id="quantos-datastore-clusters-diferentes-existem">Quantos datastore clusters diferentes existem?</h2>
+</code></pre><h2 id="quantos-datastore-clusters">Quantos datastore clusters?</h2>
 <p>Nós não usamos os <em>Datastores</em> diretamente; fazemos uso do conceito de <a href="https://docs.vmware.com/en/VMware-Validated-Design/5.0/com.vmware.vvd.sddc-design.doc/GUID-90F8BCEB-F917-450F-A5D9-3C860446EF84.html"><em>Datastore Clusters</em></a>.</p>
 <p>Aqui confesso que vou ficar devendo um <em>find</em> melhor: o melhor que consegui foi listar todos os <em>Datastores</em>; o nome do <em>DatastoreCluster</em> é o nome da pasta em que o <em>Datastore</em> está, como visto abaixo:</p>
-<pre><code># govc find -dc DATACENTER-PE -type ClusterComputeResource
-/DATACENTER-PE/datastore/datastorecluster01/dsc1_1
-/DATACENTER-PE/datastore/datastorecluster01/dsc1_2
-/DATACENTER-PE/datastore/datastorecluster01/dsc1_3
-/DATACENTER-PE/datastore/datastorecluster02/dsc2_1
-/DATACENTER-PE/datastore/datastorecluster02/dsc2_2
-/DATACENTER-PE/datastore/datastorecluster02/dsc2_3
-/DATACENTER-PE/datastore/datastorecluster03/dsc3_1
-/DATACENTER-PE/datastore/datastorecluster03/dsc3_2
-/DATACENTER-PE/datastore/datastorecluster03/dsc3_3
+<pre><code># govc find -dc DATACENTER-PE -type Datastore
+./datastore/datastorecluster01/dsc1_1
+./datastore/datastorecluster01/dsc1_2
+./datastore/datastorecluster01/dsc1_3
+./datastore/datastorecluster02/dsc2_1
+./datastore/datastorecluster02/dsc2_2
+./datastore/datastorecluster02/dsc2_3
+./datastore/datastorecluster03/dsc3_1
+./datastore/datastorecluster03/dsc3_2
+./datastore/datastorecluster03/dsc3_3
 
 # # mas eu só quero os datastoreclusters!
-# govc find -dc DATACENTER-PE -type ClusterComputeResource | rev | cut -f2 -d'/' | rev | sort | uniq -c
+# govc find -dc DATACENTER-PE -type Datastore | rev | cut -f2 -d'/' | rev | sort | uniq -c
   3 datastorecluster01
   3 datastorecluster02
   3 datastorecluster03
@@ -420,17 +420,51 @@ Name:                DATACENTER-PE
 /DATACENTER-PE/host
 /DATACENTER-PE/datastore
 
-# govc ls /ESTALEIRO-SPO/datastore
+# govc ls /DATACENTER-HARDCORE/datastore
 /DATACENTER-PE/datastore/datastorecluster01
 /DATACENTER-PE/datastore/datastorecluster02
 /DATACENTER-PE/datastore/datastorecluster03
-</code></pre><p>É bem provável que não haja uma maneira de usar o <em>find</em> para esta finalidade, pois o comando &lsquo;<em>govc datacenter.info</em>&rsquo; mostra apenas o número de <em>Datastores</em>, enquanto para os clusters de computação, ele mostra adequadamente que tenho 3 clusters e 9 máquinas.</p>
+</code></pre><p>Não há uma maneira trivial de usar o <em>find</em> para esta finalidade, pois o comando &lsquo;<em>govc datacenter.info</em>&rsquo; mostra apenas o número de <em>Datastores</em>, enquanto para os clusters de computação, ele mostra adequadamente que tenho 3 clusters e 9 máquinas.</p>
 <p>Mas não tome minha palavra como final. Eu estou <strong>muito longe</strong> de ser um especialista em VMWare.</p>
-<h1 id="tenho-tudo-que-preciso-para-o-terraform">Tenho tudo que preciso para o Terraform?</h1>
+<p><strong>Notas adicionais</strong>: mostrando os exemplos acima enquanto explicava a outras pessoas, percebi um problema: do jeito que está listado acima, fica parecendo que, necessariamente, o que vier entre o nome <strong>/datastore/</strong> e os <em>Datastores</em> em si (dsc3_1,dsc3_2,dsc3_3, etc.) é necessáriamente o nome do <em>DataStoreCluster</em>.</p>
+<p>Isso <strong>não é verdade</strong>! Não é que o exemplo acima está errado (ele é inspirado em uma estrutura real), mas ele não representa 100% dos casos. O VMware é um emaranhado de conceitos que se misturam tanto na representação gráfica quanto na representação via linha de comando. Vou representar uma outra estrutura que representa um cluster bem mais complexo:</p>
+<pre><code># # usando o govc ls:
+# govc ls /DATACENTER-HARDCORE/datastore
+/DATACENTER-HARDCORE/datastore/nomealeatorio1
+/DATACENTER-HARDCORE/datastore/nomealeatorio2
+/DATACENTER-HARDCORE/datastore/discosSSD
+/DATACENTER-HARDCORE/datastore/discosHDD
+</code></pre><p>E aí, temos quatro DatastoreClusters, certo?</p>
+<p><strong>Errado!</strong></p>
+<p>Você só pode concluir isso se conhecer a infraestrutura previamente. Dei exemplos simples para facilitar o entendimento do programa, mas não dá para simplificar demais o que é absurdamente complexo.</p>
+<p>A ideia é complementar este &lsquo;artigo&rsquo; com uma versão mais avançada, mas acredito que seja melhor já adiantar isso aqui logo.</p>
+<pre><code># #  usando govc ls com -i e -l para entender o que é o que:
+# govc ls -i -l /DATACENTER-HARDCORE/datastore
+StoragePod:group-p34927 /DATACENTER-HARDCORE/datastore/nomealeatorio1
+Folder:group-s111 /DATACENTER-HARDCORE/datastore/nomealeatorio2
+Folder:group-s113 /DATACENTER-HARDCORE/datastore/discosSSD
+Folder:group-s49 /DATACENTER-HARDCORE/datastore/discosHDD
+</code></pre><p>Resultado: Temos três <em>Folders</em> simples que servem de container lógico para agrupar coisas, e um <em>StoragePod</em>, que é o &ldquo;codinome&rdquo; para Datastore!</p>
+<p>Então, como é que faz para efetivamente descobrirmos os malditos <em>DatastoreClusters</em>?</p>
+<p>Se você usa <em>Folders</em>, primeira coisa a saber é que os <em>StoragePods</em> <strong>também são FolderS</strong>. Sabendo disso, fica &ldquo;fácil&rdquo;, mesmo em um cluster complexo:</p>
+<pre><code># govc find -type Folder -dc DATACENTER-HARDCORE -i -l datastore
+Folder:group-s5           datastore
+StoragePod:group-p349     datastore/nomealeatorio1
+Folder:group-s111         datastore/nomealeatorio2
+Folder:group-s113         datastore/discosSSD
+Folder:group-s49          datastore/discosHDD
+StoragePod:group-p85069   datastore/discosHDD/dsc_hdd_01
+StoragePod:group-p85068   datastore/discosHDD/dsc_hdd_02
+StoragePod:group-p85067   datastore/discosHDD/dsc_hdd_03
+StoragePod:group-p11286   datastore/discosSSD/dsc_ssd_01
+StoragePod:group-p11274   datastore/discosSSD/dsc_ssd_02
+StoragePod:group-p11234   datastore/discosSSD/dsc_ssd_03
+</code></pre><p>Espero que tenha esclarecido aqui qualquer dúvida que o exemplo simplório mais em cima possa ter deixado!</p>
+<h1 id="tenho-tudo-que-preciso">Tenho tudo que preciso?</h1>
 <p>O meu principal uso de Terraform, no momento, é o de criar &lsquo;cascas&rsquo; vazias de máquinas virtuais que irão ser instaladas usando PXE.</p>
 <p>Se você achou a ideia idiota, eu tenho minhas razões! Mas tolere essa particularidade e acompanhe abaixo o que é necessário para criar um <em>Terraform resource</em> do tipo <em>vsphere_virtual_machine</em> dessa forma:</p>
 <p><strong>Nota</strong>: Não entendeu nada dos Terraform listados abaixo? Entre em contato por qualquer canal - Twitter, Linkedin, Facebook, Instagram&hellip; E me deixe saber que você quer saber mais sobre Terraform!</p>
-<h2 id="recuperação-do-objeto-datacenter">Recuperação do objeto datacenter.</h2>
+<h2 id="recuperação-do-objeto-datacenter">Recuperação do objeto datacenter</h2>
 <p>Preciso:</p>
 <ul>
 <li>do nome do datacenter;</li>
@@ -438,7 +472,7 @@ Name:                DATACENTER-PE
 <pre><code>data &quot;vsphere_datacenter&quot; &quot;cluster_datacenter&quot; {
   name          = lookup(local.cluster_vsphere, &quot;vsphere_datacenter&quot;)
 }
-</code></pre><h2 id="recuperação-do-objeto-datacenter-1">Recuperação do objeto datacenter.</h2>
+</code></pre><h2 id="recuperação-do-objeto-datacenter-1">Recuperação do objeto datacenter</h2>
 <p>Preciso:</p>
 <ul>
 <li>do nome do datastore cluster;</li>
@@ -448,7 +482,7 @@ Name:                DATACENTER-PE
   name          = lookup(local.cluster_vsphere, &quot;vsphere_datastore_cluster&quot;)
   datacenter_id = data.vsphere_datacenter.cluster_datacenter.id
 }
-</code></pre><h2 id="recuperação-do-cluster-de-computação">Recuperação do cluster de computação.</h2>
+</code></pre><h2 id="recuperação-do-cluster-de-computação">Recuperação do cluster de computação</h2>
 <p>Preciso:</p>
 <ul>
 <li>do nome do cluster de computação;</li>
@@ -462,7 +496,7 @@ Name:                DATACENTER-PE
   name          = lookup(local.cluster_vsphere, &quot;vsphere_compute_cluster&quot;)
   datacenter_id = data.vsphere_datacenter.cluster_datacenter.id
 }
-</code></pre><h2 id="recuperação-das-redes">Recuperação das redes.</h2>
+</code></pre><h2 id="recuperação-das-redes">Recuperação das redes</h2>
 <p>Preciso:</p>
 <ul>
 <li>do nome da rede;</li>

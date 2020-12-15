@@ -151,19 +151,19 @@ Nós não usamos os *Datastores* diretamente; fazemos uso do conceito de [*Datas
 Aqui confesso que vou ficar devendo um *find* melhor: o melhor que consegui foi listar todos os *Datastores*; o nome do *DatastoreCluster* é o nome da pasta em que o *Datastore* está, como visto abaixo:
 
 ```
-# govc find -dc DATACENTER-PE -type ClusterComputeResource
-/DATACENTER-PE/datastore/datastorecluster01/dsc1_1
-/DATACENTER-PE/datastore/datastorecluster01/dsc1_2
-/DATACENTER-PE/datastore/datastorecluster01/dsc1_3
-/DATACENTER-PE/datastore/datastorecluster02/dsc2_1
-/DATACENTER-PE/datastore/datastorecluster02/dsc2_2
-/DATACENTER-PE/datastore/datastorecluster02/dsc2_3
-/DATACENTER-PE/datastore/datastorecluster03/dsc3_1
-/DATACENTER-PE/datastore/datastorecluster03/dsc3_2
-/DATACENTER-PE/datastore/datastorecluster03/dsc3_3
+# govc find -dc DATACENTER-PE -type Datastore
+./datastore/datastorecluster01/dsc1_1
+./datastore/datastorecluster01/dsc1_2
+./datastore/datastorecluster01/dsc1_3
+./datastore/datastorecluster02/dsc2_1
+./datastore/datastorecluster02/dsc2_2
+./datastore/datastorecluster02/dsc2_3
+./datastore/datastorecluster03/dsc3_1
+./datastore/datastorecluster03/dsc3_2
+./datastore/datastorecluster03/dsc3_3
 
 # # mas eu só quero os datastoreclusters!
-# govc find -dc DATACENTER-PE -type ClusterComputeResource | rev | cut -f2 -d'/' | rev | sort | uniq -c
+# govc find -dc DATACENTER-PE -type Datastore | rev | cut -f2 -d'/' | rev | sort | uniq -c
   3 datastorecluster01
   3 datastorecluster02
   3 datastorecluster03
@@ -175,15 +175,68 @@ Aqui confesso que vou ficar devendo um *find* melhor: o melhor que consegui foi 
 /DATACENTER-PE/host
 /DATACENTER-PE/datastore
 
-# govc ls /ESTALEIRO-SPO/datastore
+# govc ls /DATACENTER-HARDCORE/datastore
 /DATACENTER-PE/datastore/datastorecluster01
 /DATACENTER-PE/datastore/datastorecluster02
 /DATACENTER-PE/datastore/datastorecluster03
 ```
 
-É bem provável que não haja uma maneira de usar o *find* para esta finalidade, pois o comando '*govc datacenter.info*' mostra apenas o número de *Datastores*, enquanto para os clusters de computação, ele mostra adequadamente que tenho 3 clusters e 9 máquinas.
+Não há uma maneira trivial de usar o *find* para esta finalidade, pois o comando '*govc datacenter.info*' mostra apenas o número de *Datastores*, enquanto para os clusters de computação, ele mostra adequadamente que tenho 3 clusters e 9 máquinas.
 
 Mas não tome minha palavra como final. Eu estou **muito longe** de ser um especialista em VMWare.
+
+**Notas adicionais**: mostrando os exemplos acima enquanto explicava a outras pessoas, percebi um problema: do jeito que está listado acima, fica parecendo que, necessariamente, o que vier entre o nome **/datastore/** e os *Datastores* em si (dsc3_1,dsc3_2,dsc3_3, etc.) é necessáriamente o nome do *DataStoreCluster*. 
+
+Isso **não é verdade**! Não é que o exemplo acima está errado (ele é inspirado em uma estrutura real), mas ele não representa 100% dos casos. O VMware é um emaranhado de conceitos que se misturam tanto na representação gráfica quanto na representação via linha de comando. Vou representar uma outra estrutura que representa um cluster bem mais complexo:
+
+```
+# # usando o govc ls:
+# govc ls /DATACENTER-HARDCORE/datastore
+/DATACENTER-HARDCORE/datastore/nomealeatorio1
+/DATACENTER-HARDCORE/datastore/nomealeatorio2
+/DATACENTER-HARDCORE/datastore/discosSSD
+/DATACENTER-HARDCORE/datastore/discosHDD
+```
+
+E aí, temos quatro DatastoreClusters, certo?
+
+**Errado!** 
+
+Você só pode concluir isso se conhecer a infraestrutura previamente. Dei exemplos simples para facilitar o entendimento do programa, mas não dá para simplificar demais o que é absurdamente complexo. 
+
+A ideia é complementar este 'artigo' com uma versão mais avançada, mas acredito que seja melhor já adiantar isso aqui logo.
+
+```
+# #  usando govc ls com -i e -l para entender o que é o que:
+# govc ls -i -l /DATACENTER-HARDCORE/datastore
+StoragePod:group-p34927 /DATACENTER-HARDCORE/datastore/nomealeatorio1
+Folder:group-s111 /DATACENTER-HARDCORE/datastore/nomealeatorio2
+Folder:group-s113 /DATACENTER-HARDCORE/datastore/discosSSD
+Folder:group-s49 /DATACENTER-HARDCORE/datastore/discosHDD
+```
+
+Resultado: Temos três *Folders* simples que servem de container lógico para agrupar coisas, e um *StoragePod*, que é o "codinome" para Datastore! 
+
+Então, como é que faz para efetivamente descobrirmos os malditos *DatastoreClusters*? 
+
+Se você usa *Folders*, primeira coisa a saber é que os *StoragePods* **também são FolderS**. Sabendo disso, fica "fácil", mesmo em um cluster complexo:
+
+```
+# govc find -type Folder -dc DATACENTER-HARDCORE -i -l datastore
+Folder:group-s5           datastore
+StoragePod:group-p349     datastore/nomealeatorio1
+Folder:group-s111         datastore/nomealeatorio2
+Folder:group-s113         datastore/discosSSD
+Folder:group-s49          datastore/discosHDD
+StoragePod:group-p85069   datastore/discosHDD/dsc_hdd_01
+StoragePod:group-p85068   datastore/discosHDD/dsc_hdd_02
+StoragePod:group-p85067   datastore/discosHDD/dsc_hdd_03
+StoragePod:group-p11286   datastore/discosSSD/dsc_ssd_01
+StoragePod:group-p11274   datastore/discosSSD/dsc_ssd_02
+StoragePod:group-p11234   datastore/discosSSD/dsc_ssd_03
+```
+
+Espero que tenha esclarecido aqui qualquer dúvida que o exemplo simplório mais em cima possa ter deixado!
 
 # Tenho tudo que preciso?
 
