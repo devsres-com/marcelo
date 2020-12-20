@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Kubernetes on-premises - parte 2 - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.79.0" /><meta itemprop="name" content="Kubernetes on-premises - parte 2">
+<meta itemprop="description" content="Redes em Kubernetes - CNI e Calico">
+<meta itemprop="datePublished" content="2020-12-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-12-19T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3537">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="kubernetes,on-prem,passado,network," />
+<meta property="og:title" content="Kubernetes on-premises - parte 2" />
+<meta property="og:description" content="Redes em Kubernetes - CNI e Calico" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/kubernetes-on-prem-2/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-12-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-19T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Kubernetes on-premises - parte 2"/>
+<meta name="twitter:description" content="Redes em Kubernetes - CNI e Calico"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premises%20-%20parte%202&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f&amp;title=Kubernetes%20on-premises%20-%20parte%202" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f&amp;title=Kubernetes%20on-premises%20-%20parte%202" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f&amp;description=Kubernetes%20on-premises%20-%20parte%202" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/kubernetes-on-prem-2/">Kubernetes on-premises - parte 2</a></h2>
+    
+    
+      <p>Redes em Kubernetes - CNI e Calico</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2020-12-19 00:00:00 &#43;0000 UTC">19 de December, 2020</time>
+    <p>Marcelo Andrade</p>
+    <p>17 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premises%20-%20parte%202&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f&amp;title=Kubernetes%20on-premises%20-%20parte%202" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f&amp;title=Kubernetes%20on-premises%20-%20parte%202" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f&amp;description=Kubernetes%20on-premises%20-%20parte%202" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-2%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/kubernetes-on-prem-2/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/blueprint.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/blueprint.jpg" alt="Building from ground up">
+  </a>
+      <p>Um pouco atrasado pelos diversos &ldquo;detours&rdquo;, mas seguimos com a continuação da Parte 1!</p>
+<ul>
+<li><a href="https://devsres.com/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-prem - parte 1</a>: se você perdeu o initial rambling!</li>
+</ul>
+<h1 id="redes-no-kubernetes-componentes-plugáveis">Redes no Kubernetes: componentes plugáveis</h1>
+<p>A primeira regra sobre redes no Kubernetes é que você não fala sobre redes no Kubernetes.</p>
+<p>Agora sério: o Kubernetes, conceitualmente, <a href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">descreve vários aspectos</a> de como deve ocorrer a comunicação entre seus componentes. Mas ele não descreve o <strong>como implementar</strong>; ele &ldquo;terceiriza&rdquo; essas linhas gerais para outros projetos.</p>
+<p>Não é apenas com a rede que o Kubernetes faz isso; recentemente, comentei sobre <a href="https://devsres.com/marcelo/blog/ceph-csi-on-kubernetes/">como usar volumes CEPH no Kubernetes</a> usando plugins que implementam a <a href="https://github.com/container-storage-interface/spec">Container Storage Interface</a>. E acredito que praticamente todas as pessoas interessads em Kubernetes ouviram a notícia de que o <a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md#deprecation">suporte a Docker pelo kubelet é considerado &ldquo;deprecated&rdquo; com o lançamento da versão 1.20</a>. Isso aconteceu basicamente porque Kubernetes implementa a <a href="https://github.com/kubernetes/cri-api">Container Runtime Interface</a>, que desacopla do Kubernetes a função de gerenciamento de containers no sistema operacional e outros detalhes.</p>
+<p>Como o Docker não implementa essa interface, ele atua como um intermediário cujo papel é inserir overhead entre a integração do Kubernetes com o <a href="https://github.com/containerd/containerd">containerd</a>, que é quem efetivamente executa as operações de containers. E se o containerd implementa CRI, por que não falar diretamente com ele, cortando o atravessador?</p>
+<p>Então, assim como usa <strong>CRI</strong> e <strong>CSI</strong>, para redes, o Kubernetes aplica a <a href="https://github.com/containernetworking/cni"><strong>Container Network Interface</strong> (<strong>CNI</strong>)</a>.</p>
+<p>Não é nenhuma surpresa que o projeto faça isso. Não faz sentido implementar código de operação de containers, ou de storages, ou mesmo de redes dentro do próprio Kubernetes (embora ainda haja código desse tipo!) se existem outros projetos que executam estas tarefas de maneira eficiente. Basta apenas que haja interesse, por parte dos demais projetos, de implementar esse conjunto.</p>
+<p>E há. <strong>Bastante interesse</strong>, diga-se de passagem - são mais de 20 projetos e empresas diferentes oferecendo todo tipo de produto (com todo tipo de preço também).</p>
+<blockquote>
+<p><strong>Espaço para ironia</strong>: quando as opções estão limitadas a duas alternativas, normalmente é bem mais fácil escolher. Por outro lado, quanto tempo você já perdeu tentando escolher um filme para assistir no Netflix?</p>
+</blockquote>
+<p>Se eu não sei absolutamente <strong>nada</strong> sobre Kubernetes, e sendo o CNI crítico para o funcionamento - não é uma decisão delegável para mais tarde - como faço para escolher?</p>
+<p>Vamos olhar como é o processo de &ldquo;escolha&rdquo; dos administradores Kubernetes.</p>
+<h2 id="cni-em-cloud-providers">CNI em Cloud Providers</h2>
+<p>Usuários dos grandes Cloud Providers também podem escolher usar entre os diversos CNIs existentes. Mas normalmente não há <strong>qualquer razão</strong> para fazer isso, pois as suas ofertas de clusters &lsquo;managed&rsquo; vêm com CNIs próprios.</p>
+<p>Se estou usando meu cluster EKS e a AWS oferece um <a href="https://github.com/aws/amazon-vpc-cni-k8s">plugin CNI</a> que é nativamente compatível com seus VPCs, permitindo que Pods assumam o mesmo endereçamento IP das subnets criadas nas várias Availability Zones, por que você iria querer usar outra coisa? Mesmo se você quiser que o endereçamento dos Pods use outra rede, <a href="https://docs.aws.amazon.com/eks/latest/userguide/cni-custom-network.html">basta configurar o CNI AWS</a> para isso. Até <a href="https://docs.aws.amazon.com/eks/latest/userguide/alternate-cni-plugins.html">existe a possibilidade</a>, ainda que a AWS se exima do suporte. Mas normalmente não há uma boa justificativa para isso.</p>
+<blockquote>
+<p><strong>Nota</strong>: Administradores avançados, que preferem, por exemplo, manter controle sobre seus Control Planes, podem optar por levantar clusters Kubernetes em instâncias EC2. Mas aí são administradores <strong>avançados</strong>, que provavelmente não estão lendo este texto e não tem qualquer dificuldade em escolher seu CNI.</p>
+</blockquote>
+<p><strong>Resumindo</strong>: em Cloud Providers, a escolha do CNI é uma &ldquo;<em>non-issue</em>&rdquo;.</p>
+<h2 id="cnis-enterprise">CNIs &ldquo;Enterprise&rdquo;</h2>
+<p>Diversas grandes empresas do mercado já perceberam que o interesse em Kubernetes é crescente e desenvolveram ofertas próprias de CNIs proprietários compatíveis com seus produtos, como o <a href="https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_Kubernetes_Integration_with_ACI.html">Contiv para CISCO ACI</a> ou o <a href="https://docs.vmware.com/en/VMware-NSX-T-Data-Center/2.2/com.vmware.nsxt.ncp_kubernetes.doc/GUID-6AFA724E-BB62-4693-B95C-321E8DDEA7E1.html">VMWare NSX-T CNI</a>, normalmente com seu uso exclusivamente atrelado a existência de equipamentos ou licenças de software no seu ambiente.</p>
+<p>Grandes empresas com contratos milionários têm suporte &ldquo;enterprise&rdquo; e a possibilidade de fazer uso de Kubernetes on-prem usando componentes específicos que se integram com alguns de seus sistemas pagos. Em situação de pouca experiência, talvez valha a pena investir nisso. <strong>Não é um caminho que eu seguiria</strong>, mas eu sou um nerd #resistenciaOPs que trabalha com Linux há 22 anos.</p>
+<p>Eu não posso oferecer qualquer opinião sobre eles, nem mesmo ruim sobre CNIs proprietários. Embora seja um grande defensor do uso de software livre em todos os lugares, entendo que, por exemplo, um ponto positivo para seu uso é que pode ser uma forma de angariar &ldquo;aliados&rdquo; (na forma de administradores CISCO ou VMWare, por exemplo) para participar de projetos loucos implantando Kubernetes on-prem, dividindo trabalho que, de outra forma, será feito somente por você.</p>
+<p><strong>Resumindo</strong>: mesmo se a sua &lsquo;nuvem privada Kubernetes&rsquo; não vier pronta do fornecedor, grandes empresas podem optar por integrar Kubernetes on-prem com softwares proprietários fornecidos por alguns desses.</p>
+<h2 id="cnis-para-kubernetes-on-premises">CNIs para Kubernetes on premises</h2>
+<p>Infelizmente, não temos aqui um meio termo de dificuldade. Pulamos diretamente de &ldquo;<em>nem precisei pensar sobre isso</em>&rdquo; para &ldquo;<em>leia TUDO sobre TODOS para escolher o que melhor se aplica para você</em>&rdquo;.</p>
+<p>A oferta é enorme e, a cada ano, alguma equipe de heróis geniais de empresas obscuras saem com uma alternativa que seja mais interessante para seus objetivos. E aí está a beleza do universo software livre: se você é um herói genial, é bem provável que ache, em meio aos bilhões de habitantes da terra, outros heróis com finalidades afins para contribuir para o seu projeto.</p>
+<p>Vou fazer um leve &lsquo;gossiping&rsquo; dos projetos a que fui exposto ao longo dos últimos quatro anos.</p>
+<h3 id="os-big-4">Os &lsquo;big 4&rsquo;</h3>
+<p>Basicamente 4 CNis são as opções mais recorrentemente faladas no universo Kubernetes. São eles:</p>
+<h4 id="calico">Calico</h4>
+<p>O projeto <a href="https://www.projectcalico.org/">Calico</a> de longe é a opção mais comum em instalações, principalmente por ser um dos &lsquo;earlier adopters&rsquo; do recurso de <em>NetworkPolicies</em> no Kubernetes.</p>
+<p>Ainda hoje a recomendação padrão para aplicação de <em>Networkpolicies</em> em clusters EKS na AWS é feita por meio do deploy de componente específico do Calico, citado na <a href="https://docs.aws.amazon.com/eks/latest/userguide/calico.html">documentação oficial</a>.</p>
+<p>O Azure AKS oferece suporte a Calico nativamente, e mantém uma <a href="https://docs.microsoft.com/pt-br/azure/aks/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities">tabela comparativa de features</a>.</p>
+<p>Há a oferta de uma versão Enterprise do Calico pela <a href="https://www.tigera.io/">Tigera</a>, que é uma empresa praticamente dedicada integralmente a conectividade e segurança de rede para microsserviços. A versão enterprise inclui algumas funcionalidades que tendem a fazer brilhar os olhos dos profissionais de segurança de rede, mas que não tornam a versão &ldquo;community&rdquo; incompleta.</p>
+<p>Uma das principais barreiras para o uso do Calico era seu site que remetia à decada de 90, documentação confusa e pouquíssimo material de treinamento; todos esses aspectos tem sido &ldquo;atacados&rdquo; pela Tigera e estão muito melhores, contando até com um <a href="https://academy.tigera.io/course/certified-calico-operator-level-1/">Academy Tigera Certified Calico Operator: Level 1</a> gratuito!</p>
+<h4 id="weave">Weave</h4>
+<p>O <a href="https://www.weave.works/docs/net/latest/overview/">Weave net</a> também foi um projeto existente à época da minha implantação original de Kubernetes. Este CNI foi criado pela Weave É uma empresa muito popular entre usuários Kubernetes, principalmente por ter desenvolvido o hoje oficialmente adotado pela AWS <a href="https://www.weave.works/oss/eksctl/">eksctl</a>.</p>
+<p>A Weave não tem um foco exclusivo em networking, muito pelo contrário. Atua em diversas frentes de desenvolvimento com produtos direcionados ao deploy e observabilidade de aplicações, além de ter criado a ideia de &lsquo;GitOps&rsquo; e disponibilizado programas como o Flux, Flagger  e Cortex. O &lsquo;appeal&rsquo; de manter seu CNI Weave Net se dá pela integração com seu Weave Kubernetes Platform.</p>
+<h3 id="cilium">Cilium</h3>
+<p>O CNI <a href="https://cilium.io/">Cilium</a> sempre foi a principal (e por muito tempo, talvez a única) opção para aqueles interessados pelo uso de eBPF em especial por quem quer se livrar dos fardos que são o iptables e o kube-proxy.</p>
+<p>Embora a substituição da confusão que é iptables em clusters Kubernetes não necessariamente se traduza em melhora de performance, a evolução natural da tecnologia eventualmente vai &ldquo;chegar lá.</p>
+<p>(O Calico suporte eBPF desde a versão 3.13, salvo engano).</p>
+<p>Existe suporte enterprise para Cilium por meio da empresa <a href="https://isovalent.com/product"><strong>Isovalent</strong></a>.</p>
+<h3 id="flannel--canal">Flannel / Canal</h3>
+<p>O quarto, <a href="https://github.com/coreos/flannel/">Flannel</a>, pela sua simplicidade, acabou se tornando o &ldquo;CNI padrão&rdquo; para deploy de clusters para testes. É usado, ainda hoje, por praticamente todos os clusters nos exames CKA/CKAD.</p>
+<p><strong>Nota</strong>: <a href="https://github.com/projectcalico/canal">Canal</a> é o nome normalmente usado para o uso combinado do Flannel com os recursos para Networkpolicy do Calico; não é um CNI diferente.</p>
+<p>Muitos usuários mais experientes recomendam usar o Flannel para iniciar estudos com Kubernetes por não haver tantas &ldquo;partes móveis&rdquo;, mas é possível que a escassez de documentação e o estado atual do projeto não encorajem seu uso sequer para isso (embora parece que esteja havendo uma retomada).</p>
+<p>Ainda que seja amplamente recomendado para aprendizado e para instalações minimalistas para laboratório e angariar conhecimento em Kubernetes, acredito que absolutamente ninguém recomende fazer qualquer uso sério de Flannel em ambientes que tenham a mínima chance de serem &lsquo;graduados&rsquo; à produção.</p>
+<h3 id="outros">Outros</h3>
+<p>Aqui vou listar outros três que já tive algum contato, apenas para referência:</p>
+<ul>
+<li><a href="https://www.kube-router.io/">Kube router</a>: um projeto que tivemos a oportunidade de usar um de seus &lsquo;pedaço&rsquo; quando precisamos de uma solução que substituisse o kube-proxy;</li>
+<li><a href="https://contivpp.io/">Contiv</a>: desenvolvido pela Cisco;</li>
+<li><a href="https://github.com/vmware-tanzu/antrea">Antrea</a>: desenvolvido pela VMWare;</li>
+</ul>
+<h1 id="que-cni-escolho-e-por-que-calico">Que CNI escolho e por que Calico?</h1>
+<p>Essa é a primeira grande questão de quem quer instalar Kubernetes em seu datacenter, e praticamente impossível de responder caso você se encontre completamente desassistido de consultoria mais experiente.</p>
+<p>Agora deveria ser a hora em que eu puxo tabelas incríveis e demonstro qual o melhor CNI. Infelizmente eu não posso fazer isso, por uma simples razão: 99% da minha experiência com Kubernetes aconteceu única e exclusivamente com o uso do <strong>Calico</strong> como CNI.</p>
+<p>Não há como fazer comparações sensatas sem conhecer como as demais tecnologias se comportam &ldquo;no campo de batalha&rdquo;.</p>
+<p>Você pode até consultar bons artigos de Internet, como a fantástica (e bastante recente) comparação de performance entre alguns dos CNIs mais populares:</p>
+<ul>
+<li><a href="https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-updated-august-2020-6e1b757b9e49">https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-updated-august-2020-6e1b757b9e49</a></li>
+</ul>
+<p>Recomendo a leitura integral desse artigo, até para entender &lsquo;por que Calico?&rsquo;. Realmente é uma boa opção.</p>
+<p>Você pode (deve!) fazer perguntas técnicas relevantes e averiguar como cada CNI se comporta com relação a:</p>
+<ul>
+<li>VXLAN/Geneve ou Layer 3 com BGP?</li>
+<li>eBPF ou iptables/ipset e ipvs?</li>
+<li>Suporte a IPv6?</li>
+<li>criptografia?</li>
+<li>data backplane dedicado ou integrado ao Kubernetes?</li>
+<li>Windows?</li>
+</ul>
+<p>Ou sobre preço:</p>
+<ul>
+<li>Você é &ldquo;liso&rdquo; ou pode contratar suporte?</li>
+<li>Tenho um CNI proprietário disponível que integra com minha infra?</li>
+<li>Preciso ter contrato de suporte por questão de compliance?</li>
+</ul>
+<p>Mas, por fim, normalmente os principais requisitos para a escolha não são tão técnicos, e sim:</p>
+<ul>
+<li>Qual a documentação mais simples (e mais clara);</li>
+<li>Qual o mais usado - para que eu tenha mais chance de ter ajuda quando encontrar problemas;</li>
+</ul>
+<p>Que <strong>hoje</strong> provavelmente significa que você quer usar <strong>Calico</strong> no seu cluster.</p>
+<h1 id="escolhi-mas-e-se-me-arrepender">Escolhi. Mas e se me arrepender?</h1>
+<p>Não importa o que você escolher, entenda que o CNI não é necessariamente é um casamento, mas mudanças <strong>serão dolorosas</strong> e irão demandar parada integral do cluster para ajustes, possivelmente incluindo um &lsquo;<em>kubectl delete pods -A</em>&rsquo;. Provavelmente a alternativa mais viável será subir um novo cluster com o novo CNI e migrar os workloads para posterior desativação do anterior.</p>
+<p>Você pode ler a experiência de um Kubernetes admin que precisou migrar de <a href="https://medium.com/@andresperezl/weave-to-calico-7c69677222d0">Weave para Calico</a> por problemas irrecuperáveis com seu Weave CNI.</p>
+<p>Alheio à sua escolha, tenha uma coisa em mente: você <strong>precisa</strong> dedicar uma quantidade substancial de tempo para entender adequadamente o projeto à sua escolha. Não é possível apenas se dedicar a estudar Kubernetes e achar que o plugin CNI &lsquo;just-works&rsquo; como se fosse algo plug-and-play. Se possível, aloque gente com forte background de rede para entender detalhes da implantação para mapear possíveis bloqueios futuros e dificuldades que virão.</p>
+<h1 id="bônus-consultoria-de-implantação">Bônus: consultoria de implantação</h1>
+<p>Até agora, apresentei conteúdos e conselhos genéricos e filosóficos sobre Kubernetes e CNI. Estou extremamente insatisfeito com o texto, então hora de algo mais relevante. Uma &ldquo;consultoria gratuita&rdquo; para pessoas interessadas em colocar a faca nos dentes e nadar contra a maré implantando Kubernetes on-prem.</p>
+<p>Parei de falar com gerentes agora; é a vez dos #Ops.</p>
+<h2 id="kubernetes-realmente-abstrai-a-rede">Kubernetes realmente abstrai a rede?</h2>
+<p>Claro que não. Tem um limite até onde essa abstração pode chegar.</p>
+<p>Para criar clusters com <strong>kubeadm</strong>, existem dois parâmetros que permitem configurar as duas redes relevantes para o Kubernetes:</p>
+<ul>
+<li>A rede de <strong>Pods</strong>: configurada pelo parâmetro &ndash;pod-network-cidr;</li>
+<li>A rede de <strong>Services</strong>: diretiva &ndash;service-cidr, valor default &ldquo;10.96.0.0/12&rdquo;;</li>
+</ul>
+<blockquote>
+<p>Se você não sabe <strong>absolutamente nada</strong> sobre Kubernetes, um resumo absurdamente conciso sobre:</p>
+<ul>
+<li>os containers da sua aplicação receberão endereços IP da rede de <strong>Pods</strong>;</li>
+<li>você provavelmente vai rodar múltiplas instâncias de cada tipo de container (i.e., 2 pods para frontend, 5 para backend, 3 para filas)</li>
+<li>o <strong>Kubernetes Service</strong> é um IP virtual associado a um nome DNS que você usará para fazer um &lsquo;balanceamento interno&rsquo; entre containers do mesmo tipo.</li>
+</ul>
+<p>Logo, uma aplicação com 2 frontend, 5 backend e 3 filas usarão 10 endereços da rede de Pods e 3 endereços da rede de Services.</p>
+</blockquote>
+<p>O próprio <a href="https://docs.projectcalico.org/getting-started/kubernetes/quickstart">proceso de instalação do Calico</a> recomenda que você execute o kubeadm especificando a rede de pods:</p>
+<blockquote>
+<p>Initialize the master using the following command:</p>
+<p><code>sudo kubeadm init --pod-network-cidr=192.168.0.0/16</code></p>
+</blockquote>
+<p><strong>Muito importante</strong> (e também meio óbvio): certifique-se que não &lsquo;<em>overlapping</em>&rsquo; entre a rede de pods e a rede serviços.</p>
+<p>Para onde vão essas configurações? Diretamente para os vários elementos do cluster Kubernetes.</p>
+<ul>
+<li>api-server:</li>
+</ul>
+<pre><code># cat /etc/kubernetes/manifests/kube-apiserver.yaml  | fgrep service-cluster
+    - --service-cluster-ip-range=10.96.0.0/12
+</code></pre><ul>
+<li>controller:</li>
+</ul>
+<pre><code># cat /etc/kubernetes/manifests/kube-controller-manager.yaml | egrep 'cluster-cidr|service-cluster'
+    - --cluster-cidr=172.16.0.0/16
+    - --service-cluster-ip-range=10.96.0.0/12
+</code></pre><ul>
+<li>kube-proxy:</li>
+</ul>
+<pre><code># kubectl get configmap -n kube-system  kube-proxy  -o yaml | grep clusterCIDR
+    clusterCIDR: 172.16.0.0/16
+</code></pre><p>Isso quer dizer que modificar esses endereços após o cluster entrar em estado operacional <strong>também não é trivial e sem impactos</strong>.</p>
+<p>O que quer dizer que a segunda decisão mais importante para a qual você não está nem um pouco preparado a escolha das redes a serem usadas pelo Kubernetes.</p>
+<h2 id="que-redes-usar">Que redes usar</h2>
+<p>Aqui cabem algumas decisões críticas sobre como você vai querer o seu cluster e que, provavelmente, precisam ser tomadas bem antes de você aplicar o seu primeiro kubectl.</p>
+<h3 id="1-seu-cluster-será-uma-entidade-isolada-ou-integrada-ao-seu-ambiente-corporativo">1. Seu cluster será uma entidade <strong>isolada</strong> ou <strong>integrada</strong> ao seu ambiente corporativo?</h3>
+<p>A primeira decisão crítica. Se o uso de Kubernetes pretende ser auto contido, você pode (e deve!) usar alguma rede privada completamente diferente da usada pela sua empresa e assim não ter que se preocupar com o endereçamento dos IPs de pods: basta alocar uma rede grande o suficiente (como a 172.16.0.0/16 listada acima) como sua <strong>rede de Pods</strong> e uma outra rede também grande (10.96.0.0/12) para a sua <strong>rede de Services</strong>.</p>
+<p><strong>Minha recomendação</strong>, obviamente, é a de <strong>isolar</strong> os <strong>Pods</strong> do seu cluster do resto da sua empresa. Por uma razão bem simples: provavelmente o &lsquo;resto&rsquo; não é Cloud Native, segue o modelo de trabalho tradicional, burocrático, pouco dinâmico e especialmente pouco inteligente. Se você conseguir implantar o cluster Kubernetes como o princípio da versão 2.0 da sua empresa, <strong>todos</strong> vão ganhar. Aplicações novas usam o modelo novo; aplicações &lsquo;legadas&rsquo; ficam presas do lado oitentista.</p>
+<p>Mas eu sei que isso é quase impossível.</p>
+<h3 id="2-para-um-cluster-integrado-o-pod-precisará-assumir-um-endereço-ip-válido-na-sua-rede-corporativa">2. Para um cluster integrado, o Pod precisará assumir um endereço IP válido na sua rede corporativa?</h3>
+<p>Esse é o pior cenário possível para a implantação de um cluster Kubernetes.</p>
+<p>Normalmente redes corporativas tem sua alocação de endereçamento de Intranet pensada de uma forma, e clusters Kubernetes precisam de grandes pools de endereços para serem viáveis, em particular se você vai usar o CNI Calico.</p>
+<p>Não há uma boa razão para alocar todo um range gigante para o cluster Kubernetes com o objetivo de tornar os IPs dos Pods acessíveis, pois Pods raramente são acessados diretamente. Se você precisa acessar um sistema no Kubernetes, provavelmente vai fazer uso de <em>Services</em>, <em>Nodeports</em> ou <em>Ingress Controllers</em> para serviços HTTP.</p>
+<p>Inclusive, isso sequer é um requisito para que <em>Pods</em> no Kubernetes acessem serviços hospedados fora do cluster: o normal para um <em>IPPool Calico</em> é estar configurado com a diretiva <em>natOutgoing=true</em> para que toda comunicação direcionada para fora saia com o endereço IP do nó em que o Pod está hospedado.</p>
+<p>Portanto, <strong>minha recomendação</strong> explícita é: <strong>não</strong>, não aloque IPs válidos da sua rede corporativa para os Pods do cluster Kubernetes.</p>
+<p>Existe uma única situação em que isso é necessário: se for necessário para <em>Compliance</em> e <em>Auditoria</em>.</p>
+<p>Imagine o seguinte cenário de mais puro horror: seu cluster executa três sistemas, e cada um desses sistemas acessa um banco de dados Oracle próprio que é hospedado na parte &lsquo;tradicional&rsquo; da sua empresa. Houve um acesso indevido, que foi rastreado para o cluster Kubernetes. Como saber <strong>que Pod</strong> realizou o acesso, já que os três sistemas rodam pods nos mesmos nós (e tudo que você tem é o endereço do nó Kubernetes)?</p>
+<p>A única maneira de viabilizar isso é com endereçamento válido na sua Intranet e com sistemas de auditoria que registrem que Pod tinha que IP durante que tempo.</p>
+<p>Ambas as coisas (tanto a parte da integração da rede do Kubernetes com a Intranet quanto a auditoria de Pods) são verdadeiros horrores para serem viabilizadas. Eu posso falar isso porque, infelizmente, precisei fazer as duas coisas.</p>
+<p>Configurar o Calico para integrar com roteadores e, assim, divulgar rotas, por si só não é um problema, (embora tenha sido necessário <a href="https://github.com/projectcalico/confd/pull/339">um PR</a> para viabilizar o que precisamos). Normalmente o problema é a integração com as equipes responsáveis por roteadores e firewalls que trabalham no modelo &ldquo;tradicional&rdquo;.</p>
+<p>Já a auditoria de que IP estava com que Pod em que horário não existe uma solução adequada no universo do software livre sem subscrição.</p>
+<h3 id="3-quantos-pods-você-pretende-executar-no-seu-cluster">3. Quantos Pods você pretende executar no seu cluster?</h3>
+<p>Um outro ponto positivo para isolar (ou pelo menos usar natOutgoing=True) é que você pode instanciar dezenas de clusters entregando os mesmos endereços IP das mesmas redes sem maiores problemas. Se você usar 1000 clusters e puder usar, em todos eles, a rede 172.16.0.0/16 , você não precisa se preocupar com esgotamento de endereços IP.</p>
+<p>Se você pretende criar diversos clusters Kubernetes que conversem entre si em nível de comunicação Pod a Pod, isso pode vir a se tornar um problema para a sua alocação interna de endereços IP.</p>
+<p>Agora, se você caiu no pior cenário possível que é precisar alocar endereços IP válidos na Intranet para seus Pods, vou começar com as más notícias.</p>
+<p>Weave, Flannel e outros plugins CNI normalmente operam em Layer 2 usando técnicas de encapsulamento como VXLAN ou Geneve. O Calico, por padrão, opera em modo Layer 3 usando BGP. Cada nó de workload se torna um &lsquo;roteador BGP&rsquo; executando um <a href="https://bird.network.cz/">Bird</a> que é controlado pelo componente <a href="https://github.com/projectcalico/node">Calico node</a>. Isso inclusive é listado como &lsquo;vantagem&rsquo;, pois fica fácil entender e depurar problemas de comunicação, já que as rotas estão acessíveis.</p>
+<p>Mas isso faz com que o Calico seja <strong>extremamente perdulário</strong> com as alocações de IP. O padrão dos IPPools Calico é segmentar a rede que você configurou usando a diretiva <em>blockSize=26</em> (para ipv4, para IPv6 é 122). Isto é, ele irá pegar a rede, fatiar em pedaços /26, e sair distribuindo entre hosts.</p>
+<p>Suponha que, para seu primeiro cluster, os controladores dos IPs válidos de rede tenham fornecido uma rede 192.168.69.0/24 para que você use como endereçamento de Pods. Se você não souber deste parâmetro, o Calico irá segmentar a rede em quatro redes /26 e distribuir para quatro nós.</p>
+<p>E depois? Bem, o Calico começará a criar rotas /32 para os endereços dos Pods e o número de rotas (que deveria ser apenas quatro) explodirá tendendo a chegar em uma rota para cada Pod. Na <a href="https://docs.projectcalico.org/reference/resources/ippool">documentação oficial</a> há recomendação expressa para que você dimensione o <em>blockSize</em> para que cada nó receba ao menos uma subrede própria. Essa explosão na tabela de rotas pode gerar algo entre completo descontentamento por parte dos administradores dos roteadores que estão integrando com vocÊ até o <strong>não funcionamento e travamento de ativos</strong> por atingir algum limite do equipamento. Em uma rede /24, isso possivelmente não será um problema, mas eu consegui chegar nesse problema usando uma rede /19. 8000 rotas talvez seja o suficiente para travar alguns equipamentos.</p>
+<p>Uma outra questão é a possível necessidade de limitar endereçamento de Pods para namespaces. Isso pode ser necessário, por exemplo, se o seu administrador Postgres estiver reticente quanto a liberar, no pg_hba, toda a rede 172.16.0.0/16. Eu honestamnete ignoraria tais administradores, mas, se isso não for opção, é possível dedicar <em>IPpools</em> a namespaces ou mesmo <em>Pods</em>. Isso é <a href="https://docs.projectcalico.org/networking/legacy-firewalls">descrito na documentação do Calico</a>. Se por acaso você precisar dessa funcionalidade, será necessário computar ainda mais volume para a fração da rede a ser alocada para o Kubernetes.</p>
+<hr>
+<p>A necessidade de usar IPs válidos da sua Intranet para endereçamento de Pods causa uma explosão de complexidade para a qual a maioria das pessoas não está preprada ao começar a usar Kubernetes sem algum apoio técnico mais experiente. Por isso, se você quiser contratar uma consultoria avançada para resolver os seus problemas e quiser contratar um especialista você&hellip; <strong>Não</strong> pode me contratar, pois sou funcionário público federal e trabalho em uma empresa de TI do governo. Foi mal!</p>
+<p>Mas bater papo eu posso à vontade! Se ainda tem alguma dúvida, especialmente se for funcionário público de alguma empresa que não qualquer tipo de possibilidade de contratar verba de consultoria, manda uma mensagem no Linkedin que a gente troca uma idea! Estou precisando de mais sugestão de pautas para abordar aqui no <a href="https://devsres.com/marcelo">devsres.com</a>!</p>
+<p>Depois de bater papo comigo <strong>e</strong> ainda precisar de consultores especializados, é possível que eu te indique ir conversar com os caras da <a href="https://getup.io/">Getup Cloud</a>, mas provavelmente isso só vai acontecer se eles me chamarem para fazer mais uma edição do Kubicast.</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/passado/">passado</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/network/">network</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/passado/">passado</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/network/">network</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+    
+      <a href="/marcelo/blog/exploring-vmware-with-govc/" class="button right"><span>GOVC</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-2/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/blueprint.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/blueprint.jpg" alt="Building from ground up">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-2/">Kubernetes on-premises - parte 2</a></h2>
+          <time class="published" datetime="2020-12-19 00:00:00 &#43;0000 UTC">19 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/exploring-vmware-with-govc/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="If all you have is a hammer, everything looks like a nail.">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/exploring-vmware-with-govc/">GOVC</a></h2>
+          <time class="published" datetime="2020-12-15 00:00:00 &#43;0000 UTC">15 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/ceph-csi-on-kubernetes/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg" alt="radiactive storage">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/ceph-csi-on-kubernetes/">Ceph CSI no Kubernetes</a></h2>
+          <time class="published" datetime="2020-12-12 00:00:00 &#43;0000 UTC">12 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/jenga.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="Se o que você tem é apenas um martelo, trate tudo como prego.">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-premises - parte 1</a></h2>
+          <time class="published" datetime="2020-12-09 00:00:00 &#43;0000 UTC">9 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calico-and-route-tables/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/escher-stairs.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/escher-stairs.png" alt="Escher stairs">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calico-and-route-tables/">Calico, Linux e tabelas de rota</a></h2>
+          <time class="published" datetime="2020-12-01 00:00:00 &#43;0000 UTC">1 de December, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">7</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/on-prem/">on-prem<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/passado/">passado<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ceph/">ceph<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/csi/">csi<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/govc/">govc<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/network/">network<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2020 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.79.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

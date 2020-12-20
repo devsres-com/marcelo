@@ -6,7 +6,43 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 15 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kubernetes</title>
+      <link>https://devsres.com/marcelo/tags/kubernetes/</link>
+      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://devsres.com/marcelo/tags/network/</link>
+      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>on-prem</title>
+      <link>https://devsres.com/marcelo/tags/on-prem/</link>
+      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/on-prem/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>passado</title>
+      <link>https://devsres.com/marcelo/tags/passado/</link>
+      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/passado/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>govc</title>
       <link>https://devsres.com/marcelo/tags/govc/</link>
@@ -40,33 +76,6 @@
       <pubDate>Sat, 12 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/tags/csi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://devsres.com/marcelo/tags/kubernetes/</link>
-      <pubDate>Sat, 12 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>on-prem</title>
-      <link>https://devsres.com/marcelo/tags/on-prem/</link>
-      <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/on-prem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>passado</title>
-      <link>https://devsres.com/marcelo/tags/passado/</link>
-      <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/passado/</guid>
       <description></description>
     </item>
     

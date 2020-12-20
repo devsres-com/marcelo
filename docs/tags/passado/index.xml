@@ -6,7 +6,18 @@
     <description>Recent content in passado on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Wed, 09 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/passado/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/passado/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes on-premises - parte 2</title>
+      <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-2/</link>
+      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/kubernetes-on-prem-2/</guid>
+      <description>Um pouco atrasado pelos diversos &amp;ldquo;detours&amp;rdquo;, mas seguimos com a continuação da Parte 1!
+ Kubernetes on-prem - parte 1: se você perdeu o initial rambling!  Redes no Kubernetes: componentes plugáveis A primeira regra sobre redes no Kubernetes é que você não fala sobre redes no Kubernetes.
+Agora sério: o Kubernetes, conceitualmente, descreve vários aspectos de como deve ocorrer a comunicação entre seus componentes. Mas ele não descreve o como implementar; ele &amp;ldquo;terceiriza&amp;rdquo; essas linhas gerais para outros projetos.</description>
+    </item>
+    
     <item>
       <title>Kubernetes on-premises - parte 1</title>
       <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-1/</link>
