@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ingress on </title>
+    <link>https://devsres.com/marcelo/tags/ingress/</link>
+    <description>Recent content in ingress on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Fri, 01 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/ingress/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes on-premises - parte 3</title>
+      <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-3/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/kubernetes-on-prem-3/</guid>
+      <description>Outros capítulos da série Kubernetes on-premises:
+ Kubernetes on-prem - parte 1: Introdução. Kubernetes on-prem - parte 2: Redes em Kubernetes - CNI e Calico.  Clusters Kubernetes: modelo de tráfego auto-contido Na parte 2 da série &amp;ldquo;Kubernetes on-premises&amp;rdquo;, abordei, de maneira bastante superficial, sobre o fato de que o Kubernetes gosta da ideia de abstrair certas implementações, como a execução de contêineres, provisionamento de volumes para armazenamento persistente e especialmente redes.</description>
+    </item>
+    
+  </channel>
+</rss>

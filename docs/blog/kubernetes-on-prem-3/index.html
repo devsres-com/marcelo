@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Kubernetes on-premises - parte 3 - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.79.0" /><meta itemprop="name" content="Kubernetes on-premises - parte 3">
+<meta itemprop="description" content="Tráfego de entrada em clusters Kubernetes">
+<meta itemprop="datePublished" content="2021-01-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2755">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="kubernetes,on-prem,passado,ingress," />
+<meta property="og:title" content="Kubernetes on-premises - parte 3" />
+<meta property="og:description" content="Tráfego de entrada em clusters Kubernetes" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/kubernetes-on-prem-3/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2021-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Kubernetes on-premises - parte 3"/>
+<meta name="twitter:description" content="Tráfego de entrada em clusters Kubernetes"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premises%20-%20parte%203&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f&amp;title=Kubernetes%20on-premises%20-%20parte%203" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f&amp;title=Kubernetes%20on-premises%20-%20parte%203" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f&amp;description=Kubernetes%20on-premises%20-%20parte%203" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/kubernetes-on-prem-3/">Kubernetes on-premises - parte 3</a></h2>
+    
+    
+      <p>Tráfego de entrada em clusters Kubernetes</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2021-01-01 00:00:00 &#43;0000 UTC">1 de January, 2021</time>
+    <p>Marcelo Andrade</p>
+    <p>13 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premises%20-%20parte%203&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f&amp;title=Kubernetes%20on-premises%20-%20parte%203" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f&amp;title=Kubernetes%20on-premises%20-%20parte%203" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f&amp;description=Kubernetes%20on-premises%20-%20parte%203" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-3%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/kubernetes-on-prem-3/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/bridge-fail.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/bridge-fail.jpg" alt="There is a piece missing">
+  </a>
+      <p>Outros capítulos da série <strong>Kubernetes on-premises</strong>:</p>
+<ul>
+<li><a href="https://devsres.com/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-prem - parte 1</a>: Introdução.</li>
+<li><a href="https://devsres.com/marcelo/blog/kubernetes-on-prem-2/">Kubernetes on-prem - parte 2</a>: Redes em Kubernetes - CNI e Calico.</li>
+</ul>
+<h1 id="clusters-kubernetes-modelo-de-tráfego-auto-contido">Clusters Kubernetes: modelo de tráfego auto-contido</h1>
+<p>Na <a href="https://devsres.com/marcelo/blog/kubernetes-on-prem-2/">parte 2</a> da série &ldquo;Kubernetes on-premises&rdquo;, abordei, de maneira bastante superficial, sobre o fato de que o Kubernetes gosta da ideia de abstrair certas implementações, como a execução de contêineres, provisionamento de volumes para armazenamento persistente e especialmente <strong>redes</strong>.</p>
+<p>Para viabilizar as principais ideias do Kubernetes de provisionamento automático, self healing e alta disponibilidade de seus workloads, o Kubernetes faz uso de uma série de recursos que só são implementados dentro do próprio cluster, como o conceito de <strong>Services</strong>.</p>
+<p>A simples comunicação de contêineres em um cluster Kubernetes com o &lsquo;resto do mundo&rsquo; não é trivial. Na própria parte 2 listei uma série de considerações que você deve fazer a respeito antes de integrar um cluster Kubernetes com seu datacenter &ldquo;tradicional&rdquo; - e acredite, não cheguei nem perto de exaurir a discussão.</p>
+<p>Mas o primeiro desafio <strong>real</strong> que o Kubernetes te impõe e que alguém com pouca experiência certamente não está preparado é: como fazer o resto do mundo se conectar aos meus sistemas dentro do cluster? Que opções temos?</p>
+<h1 id="service-do-tipo-clusterip">Service do tipo ClusterIP</h1>
+<p>Para garantir a alta disponibilidade e recuperação rápida de falhas, tudo no Kubernetes gira em torno dos <strong>Services</strong>, em particular do tipo <strong>ClusterIP</strong>.</p>
+<p>Eu poderia descrever o que são <strong>Services</strong> e como são implementados a partir do Kube-proxy e do CoreDNS, mas eu prefiro mostrar da seguinte forma:</p>
+<ul>
+<li>Eu tenho três <strong>Pods</strong> &lsquo;nginx&rsquo;, cada um executando em um servidor:</li>
+</ul>
+<pre><code># kubectl get pods --show-labels
+NAME     READY   STATUS    RESTARTS   AGE     LABELS
+nginx1   1/1     Running   0          2m20s   app=nginx
+nginx2   1/1     Running   0          2m11s   app=nginx
+nginx3   1/1     Running   0          2m8s    app=nginx
+</code></pre><ul>
+<li>Eu crio um <strong>Service</strong> associado ao label app=nginx, como visto na coluna <em>SELECTOR</em>. Ele recebe um IP de um range especial, cujo padrão é 10.96.0.0/12.</li>
+</ul>
+<pre><code># kubectl get svc -o wide
+NAME    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE    SELECTOR
+nginx   ClusterIP   10.96.0.128   &lt;none&gt;        80/TCP    114s   app=nginx
+</code></pre><ul>
+<li>Isso quer dizer que o <strong>Service</strong> está associado aos três <em>Pods</em>, como pode ser visto no objeto <strong>Endpoints</strong>:</li>
+</ul>
+<pre><code># kubectl get endpoints
+NAME    ENDPOINTS                                       AGE
+nginx   192.168.18.136:80,192.168.19.8:80,192.168.22.135:80   2m58s
+</code></pre><ul>
+<li>A partir de um outro <em>Pod</em> ou de um <strong>Nó do cluster</strong>, você pode acessar os <em>Pods</em> nginx (que estão na <strong>Namespace</strong> <em>teste</em>) usando o nome DNS <strong>nginx.teste.svc.cluster.local</strong>. Você verá que as conexões são balanceadas entre os três:</li>
+</ul>
+<pre><code># for i in {1..1000} ; do curl -s nginx.teste.svc.cluster.local. ; done | sort | uniq -c
+    334 Voce se conectou ao pod nginx1
+    333 Voce se conectou ao pod nginx2
+    333 Voce se conectou ao pod nginx3
+</code></pre><p>Fantástico, não? O que é ainda melhor, se você deletar um dos pods, você não precisa se preocupar com nada: o Kubernetes irá atualizar os <em>Endpoints</em> do <em>Service</em> o que resultará no <em>Pod</em> excluído ser removido do balanceamento praticamente de forma instantânea:</p>
+<pre><code># kubernetes delete pod nginx1
+pod &quot;nginx1&quot; deleted
+
+# kubernetes get endpoints
+NAME    ENDPOINTS                       AGE
+nginx   192.168.19.8:80,192.168.22.135:80  19m
+
+# for i in {1..1000} ; do curl -s nginx.teste.svc.cluster.local. ; done | sort | uniq -c
+    500 Voce se conectou ao pod nginx2
+    500 Voce se conectou ao pod nginx3
+</code></pre><p>Esse exemplo é &ldquo;estúpido&rdquo; porque uso pods criados manualmente e foi feito apenas para entender o conceito. Mas imagine: se os <em>Pods</em> fossem mantidos por um <em>ReplicaSet</em> de um <em>Deployment</em> que fizessem uso de <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"><em>Liveliness</em> e <em>Readiness</em> checks</a>, é o conceito de <em>Service</em> que:</p>
+<ul>
+<li>Aguardam <em>Pods</em> recém criados estarem prontos para serem incluidos no balanceamento;</li>
+<li>Remove do balanceamento <em>Pods</em> que entram em estado <em>NotReady</em>;</li>
+<li>Viabilizam as <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment"><em>RollingUpdates</em></a> dos <em>Deployments</em> sem causar impacto aos usuários;</li>
+</ul>
+<p>É o conceito de <em>Service</em>, associado aos <em>Controllers</em> que mantém o estado dos objetos do cluster Kubernetes que dão a esta tecnologia o &lsquo;Wow factor&rsquo; de abstrair algo que todo mundo precisa e, no mundo real, é extremamente complexo de fazer.</p>
+<p>Mas enfim, me empolguei com o exemplo, e acabei perdendo o foco. O que eu realmente queria falar é que, embora <em>Services</em> sejam o máximo, ele está visível <strong>apenas &ldquo;dentro&rdquo; cluster Kubernetes <sup>1</sup></strong> e não te ajuda <strong>em nada</strong> para resolver o problema de fazer chegar comunicação externa aos seus <em>Pods</em>.</p>
+<blockquote>
+<p><sup>1</sup> Isso é verdade do ponto de vista do Kubernetes &lsquo;puro e simples&rsquo;, existem maneiras de integrar tanto a resolução de nomes quanto a divulgação dos endereço IP dos ClusterIPs usando Calico, por exemplo. Quer saber mais sobre isso? <a href="https://www.linkedin.com/in/mrrandrade">Entre em contato comigo</a> e me deixe saber!</p>
+</blockquote>
+<blockquote>
+<p><strong>Cicatrizes de batalha</strong>: prestou atenção no CIDR padrão usado pelos Services do tipo ClusterIP? Se, na sua empresa, você usar o range 10.96.x.y para outras coisas, você <strong>terá prolemas com o valor padrão</strong>, e acredite: <strong>mudar isso após a implantação vai ser uma das piores experiências da sua vida</strong>.</p>
+</blockquote>
+<h1 id="service-do-tipo-nodeport">Service do tipo NodePort</h1>
+<p>Uma das maneiras encontradas para resolver o problema da comunicação do mundo externo com clusters Kubernetes foram os <em>Services</em> do tipo <a href="https://kubernetes.io/docs/concepts/services-networking/service/#nodeport"><strong>NodePort</strong></a>.</p>
+<p>Este tipo de configuração literalmente escolhe uma porta de um range pré determinado (30000-32767) e a abre em <strong>todos os nós</strong> daquele cluster Kubernetes, que direcionará todas as comunicações aos <em>Endpoints</em> associados ao <strong>Service</strong>.</p>
+<p>Se você achou feio e tosco, é porque é mesmo. É algo que é operacional e &ldquo;dá para conviver&rdquo;, mas é uma solução totalmente desprovida de elegância.</p>
+<p>E se eu disser que é a <strong>única solução</strong> oferecida nativamente pelo Kubernetes para viabilizar o acesso externo?</p>
+<p>Não acredita?</p>
+<h1 id="service-do-tipo-loadbalancer">Service do tipo Loadbalancer</h1>
+<p>Está na ponta da língua das pessoas a resposta de que <strong>NodePort</strong> não é a única maneira, afinal também temos os <em>Services</em> do tipo <strong>Loadbalancer</strong>, certo? Então, gostaria de fazer um &lsquo;<em>quote</em>&rsquo; da definição da <a href="https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer">documentação oficial</a>:</p>
+<blockquote>
+<p>On cloud providers which support external load balancers, setting the type field to LoadBalancer provisions a load balancer for your Service.</p>
+</blockquote>
+<p>Ou seja, <strong>em cloud providers que suportem</strong>, você vai conseguir usar este recurso com facilidade. Fora delas, você está por sua própria conta; os services Loadbalancers não fazem absolutamente nada e o Kubernetes, por si só, não vai te ajudar a resolver este problema <sup>2</sup>.</p>
+<blockquote>
+<p><sup>2</sup> O projeto <a href="https://metallb.universe.tf/concepts/maturity/">Metallb</a>, iniciado três anos atrás, existe com o objetivo de preencher esse &lsquo;gap&rsquo;, mas não é uma solução oficial integrada ao Kubernetes, e é descrito pelo próprio projeto como <em>Beta</em>. Estando dissociado do Kubernetes, a evolução e maturidade de ambos os projetos estão completamente desacopladas.</p>
+</blockquote>
+<h1 id="ingress">Ingress</h1>
+<p>Havendo esgotado as possibilidades de <em>Services</em> para atender ao nosso problema, pelo menos ainda temos <em>Ingress</em> para servir ao menos o tráfego HTTP(S)? do nosso cluster nativamente, certo?</p>
+<p><strong>Errado</strong>! Não existe controller nativo no Kubernetes para Ingress! Novamente, da <a href="https://kubernetes.io/docs/concepts/services-networking/ingress/#prerequisites">documentação oficial</a>:</p>
+<blockquote>
+<p>You must have an Ingress controller to satisfy an Ingress. Only creating an Ingress resource has no effect.</p>
+</blockquote>
+<p>O único consolo é que, diferentemente dos <em>Services</em>, em que temos apenas uma única opção (Metallb), a oferta de <em>Ingress Controllers</em> para clusters Kubernetes é bem maior, inclusive com algumas opções pagas que oferecem suporte de fornecedores como Nginx, HAproxy e F5.</p>
+<p>O fato de haver diversas opções funciona de maneira semelhante ao CNI: acaba atrapalhando mais que ajudando aqueles que estão começando agora no universo Kubernetes. Como escolher o que melhor vai atender às suas necessidades?</p>
+<p>Há um agravante: a maior dificuldade de lidar com Ingress Controllers não é nem os softwares em si, e sim o fato de que o <em>Ingress</em> resource do Kubernetes é extremamente espartano em termos de parâmetros de configuração, ao se comparar com o que o &lsquo;mercado&rsquo; demanda. E isso <a href="https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#the-future-of-ingress"><strong>não é acidental</strong></a>:</p>
+<blockquote>
+<p>This API has intentionally been kept simple and lightweight, but there has been a desire for greater configurability for more advanced use cases.
+Work is currently underway on a new highly configurable set of APIs that will provide an alternative to Ingress in the future. These APIs are being referred to as the new “Service APIs”. They are not intended to replace any existing APIs, but instead provide a more configurable alternative for complex use cases. For more information, check out the <a href="https://github.com/kubernetes-sigs/service-apis">Service APIs repo</a> on GitHub.</p>
+</blockquote>
+<p>Isso quer dizer duas coisas:</p>
+<ul>
+<li>Em um futuro próximo, será necessário <strong>mudar tudo</strong>;</li>
+<li>Não existe um Ingress Controller igual ao outro.</li>
+</ul>
+<p>Cada Ingress implementa um conjunto distinto de funcionalidades - e de uma forma diferente. Projetos que dependem de Ingress acabam lançando seus próprios Controllers (como o <a href="https://istio.io/latest/docs/tasks/traffic-management/ingress/kubernetes-ingress/">Istio Service Mesh</a> ou o <a href="https://github.com/Kong/kubernetes-ingress-controller">Kong Api Service</a>). As configurações são tipicamente realizadas por meio de <em>Annotations</em> nos objetos <em>Ingress</em> ou por meio de CRDs. Basicamente cada Ingress Controller é uma história diferente, e será necessário uma quantidade não razoável de leitura e testes para determinar qual o mais apropriado para cada uso.</p>
+<p>Outra coisa que é importante dissociar é o <strong>Ingress Controller</strong> (o programa que atuará monitorando o Kubernetes e buscando reconciliar as configurações com as mudanças) dos softwares que efetivamente fazem o &ldquo;proxy reverso&rdquo; recebendo as conexões e entregando aos <em>Pods</em> no seu cluster. Existem todo tipo de opção e topologias. A familiaridade prévia e experiências (positivas ou negativas) podem e <strong>devem</strong> guiar sua escolha. Se você tem ampla experiência com HAproxy, será muito mais fácil tentar identificar problemas, gargalos e oportunidades de &lsquo;tuning&rsquo; se você optar por um Ingress Controller que faça uso do HAproxy que com algo completamente novo, ainda que mais &lsquo;moderno&rsquo; como Traefik ou Envoy.</p>
+<p><a href="https://docs.google.com/spreadsheets/d/16bxRgpO1H_Bn-5xVZ1WrR_I-0A-GOI6egmhvqqLMOmg/edit#gid=1612037324">Esta planilha</a>, oferecida pelo site <a href="https://kubedex.com/ingress/">Kubedex</a>, contém uma comparação lado-a-lado de alguns dos principais Ingress Controllers; infelizmente não há uma marcação de quando foi a última atualização.</p>
+<p><a href="https://medium.com/swlh/kubernetes-ingress-controller-overview-81abbaca19ec">Este outro post</a> traz uma breve descrição e é relativamente recente (07/2020).</p>
+<p>Eu não vou me aprofundar em análises dos diversos Ingress Controllers existentes porque eu tenho experiência real com apenas dois. Vou contar um pouco da minha experiência com eles.</p>
+<h2 id="nginx-ingress-controller">Nginx Ingress Controller</h2>
+<p>Antes de falar qualquer outra coisa, é importante deixar dois fatos muito importantes sobre o <a href="https://github.com/kubernetes/ingress-nginx/">Nginx Ingress Controller</a>:</p>
+<ul>
+<li>Embora esteja listado no Github como estando abaixo do projeto Kubernetes, o conjunto de pessoas envolvidas na manutenção e evolução do Ingress Controller é outro completamente diferente do projeto Kubernetes em si, o que faz com que o nível de maturidade do software, assim como o Metallb, seja outro completamente diferente.</li>
+<li>Este projeto <strong>não</strong> é o mesmo que oferece suporte oficial pela empresa <a href="https://www.nginx.com/products/nginx-ingress-controller/">Nginx</a>. Este projeto usa a versão &lsquo;community&rsquo; do Nginx; a versão mantida pela empresa (que foi comprada pela F5) usa a versão Plus e uma &lsquo;codebase&rsquo; completamente diferente.</li>
+</ul>
+<p>As duas considerações acima não significam que o projeto seja ruim, mas é importante ter essa noção antes de implantar o que provavelmente vai se tornar o <strong>ponto mais crítico da sua infraestrutura</strong>.</p>
+<p>Por exemplo: o Nginx Community Edition <strong>não</strong> oferece a funcionalidade de reconfiguração dinâmica dos seus upstreams por meio de API; este código está disponível apenas na versão <a href="https://www.nginx.com/blog/using-nginx-plus-to-reduce-the-frequency-of-configuration-reloads/"><em>Plus</em></a>.</p>
+<p>Cada &lsquo;reload&rsquo; de configuração demanda a substituição dos workers Nginx por dois novos, enquanto os processos antigos se mantém vivos por tempo suficiente para permitir que as conexões encerrem. Durante este tempo, o Nginx consumirá o dobro de memória RAM.</p>
+<p>Dependendo da quantidade de &lsquo;Reloads&rsquo; do seu cluster, o uso deste Ingress Controller pode se mostrar inviável.</p>
+<p>O projeto entendeu que isso era uma séria limitação bem cedo, e implementou sua própria versão de um handler Lua que faz as vezes da API privada para mitigar esse problema.</p>
+<p>Ainda assim, cenários como o abaixo podem ocorrer:</p>
+<p><img src="/marcelo/img/reusable/ingress-death-dive.png" alt="Ingress Death Dive"></p>
+<p>A imagem acima representa o consumo de memória RAM de servidores que executavam exclusivamente Nginx Ingress Controller em um cluster Kubernetes de produção. Os servidores contavam com <strong>40GB de RAM</strong>. A versão já contava com o módulo Lua. É possível observar dois problemas:</p>
+<ul>
+<li>Não é possível mitigar <strong>todos</strong> os Reloads, mesmo com o módulo Lua;</li>
+<li>O código do Nginx é sólido e battle tested; o código do módulo Lua foi criado para este projeto, e está sujeito a problemas, como memory leaks que fazem o processo Nginx ocupar cada vez mais RAM com o tempo.</li>
+</ul>
+<p>Esse memory leak da imagem acima já foi corrigido, e dificilmente a esmagadora maioria das pessoas passaria pela situação acima. Mas acredito que este relato seja suficiente para se entender que não é um simples componente deploy-and-forget para Kubernetes.</p>
+<h2 id="haproxy-ingress-controller">HAproxy Ingress Controller</h2>
+<p>Apenas para referência, eu implanto clusters Kubernetes antes mesmo do primeiro Ingress Controller existir.</p>
+<p>E nessa época, bem antes da <a href="https://www.haproxy.com/documentation/kubernetes/latest/installation/">empresa HAproxy se interessar por Kubernetes</a>, em uma época em que apenas o Nginx Ingress Controller <strong>sem módulo Lua existia</strong>, um herói resolveu fazer seu próprio Ingress Controller usando o HAproxy. O nome deste herói é <a href="https://github.com/jcmoraisjr">Joao Morais</a> e seu <a href="https://github.com/jcmoraisjr/haproxy-ingress">HAproxy Ingress Controller</a> consegue a façanha de ainda hoje ser retornado acima do &ldquo;oficial&rdquo; no Google.</p>
+<p>Como temos a sorte de ter Joao Morais trabalhando na nossa empresa, a escolha de qual Ingress Controller usar é meio que um &lsquo;no-brainer&rsquo;. Ele acompanha o uso diário de nossos servidores que atuam como Ingress, observando as limitações e identificando os problemas de escala e performance que vão surgindo. E acredite: nosso principal cluster Kubernetes oferecem problemas <strong>extremamente desafiadores</strong> que eu ouso dizer que não seriam atendidos por nenhum dos demais projetos.</p>
+<p>O HAproxy Ingress Controller implementa um set de funcionalidades muito semelhante ao do Nginx Ingress Controller, que possivelmente é o mais usado atualmente. Por isso, é uma excelente segunda opção para testes, mesmo não sendo tão conhecido (embora ainda tenha mais estrelas no Github que o Ingress Controller HAproxy da própria HAproxy!).</p>
+<p>Sendo ambos &lsquo;<em>Annotation based</em>&rsquo;, não é difícil manter ambos coexistindo no mesmo cluster. O único incômodo será manter dois conjuntos de annotations distintos para configurar os objetos Ingress.</p>
+<p>A <em>Annotation prefix</em> padrão do Nginx Ingress Controller é <a href="https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#annotations">nginx.ingress.kubernetes.io</a>, enquanto no HAproxy Ingress Controller é <a href="https://haproxy-ingress.github.io/docs/configuration/keys/#ingress-and-services">ingress.kubernetes.io</a>.</p>
+<p>Como pontos positivos, posso ressaltar que:</p>
+<ul>
+<li>Se comporta extramemente bem em clusters com objetos completamente mal configurados;</li>
+<li>Consome quantidade irrisória de CPU, mesmo com contínua necessidade de reconciliação de configurações;</li>
+<li>Pode solicitar certificados Letsencrypt nativamente para seus backends sem softwares adicionais (salvo engano, foi o primeiro a implementar esta funcionalidade!);</li>
+</ul>
+<p>Como pontos negativos, ficam que:</p>
+<ul>
+<li>Também é reload-oriented; situações que demandam &lsquo;full-reload&rsquo; também impactam a memória, mas o tamanho do processo do haproxy tende a ser previsível, em contraste com o tamanho variável do Nginx devido ao módulo Lua;</li>
+<li>Menos mantenedores e menos colaboradores: como somos da #ResistênciaOPs, nós não colaboramos com qualquer tipo de código para o João, e se ele ganhar na Mega da Virada, pode ser que o projeto morra;</li>
+</ul>
+<h1 id="conclusão">Conclusão</h1>
+<p>Infelizmente, esta é mais uma decisão difícil que um pretendente a administrador Kubernetes precisará tomar antes mesmo de colocar o primeiro sistema para rodar.</p>
+<p>Se sua única preocupação é o direcionamento de tráfego HTTP/HTTPS, é uma questão de escolher qual o Ingress Controller que melhor atende ao seu caso.</p>
+<p>Agora caso a conexão direta com os <em>Pods</em> sem intermediário seja necessária, você incorrerá em problemas. A única opção real é o projeto Metallb, e embora performe bem, tanto a documentação quanto sua implementação não são tão diretas ou triviais de serem aplicadas. Existe muito mais material hoje que em 2018 quando foi lançado, ainda assim vai demandar um esforço bem maior que o necessário para instalar todo o resto do cluster Kubernetes, por exemplo, para fazer uma implantação madura que vá além do &lsquo;funcionou!&rsquo;.</p>
+<p>Alguns Ingress Controllers suportam &lsquo;layer 4&rsquo; além de HTTP/HTTPS. Se isso for uma necessidade, essa questão já serve para &lsquo;afunilar&rsquo; as opções. O Nginx, HAProxy de Joao e o Voyager eu sei que fazem de maneira relativamente simples. Salvo engano o Kong também suporta este recurso.</p>
+<p>Pretende usar algum tipo de Service Mesh, provavelmente eles já resolvem o problema Ingress para você. Leia e torça que a solução te atenda totalmente; dificilmente você encontrará soluções intercambiáveis nesse assunto.</p>
+<p>Agora se você está completamente desamparado de ideias e com preguiça de testar, o mais usado - e possivelmente com mais chances de encontrar e receber ajuda - é o Nginx Ingress Controller &ldquo;oficial&rdquo; do Kubernetes. O HAproxy de Joao Morais tende a depender única e exclusivamente dele para apoio, já que nós, que trabalhamos com ele, raramente damos qualquer tipo de ajuda em canal do Slack ou coisas do tipo por sermos funcionários públicos preguiçosos.</p>
+<p>Ainda assim, recomendo testes regulares e acompanhamento de pelo menos umas duas ou três opções diferentes, se possível, para evitar que, algum dia, você seja contemplado com um bug fatal que ocorra apenas no seu ambiente e que impeça a atualização para novas versões do seu escolhido (como aconteceu conosco com o Nginx Ingress Controller por volta da versão 0.17).</p>
+<p>Migrar de Ingress Controller a toque de caixa em um fim de semana <strong>não</strong> é uma experiência que eu recomende a ninguém!</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/passado/">passado</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/ingress/">ingress</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/passado/">passado</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/ingress/">ingress</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+    
+      <a href="/marcelo/blog/kubernetes-on-prem-2/" class="button right"><span>Kubernetes on-premises - parte 2</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-3/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/bridge-fail.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/bridge-fail.jpg" alt="There is a piece missing">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-3/">Kubernetes on-premises - parte 3</a></h2>
+          <time class="published" datetime="2021-01-01 00:00:00 &#43;0000 UTC">1 de January, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-2/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/blueprint.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/blueprint.jpg" alt="Building from ground up">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-2/">Kubernetes on-premises - parte 2</a></h2>
+          <time class="published" datetime="2020-12-19 00:00:00 &#43;0000 UTC">19 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/exploring-vmware-with-govc/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="If all you have is a hammer, everything looks like a nail.">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/exploring-vmware-with-govc/">GOVC</a></h2>
+          <time class="published" datetime="2020-12-15 00:00:00 &#43;0000 UTC">15 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/ceph-csi-on-kubernetes/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg" alt="radiactive storage">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/ceph-csi-on-kubernetes/">Ceph CSI no Kubernetes</a></h2>
+          <time class="published" datetime="2020-12-12 00:00:00 &#43;0000 UTC">12 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/jenga.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/jenga.png" alt="Se o que você tem é apenas um martelo, trate tudo como prego.">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-premises - parte 1</a></h2>
+          <time class="published" datetime="2020-12-09 00:00:00 &#43;0000 UTC">9 de December, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">8</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/on-prem/">on-prem<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/passado/">passado<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ceph/">ceph<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/csi/">csi<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/govc/">govc<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ingress/">ingress<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/network/">network<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2021 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.79.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

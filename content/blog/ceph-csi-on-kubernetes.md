@@ -3,8 +3,8 @@ title = "Ceph CSI no Kubernetes"
 description = "Usando CSI para montar volumes RBD e sistemas de arquivo cephfs"
 author = "Marcelo Andrade"
 date = "2020-12-12"
-tags = ["kubernetes", "csi", "ceph"]
-categories = ["kubernetes", "csi", "ceph"]
+tags = ["kubernetes", "csi", "ceph", "intermediário"]
+categories = ["kubernetes", "csi", "ceph","intermediário"]
 [[images]]
   src = "img/reusable/radioactive-waste.jpg"
   alt = "radiactive storage"

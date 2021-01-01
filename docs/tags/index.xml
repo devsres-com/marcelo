@@ -6,13 +6,40 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Sat, 19 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ingress</title>
+      <link>https://devsres.com/marcelo/tags/ingress/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/ingress/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>kubernetes</title>
       <link>https://devsres.com/marcelo/tags/kubernetes/</link>
-      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>on-prem</title>
+      <link>https://devsres.com/marcelo/tags/on-prem/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/on-prem/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>passado</title>
+      <link>https://devsres.com/marcelo/tags/passado/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/passado/</guid>
       <description></description>
     </item>
     
@@ -22,24 +49,6 @@
       <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/tags/network/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>on-prem</title>
-      <link>https://devsres.com/marcelo/tags/on-prem/</link>
-      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/on-prem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>passado</title>
-      <link>https://devsres.com/marcelo/tags/passado/</link>
-      <pubDate>Sat, 19 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/passado/</guid>
       <description></description>
     </item>
     
@@ -76,6 +85,15 @@
       <pubDate>Sat, 12 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/tags/csi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>intermediário</title>
+      <link>https://devsres.com/marcelo/tags/intermedi%C3%A1rio/</link>
+      <pubDate>Sat, 12 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/tags/intermedi%C3%A1rio/</guid>
       <description></description>
     </item>
     
@@ -139,15 +157,6 @@
       <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>intermediário</title>
-      <link>https://devsres.com/marcelo/tags/intermedi%C3%A1rio/</link>
-      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/tags/intermedi%C3%A1rio/</guid>
       <description></description>
     </item>
     
