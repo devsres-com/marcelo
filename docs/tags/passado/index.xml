@@ -6,7 +6,18 @@
     <description>Recent content in passado on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Fri, 01 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/passado/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/passado/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes on-premises - parte 4</title>
+      <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-4/</link>
+      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/kubernetes-on-prem-4/</guid>
+      <description>Outros capítulos da série Kubernetes on-premises:
+ Kubernetes on-prem - parte 1: Introdução. Kubernetes on-prem - parte 2: Redes em Kubernetes - CNI e Calico. Kubernetes on-prem - parte 3: Tráfego de entrada em clusters Kubernetes  Como criar clusters Kubernetes Disclaimer: provavelmente este é o capítulo mais dispensável da série porque é o que eu tenho menos coisas relevantes para compartilhar. De qualquer forma, ele precisava ser escrito!
+Até agora, abordei diversas considerações relevantes que devem ser feitas antes de se instalar um cluster Kubernetes - e, em particular, pontos que particularmente são mais dolorosos para quem não está operando em Cloud Providers.</description>
+    </item>
+    
     <item>
       <title>Kubernetes on-premises - parte 3</title>
       <link>https://devsres.com/marcelo/blog/kubernetes-on-prem-3/</link>

@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Kubernetes on-premises - parte 4 - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.79.0" /><meta itemprop="name" content="Kubernetes on-premises - parte 4">
+<meta itemprop="description" content="Como criar clusters Kubernetes">
+<meta itemprop="datePublished" content="2021-01-11T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-11T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2466">
+<meta itemprop="image" content="">
+
+
+
+<meta itemprop="keywords" content="kubernetes,on-prem,passado," />
+<meta property="og:title" content="Kubernetes on-premises - parte 4" />
+<meta property="og:description" content="Como criar clusters Kubernetes" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/kubernetes-on-prem-4/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2021-01-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-11T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Kubernetes on-premises - parte 4"/>
+<meta name="twitter:description" content="Como criar clusters Kubernetes"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.d9e04ae08c9b3049b766dbd4aeab7d862c5ea1d13679b621490e0f5df5507497.css" integrity="sha256-2eBK4IybMEm3ZtvUrqt9hixeodE2ebYhSQ4PXfVQdJc="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premises%20-%20parte%204&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f&amp;title=Kubernetes%20on-premises%20-%20parte%204" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f&amp;title=Kubernetes%20on-premises%20-%20parte%204" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f&amp;description=Kubernetes%20on-premises%20-%20parte%204" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/kubernetes-on-prem-4/">Kubernetes on-premises - parte 4</a></h2>
+    
+    
+      <p>Como criar clusters Kubernetes</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2021-01-11 00:00:00 &#43;0000 UTC">11 de January, 2021</time>
+    <p>Marcelo Andrade</p>
+    <p>12 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Kubernetes%20on-premises%20-%20parte%204&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f&amp;title=Kubernetes%20on-premises%20-%20parte%204" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f&amp;title=Kubernetes%20on-premises%20-%20parte%204" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f&amp;description=Kubernetes%20on-premises%20-%20parte%204" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fkubernetes-on-prem-4%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/kubernetes-on-prem-4/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/minecraft.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/minecraft.png" alt="Minecraft">
+  </a>
+      <p>Outros capítulos da série <strong>Kubernetes on-premises</strong>:</p>
+<ul>
+<li><a href="https://devsres.com/marcelo/blog/kubernetes-on-prem-1/">Kubernetes on-prem - parte 1</a>: Introdução.</li>
+<li><a href="https://devsres.com/marcelo/blog/kubernetes-on-prem-2/">Kubernetes on-prem - parte 2</a>: Redes em Kubernetes - CNI e Calico.</li>
+<li><a href="https://devsres.com/marcelo/blog/kubernetes-on-prem-3/">Kubernetes on-prem - parte 3</a>: Tráfego de entrada em clusters Kubernetes</li>
+</ul>
+<h1 id="como-criar-clusters-kubernetes">Como criar clusters Kubernetes</h1>
+<p><strong>Disclaimer</strong>: provavelmente este é o capítulo mais dispensável da série porque é o que eu tenho menos coisas relevantes para compartilhar. De qualquer forma, ele precisava ser escrito!</p>
+<p>Até agora, abordei diversas considerações relevantes que devem ser feitas <strong>antes</strong> de se instalar um cluster Kubernetes - e, em particular, pontos que particularmente são mais dolorosos para quem não está operando em Cloud Providers.</p>
+<p>Mas finalmente, vem a pergunta: <strong>como instalar clusters Kubernetes</strong>? Qual é o <strong>jeito certo</strong>?</p>
+<p>Quando recebi essa missão pela primeira vez, eu não estava sequer remotamente preparado para isso. Combine o fato de que a instalação deveria ser realizada em um sistema ainda mais hostil que o normal como o CoreOS Linux (eventualmente renomeado para Container Linux e posteriormente absorvido pela Red Hat) tornou tudo incrivelmente mais difícil.</p>
+<p>A primeira coisa que vem em mente quando pergunto isso para as pessoas é, claro, <strong>kubeadm</strong>.</p>
+<p>E se eu te contar que, quando começamos, sequer existia <strong>kubeadm</strong>. <a href="https://kubernetes.io/blog/2016/09/how-we-made-kubernetes-easy-to-install/">Este post</a> descreve o lançamento da primeira versão alpha do Kubeadm. Começamos a pensar na implantação em agosto de 2016.</p>
+<p>Portanto, foi necessário para nós, desde o início, adotar algo muito parecido com o <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes the Hard Way</a>, mas usando o Calico CNI.</p>
+<h2 id="nosso-processo-até-hoje-userdatas">Nosso processo até hoje: userdatas</h2>
+<p>Devido à mais completa falta de oferta, foi necessário desenvolvermos nossa própria estrutura de criação de clusters. Ela foi modificada várias vezes ao longo dos anos, mas que segue a mesma ideia.</p>
+<p>Nossos clusters são integralmente lançados a partir de arquivos tipo <strong>userdata</strong> para sistemas operacionais orientados a containers como Flatcar Linux até hoje, de maneira não interativa.</p>
+<p>Como o recurso de Certificate Signing do Control Plane do Kubernetes não estava disponível, fazemos uso de uma Autoridade Certificadora interna com API que gera certificados sob demanda. A comunicação com o API Server exige que a comunicação seja feita por meio do uso de certificados dessa CA, assim como a comunicação dos API Servers está restrita a clientes com certificados válidos.</p>
+<p>Para falar a verdade, uma vez que o processo de saber o que e como deve ser instalado é mapeado, não há grandes mistérios no processo de instalação de clusters Kubernetes. O único grande porém introduzido é a necessidade de gestão e cuidado de certificados digitais para as máquinas. Se for este o caminho desejado para sua instalação on-prem, basicamente as únicas preocupações são:</p>
+<ul>
+<li>Como criar e manter CAs seguras;</li>
+<li>Como distribuir os certificados gerados para os nós Kubernetes de maneira segura;</li>
+<li>Garantir que os certificados nunca expirem, monitorando o vencimento e renovando automaticamente;</li>
+</ul>
+<p>Faz parte do segundo item, mas devo enfatizar aqui o único problema real da nossa instalação, que até hoje eu não resolvi que é:</p>
+<ul>
+<li>Como fazer o certificado usado para validar os <em>ServiceAccount tokens</em> chegar nos demais API Servers;</li>
+</ul>
+<h3 id="processo-de-autenticação-nos-api-servers">Processo de autenticação nos API Servers</h3>
+<p>Para quem não é muito familizarizado com o conceito de <strong>ServiceAccounts</strong>, basta entender que são entidades Kubernetes que disparam a criação de <em>Tokens</em> que podem ser usados para acessar os API Servers.</p>
+<p>É possível habilitar vários métodos de autenticação em um cluster Kubernetes, mas basicamente os dois comumente em clusters fora da nuvem são:</p>
+<ul>
+<li>Certificados;</li>
+<li>Tokens de Service Accounts.</li>
+</ul>
+<p>Os tokens de Service Accounts são criados para viabilizar uma maneira das aplicações em execução nos Clusters acessarem os API Servers sem grandes dificuldades. Eles são montados como volumes em todos os Pods, e se a aplicação for &lsquo;linkada&rsquo; com as libs clientes de Kubernetes, sequer precisará de configuração para ser usada - elas &lsquo;se descobrem&rsquo; usando o modo &lsquo;<em>in-cluster</em>&rsquo; de configuração.</p>
+<p>Claro que, por segurança, os tokens de <em>Service Accounts</em> não contam com permissão para fazer absolutamente nada. Mas esse mecanismo trivializa toda a maneira de fazer chegar as credenciais nas aplicações. Basta que você faça as associações necessárias por meio de diretivas RBAC como clusterrolebindings ou rolebindings.</p>
+<p>Por que estou compartilhando isto aqui? Porque, em algum lugar perdido na documentação, tem <strong>uma</strong> informação relevante que muita gente desconhece: <strong>como</strong> é validado um token de <em>Service Account</em>? Como estes são gerados?</p>
+<p>O processo é bem simples: naturalmente, os tokens são gerados pelo <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/"><strong>Kubernetes Controller Manager</strong></a>. Já que ele tem todos os Controllers que fazem as coisas, nenhuma surpresa aqui.</p>
+<p>A parte importante é este parâmetro de configuração do Controller Manager:</p>
+<pre><code>--service-account-private-key-file string
+Filename containing a PEM-encoded private RSA or ECDSA key used to sign service account tokens.
+</code></pre><p>Ela indica a chave privada do certificado usado para assinar os tokens.</p>
+<p>Kube Controller <strong>gera</strong>, mas quem é acessado é o <strong>Kubernetes API Server</strong>, certo? Sim, e, para fazer a verificação dos tokens, ele <strong>também</strong> conta com um parâmetro de confguração:</p>
+<pre><code>--service-account-key-file stringArray
+File containing PEM-encoded x509 RSA or ECDSA private or public keys, used to verify ServiceAccount tokens. The specified file can contain multiple keys, and the flag can be specified multiple times with different files. If unspecified, --tls-private-key-file is used. Must be specified when --service-account-signing-key is provided
+</code></pre><p>Aqui você pode usar tanto a chave privada quanto a chave pública, embora a lógica indique que você deve usar a chave pública.</p>
+<p>Ou seja, você precisa de um par chave/certificado para lidar exclusivamente com a validação de tokens de service accounts.</p>
+<p>Ok, mas e daí? Por que você está perdendo tanto tempo explicando isso?</p>
+<p>Se você vai levantar um ambiente com um único Master Kubernetes, que executará os três componentes que fazem o Control Plane Kubernetes, isso aqui não é um problema. Mas acredito que essa topologia não é exatamente a desejada nem para um cluster simples de ambiente de desenvolvimento.</p>
+<p>Idealmente, você instalará pelo menos dois Masters Kubernetes para executar os componentes de Control Plane. Como eles vão compartilhar a mesma configuração, você precisa fazer o mesmo par chave/certificado chegar em <strong>todos os seus Masters</strong>, ou você sentará em uma bomba relógio sem saber.</p>
+<p>Em nossa primeira instalação, eu apenas reproduzi os procedimentos de instalação individual de cada máquina. Consequentemente, cada Master Kubernetes recebeu um par diferente de certificados e os usou para tudo. Como resultado, metade das requisições de Pods que faziam uso de ServiceAccounts falhavam, pois o &lsquo;outro&rsquo; API Server estava configurado com uma chave diferente que reportava o token como inválido. Como metade das vezes funcionava, o problema passou batido por um tempo.</p>
+<p>Além desse problema, como cada kube-controller-manager está configurado com uma chave privada diferente, os tokens eram gerados de maneira inconsistente, às vezes por uma chave, às vezes por outra.</p>
+<p>Em situações em que isso acontece, é necessário deletar <strong>TODOS</strong> os tokens de ServiceAccounts e aguardar que sejam regerados.</p>
+<blockquote>
+<p><strong>Cicatrizes de batalha</strong>: se algum dia você for pego por um problema desse tipo por qualquer razão, você irá descobrir que o kube-controller-manager tme certa má vontade para agir na velocidade que você quer.</p>
+</blockquote>
+<blockquote>
+<p>Na verdade, ele tem certa má vontade para agir em larga escala com todos os componentes. É importante saber disso ao definir escalas para o seu cluster. Observe os seguintes parâmetros de configuração:</p>
+</blockquote>
+<pre><code>--concurrent-deployment-syncs int32     Default: 5
+The number of deployment objects that are allowed to sync concurrently. Larger number = more responsive deployments, but more CPU (and network) load
+
+--concurrent-endpoint-syncs int32     Default: 5
+The number of endpoint syncing operations that will be done concurrently. Larger number = faster endpoint updating, but more CPU (and network) load
+
+--concurrent-namespace-syncs int32     Default: 10
+The number of namespace objects that are allowed to sync concurrently. Larger number = more responsive namespace termination, but more CPU (and network) load
+
+--concurrent-replicaset-syncs int32     Default: 5
+The number of replica sets that are allowed to sync concurrently. Larger number = more responsive replica management, but more CPU (and network) load
+
+--concurrent-resource-quota-syncs int32     Default: 5
+The number of resource quotas that are allowed to sync concurrently. Larger number = more responsive quota management, but more CPU (and network) load
+
+--concurrent-service-endpoint-syncs int32     Default: 5
+The number of service endpoint syncing operations that will be done concurrently. Larger number = faster endpoint slice updating, but more CPU (and network) load. Defaults to 5.
+
+--concurrent-service-syncs int32     Default: 1
+The number of services that are allowed to sync concurrently. Larger number = more responsive service management, but more CPU (and network) load
+
+--concurrent-serviceaccount-token-syncs int32     Default: 5
+The number of service account token objects that are allowed to sync concurrently. Larger number = more responsive token generation, but more CPU (and network) load
+</code></pre><p>Levando em consideração que a maioria dos usuários modernos faz uso de Cloud Providers e sequer conta com acesso a qualquer tipo de parametrização do Control Plane, este tipo de informação passa batido. Para ambientes on-prem ou instalações &lsquo;<em>não-managed</em>&rsquo;, é necessário ter noção que existe um &lsquo;throttling&rsquo; interno de operações que pode exigir um certo <em>tuning</em> para sua realidade.</p>
+<h2 id="alternativas-old-school-ao-processo-de-instalação">Alternativas old school ao processo de instalação</h2>
+<p>Como falei, infelizmente, na minha época, Kubernetes &lsquo;the Hard Way&rsquo; na realidade era o &lsquo;the only way&rsquo;. Então minha familiaridade com as técnicas de lançamento de clusters é extremamente limitada pela acomodação e falta de tempo de real P&amp;D do que há no mercado.</p>
+<p>Mas vamos tentar cobrir algumas coisas:</p>
+<h3 id="kubeadmhttpskubernetesiodocssetupproduction-environmenttoolskubeadminstall-kubeadm"><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">kubeadm</a></h3>
+<p>A ferramenta &lsquo;de-facto&rsquo; para apoio na instalação de clusters Kubernetes. Cobrada, inclusive, em provas de certificação. Ela faz uma série de semi automatizações de etapas óbvias e configura os elementos seguindo um padrão que, ainda que você opte por não usá-la, vale a pena conhecer para deixar o mais parecido possível.</p>
+<p>Como o post listado acima na época de sua criação, kubeadm admite que as máquinas em que o cluster Kubernetes será configurado já foram criadas e provisionadas de uma maneira mínima.</p>
+<p>A principal crítica é que é relativamente não amistosa para automação.</p>
+<h3 id="kopshttpskopssigsk8sio"><a href="https://kops.sigs.k8s.io/">kops</a></h3>
+<p>Uma das primeiras ferramentas que visava automatizar totalmente a criação de clusters que me lembro surgir.</p>
+<p>O kops não apenas configura Kubernetes em máquinas, ele <strong>as provisiona</strong> também.</p>
+<p>Por essa característica, nunca tive a oportunidade de usá-lo.</p>
+<p>Kops opera e é considerado production-grade para AWS; suporte para GCE e Openstack estão em Beta, Azure e DigitalOcean Alpha. Embora ainda exista referências para que um suporte a VMWare Vsphere estava em estágio Alpha também, na verdade o pouco código que existia <a href="https://github.com/kubernetes/kops/issues/9166">já foi removido da codebase</a>.</p>
+<h3 id="kubesprayhttpskubesprayio"><a href="https://kubespray.io/#/">kubespray</a></h3>
+<p>O <strong>kubespray</strong> é um projeto que envolve uma quantidade absurdamente gigantesca de <em>Tasks Ansible</em> que visa prover automação total do processo de instalação, não apenas se preocupando com o lado &lsquo;kubernetes&rsquo; da coisa: ele faz &lsquo;finalizações&rsquo; específicas, dependendo se você está usando um cloud provider ou não, e automatiza inclusive ações relacionadas aos CNI, que o kubeadm não faz.</p>
+<p>Aqui uma nota relevante: o kubespray <strong>usa</strong> o kubeadm; é uma centenas de etapas do seu processo de automação de clusters.</p>
+<p>Já tive a oportunidade de subir alguns clusters usando Kubespray. A experiência gera um tipo de &lsquo;mixed feeling&rsquo;. Como assim?</p>
+<p>O kubespray <strong>resolve</strong> o problema de deploy de clusters Kubernetes. Ele <strong>é</strong> &lsquo;production ready&rsquo;. Ele <strong>funciona</strong>.</p>
+<p>Mas ele também tenta fazer uma quantidade gigantesca de coisas para atender a um amplo público alvo. O porte do projeto cresce num ritmo incrível, assim como sua complexidade. Já tentou administrar um playbook ansible com cerca de mil <em>tasks</em> das quais muitas são interligadas? Não? Pois é, esse é o desafio do kubespray.</p>
+<p>Ele <strong>demora</strong>. Afinal, são mais de 1000 tasks ansible.</p>
+<p>Às vezes, ele falha, porque bugs do Ansible, ou bugs do python, ou bugs em geral.</p>
+<p>Às vezes, ele falha por alguma razão relevante, mas a depuração é particularmente desafiadora, em especial se você tiver pouca familiaridade com ansible (e não achar a mensagem de erro no Google!).</p>
+<p>Às vezes, ele não faz o que você precisa, e aí você precisa criar vergonha na cara e tentar implementar a feature na árvore do Kubespray, como eu deveria ter feito porém não fiz. Acredite, é bem mais conveniente tentar fazer um pull request que manter patches para os playbooks, porque <strong>eles mudam</strong> de release para release.</p>
+<p>O Kubespray vai demandar bem mais do que apenas aprendeer a executá-lo.</p>
+<p>Assim como tudo no universo on-prem, vai demandar mais tempo do que você gostaria de dedicar para poder usá-lo de maneira produtiva no seu ambiente.</p>
+<h2 id="alternativas-modernas-ao-processo-de-instalação">Alternativas modernas ao processo de instalação</h2>
+<p>Eu já conheço pouco das soluções &lsquo;old school&rsquo;. De qualquer forma, já ouvi falar de uma ou outra que acredito que vale a pena ser listada aqui para referência</p>
+<h3 id="kubeonehttpsdocskubermaticcomkubeonev10"><a href="https://docs.kubermatic.com/kubeone/v1.0/">Kubeone</a></h3>
+<p>Kubeone, da Kubermatic, não é exatamente novíssimo, mas a versão &lsquo;GA&rsquo; 1.0 do projeto foi lançada em agosto de 2020.</p>
+<p>A ideia é implementar a mesma proposta do Kubespray: ser uma ferramenta para &ldquo;lifecycle management&rdquo; de clusters Kubernetes, seja na nuvem ou em ambientes on-prem.</p>
+<p><strong>Tudo</strong> nesta solução parece fantástico, extremamente promissor e promete substituir praticamente todo o meu trabalho de automação com custom Terraform/Kubespray. Obviamente, vai demantar testes extensivos para entender as limitações.</p>
+<p>Qual a pegadinha? Não sei, não descobri. Fora o fato de que existe uma <a href="https://docs.kubermatic.com/kubermatic/v2.13/concepts/kubeone-comparison/">oferta enterprise</a> por parte da Kubermatic, não consegui perceber de imediato algum problema que torne seu uso inviável.</p>
+<p>Se você vai começar a jornada Kubernetes e não tem absolutamente nada, recomendo olhar este projeto antes. Se gostar, me conta!</p>
+<h3 id="gardener"><a href="">Gardener</a></h3>
+<p>Na linha dos projetos <strong>ultra modernos</strong>, que tal usar Kubernetes para provisionar clusters Kubernetes? Esta é a proposta do projeto Gardener.</p>
+<p>Aqui, o Control plane dos clusters a serem criados pelo Gardener (&ldquo;shoot clusters&rdquo;) executará como <em>Pods</em> em um cluster Kubernetes (&ldquo;seed cluster&rdquo;). Genial, não? Qual o propósito de perder tempo fazendo o deploy de máquinas para Control Plane, load balancers para HA em caso de falhas se você pode executar tudo como <em>Pods</em>.</p>
+<p>A parte curiosa é que este projeto foi desenvolvido pela SAP. Mais curioso ainda é saber que a SAP era um dos <a href="https://k8s.devstats.cncf.io/d/9/companies-table?orgId=1&amp;utm_source=thenewstack&amp;utm_medium=website&amp;utm_campaign=platform&amp;var-period_name=Last%20year&amp;var-metric=committers">top 10 commiters</a> para o projeto Kubernetes em 2019 (caiu um pouco em 2020).</p>
+<p>Talvez a proposta arrojada desencoraje pessoas com menos experiência com Kubernetes. De qualquer forma, está listado aqui porque acho relevante!</p>
+<h3 id="aws-eks-distro">AWS EKS Distro</h3>
+<p>2020 foi um ano tão estranho que a AWS resolveu liberar o &ldquo;Amazon EKS Distro&rdquo;, uma distribuição código aberto do Kubernetes.</p>
+<p>Não acredita? Está <a href="https://github.com/aws/eks-distro">tudo aqui</a>.</p>
+<p>AWS EKS Distro não tem absolutamente nada a ver com os dois exemplos anteriores, e não vai ajudar a provisionar ambientes, mas &ldquo;empacota&rdquo; tudo que é necessário para executar um cluster Kubernetes no padrão AWS. Por exemplo, o guia oficial de como usar o EKS-D em um cluster é usando <strong>kops</strong>, mencionado acima.</p>
+<p>Serve mais como referência sobre como a AWS configura seus ambientes, para se inspirar se deve fazer algo parecido.</p>
+<p>Este ano haverá o lançamento do AWS EKS Anywhere, que possivelmente fará o deploy de clusters automaticamente (?). Mas dificilmente será &lsquo;open source&rsquo;.</p>
+<hr>
+<p>Alguma sugestão de software para incluir na lista? Deixe-me saber! Compartilhe sua experiência comigo que eu apresento aqui com créditos!</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/passado/">passado</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernetes/">kubernetes</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/on-prem/">on-prem</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/passado/">passado</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+    
+      <a href="/marcelo/blog/kubernetes-on-prem-3/" class="button right"><span>Kubernetes on-premises - parte 3</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-4/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/minecraft.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/minecraft.png" alt="Minecraft">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-4/">Kubernetes on-premises - parte 4</a></h2>
+          <time class="published" datetime="2021-01-11 00:00:00 &#43;0000 UTC">11 de January, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-3/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/bridge-fail.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/bridge-fail.jpg" alt="There is a piece missing">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-3/">Kubernetes on-premises - parte 3</a></h2>
+          <time class="published" datetime="2021-01-01 00:00:00 &#43;0000 UTC">1 de January, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-2/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/blueprint.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/blueprint.jpg" alt="Building from ground up">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-2/">Kubernetes on-premises - parte 2</a></h2>
+          <time class="published" datetime="2020-12-19 00:00:00 &#43;0000 UTC">19 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/exploring-vmware-with-govc/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="If all you have is a hammer, everything looks like a nail.">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/exploring-vmware-with-govc/">GOVC</a></h2>
+          <time class="published" datetime="2020-12-15 00:00:00 &#43;0000 UTC">15 de December, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/ceph-csi-on-kubernetes/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/radioactive-waste.jpg" alt="radiactive storage">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/ceph-csi-on-kubernetes/">Ceph CSI no Kubernetes</a></h2>
+          <time class="published" datetime="2020-12-12 00:00:00 &#43;0000 UTC">12 de December, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">9</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/on-prem/">on-prem<span class="count">4</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/passado/">passado<span class="count">4</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ceph/">ceph<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/csi/">csi<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/govc/">govc<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ingress/">ingress<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/network/">network<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2021 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.79.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.5955090a3253deadcd66071270aa2274dabe15ffc97094cec252d87b6f3f00bf.js" integrity="sha256-WVUJCjJT3q3NZgcScKoidNq&#43;Ff/JcJTOwlLYe28/AL8="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>
