@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>aws on </title>
+    <link>https://devsres.com/marcelo/categories/aws/</link>
+    <description>Recent content in aws on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Thu, 11 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/aws/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sobrevivendo com Terraform na AWS - parte 1</title>
+      <link>https://devsres.com/marcelo/blog/surviving-with-terraforming-on-aws-1/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/surviving-with-terraforming-on-aws-1/</guid>
+      <description>Sobrevivendo com Terraform na AWS Então, um pássaro preto gigante te jogou em um terreno desconhecido e inóspito conhecido como AWS e a única coisa que você tem é um terminal Linux e o binário terraform da Hashicorp. O que você faz?
+(Ou talvez não tenha sido um pássaro preto; talvez tenha sido o seu gerente de TI que te incumbiu de construir tudo que será necessário para o início das atividades na AWS.</description>
+    </item>
+    
+  </channel>
+</rss>

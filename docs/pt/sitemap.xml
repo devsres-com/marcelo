@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://devsres.com/marcelo/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -58,13 +58,23 @@
   </url>
   
   <url>
+    <loc>https://devsres.com/marcelo/tags/aws/</loc>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/aws/</loc>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://devsres.com/marcelo/blog/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://devsres.com/marcelo/categories/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -118,43 +128,13 @@
   </url>
   
   <url>
-    <loc>https://devsres.com/marcelo/tags/kubernetes/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/categories/kubernetes/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/blog/kubernetes-on-prem-4/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/tags/on-prem/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/categories/on-prem/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/tags/passado/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/categories/passado/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+    <loc>https://devsres.com/marcelo/blog/surviving-with-terraforming-on-aws-1/</loc>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://devsres.com/marcelo/tags/</loc>
-    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -205,6 +185,51 @@
                 hreflang="pt"
                 href="https://devsres.com/marcelo/tags/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/terraform/</loc>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/terraform/</loc>
+    <lastmod>2021-03-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/kubernetes/</loc>
+    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/kubernetes/</loc>
+    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/blog/kubernetes-on-prem-4/</loc>
+    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/on-prem/</loc>
+    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/on-prem/</loc>
+    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/tags/passado/</loc>
+    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://devsres.com/marcelo/categories/passado/</loc>
+    <lastmod>2021-01-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -399,16 +424,6 @@
   
   <url>
     <loc>https://devsres.com/marcelo/blog/terraform-import-watch-out/</loc>
-    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/tags/terraform/</loc>
-    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://devsres.com/marcelo/categories/terraform/</loc>
     <lastmod>2020-10-06T00:00:00+00:00</lastmod>
   </url>
   
