@@ -65,7 +65,7 @@ Default output format [None]: json
 
 Será que está tudo ok? Teste vendo a si mesmo:
 
-```
+```bash
 aws iam list-users --query "Users[?UserName=='the-ops-hero']"
 [
     {
@@ -84,7 +84,7 @@ aws iam list-users --query "Users[?UserName=='the-ops-hero']"
 ### Configurando o Terraform
 
 É criar o diretório e configurar o provider AWS: 
-```
+```bash
 $ mkdir terraform-boostrap
 $ cd terraform-bootstrap
 $ cat << 'EOF' > provider.aws.tf
@@ -117,7 +117,7 @@ Então a primeira coisa a fazer é criar o tal repositório... Usando Terraform!
 
 Vamos começar a confeccionar o nosso arquivo terraform-bootstrap.tf assim:
 
-```
+```bash
 # ./terraform-bootstrap.tf
 # Qualquer nome que termine com .tf será processado. A maioria das pessoas usa main.tf, mas eu gosto de ser diferente.
 
@@ -137,7 +137,7 @@ resource "aws_codecommit_repository" "terraform-bootstrap" {
 Não esqueça de customizar as tags de acordo com seu gosto. Na AWS, **tags** são tudo.
 
 Vamos criar nosso primeiro recurso?
-```
+```bash
 $ terraform plan -out terraform-bootstrap.plan
 
 An execution plan has been generated and is shown below.
@@ -174,7 +174,7 @@ To perform exactly these actions, run the following command to apply:
 
 Não criamos nada ainda, executamos um plan apenas para dar uma olhada. Vamos criar esse troço!
 
-```
+```bash
 $ terraform apply terraform-bootstrap.plan
 aws_codecommit_repository.terraform-bootstrap: Creating...
 aws_codecommit_repository.terraform-bootstrap: Creation complete after 1s [id=terraform-bootstrapx]
@@ -197,13 +197,13 @@ Duas opções:
 
 * Pede informações usando a AWS CLI:
 
-```
+```bash
 # Se você preferir, pode executar sem o --query para ver toods os campos.
 $ aws codecommit get-repository --repository-name=terraform-bootstrap --query repositoryMetadata.cloneUrlSsh --output text
 ssh://git-codecommit.sa-east-1.amazonaws.com/v1/repos/terraform-git
 ```
 * Cria um output no Terraform
-```
+```bash
 # arquivo ./outputs.tf
 
 # Você pode imprimir todas as informações
@@ -219,7 +219,7 @@ output "codecommit-terraform-bootstrap-url-ssh" {
 
 Para ver a saída do output, será necesário um *refresh*:
 
-```
+```bash
 $ terraform refresh
 aws_codecommit_repository.terraform-bootstrap: Refreshing state... [id=terraform-bootstrapx]
 
@@ -230,7 +230,7 @@ codecommit-terraform-bootstrap = "ssh://git-codecommit.sa-east-1.amazonaws.com/v
 
 Agora é só dar o git clone, certo?
 
-```
+```bash
 $ REPO=$( aws codecommit get-repository --repository-name=terraform-bootstrap --query repositoryMetadata.cloneUrlSsh --output text )
 $ git clone $REPO
 Cloning into 'terraform-bootstrap'...
@@ -250,7 +250,7 @@ Putz, não rolou. Mas eu fiz o upload da minha chave no IAM, certo? Deveria func
 
 > On your local machine, use a text editor to create a config file in the ~/.ssh directory, and then add the following lines to the file, where the value for User is the SSH key ID you copied earlier:
 
-```
+```bash
 Host git-codecommit.*.amazonaws.com
   User APKAEIBAERJR2EXAMPLE
   IdentityFile ~/.ssh/codecommit_rsa
@@ -264,7 +264,7 @@ Configure seu ~/.ssh/config e tente novamente que vai funcionar.
 
 Eu normalmente aplico um 'git clone' no repo vazio e mudo o diretório .git de lugar:
 
-```
+```bash
 $ git clone $REPO
 mv terraform-git/.git ./
 git add . -A
@@ -274,7 +274,7 @@ git push
 
 Mas eu reconheço que isso é feio, então talvez esses comandos mais verboses agradem mais:
 
-```
+```bash
 $ git init 
 $ git remote add origin $REPO
 $ git pull origin
@@ -289,7 +289,7 @@ Não esqueça de colocar um [.gitignore](https://raw.githubusercontent.com/githu
 ## Requisito 2: Armazenando estado do Terraform usando S3
 
 Se você olhar no diretório corrente, vai encontrar o seguinte:
-```
+```bash
 $ ls *.tfstate*
 terraform.tfstate  terraform.tfstate.backup
 ``` 
@@ -307,7 +307,7 @@ Como fazer isso?
 Bem, primeiro, precisamos de um Bucket S3. E qual a melhor maneira de criar isso? Usando Terraform, é claro!
 
 ### Criando Buckets S3 com Terraform
-```
+```bash
 # bucket.tf. Não precisa ser outro arquivo, mas pode ser se você quiser.
 
 resource "aws_s3_bucket" "terraform-bootstrap" {
@@ -328,7 +328,7 @@ resource "aws_s3_bucket" "terraform-bootstrap" {
 
 Aqui, não esqueça das **Tags** e de habilitar o **versioning**, que vai te proteger se alguem decidir excluir ou sobrescrever seu programa com algum copy/paste mal feito! 
 
-```
+```bash
 # vou suprimir as saídas destes comandos porque são altamente irrelevantes.
 $ terraform plan -out terraform-bootstrap.pan
 ...
@@ -337,7 +337,7 @@ $ terraform apply terraform-bootstrap.plan
 ```
 Ok! Temos um bucket!
 
-```
+```bash
 $ aws s3api list-buckets --query Buckets[].Name --output text
 terraform-bootstrap-dev-sres
 ```
@@ -346,7 +346,7 @@ terraform-bootstrap-dev-sres
 
 Como configurar este bucket como backend?
 
-```
+```bash
 # backend.tf
 terraform {
   backend "s3" {
@@ -359,7 +359,7 @@ terraform {
 
 Após modificaçõçes de **backend**, será necessário aplicar novamente a operação *init*. Durante essa operação, ele irá perguntar se você quer copiar o arquivo de estado existente para o novo backend. A resposta é um óbvio sim:
 
-```
+```bash
 $ terraform init
 
 Initializing the backend...
@@ -385,7 +385,7 @@ $ terraforma apply planfile
 
 Após as últimas operações, podemos observar nosso arquivo de estados seguro em seu bucket s3:
 
-```
+```bash
 $ aws s3 ls terraform-bootstrap-dev-sres/terraform-bootstrap/
 2021-03-10 23:18:56      18466
 2021-03-10 23:52:00      22110 tfstate
@@ -397,7 +397,7 @@ E com isso completamos os dois primeiros requisitos.
 
 Se você executar um '*terraform apply*' sem um plan, ele vai solicitar um prompt de confirmação para você:
 
-```
+```bash
 $ terraform apply
 Acquiring state lock. This may take a few moments...
 ...
@@ -410,7 +410,7 @@ Do you want to perform these actions?
 
 Se você abrir outro terminal e tentar executar o mesmo programa, receberá um erro:
 
-```
+```bash
 terraform plan
 Acquiring state lock. This may take a few moments...
 
@@ -453,7 +453,7 @@ O segundo detalhe é o 'billing_mode'. Temos as opções 'on-demand' e 'provisio
 Então, se usar 'provisioned', vamos precisar especificar read e write capacity. Mas quanto? 
 
 O 'free tier' nos garante 25 de cada, além de 25GB de espaço. Na documentação oficial para criação de tabelas, ele relaciona ambos com 20 unidades. Se você quiser ler mais a respeito, [siga em frente](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html). Eu arbitrariamente dividi por 10 e coloquei 2 read requests.
-```
+```bash
 # dynamodb.tf
 # resource "aws_dynamodb_table" "terraform-dev-sres" {
   name           = "terraform-bootstrap-dev-sres"
@@ -477,7 +477,7 @@ O 'free tier' nos garante 25 de cada, além de 25GB de espaço. Na documentaçã
 ### Configurando a tabela DynamoDB para controlar concorrência
 
 Após um combo plan/apply, estamos aptos a modificar nosso backend novamente:
-```
+```bash
 terraform {
   backend "s3" {
     bucket         = "terraform-bootstrap-dev-sres"
@@ -490,7 +490,7 @@ terraform {
 
 Novamente, toda modificação de 'backend' demanda um novo init:
 
-```
+```bash
 $ terraform init
 ... mude alguma coisa em algum lugar...
 $ terraform apply 
@@ -502,7 +502,7 @@ $ terraform apply
 
 Execute o seguinte comando para olhar a sua tabela:
 
-```
+```bash
 $ aws dynamodb scan --table-name terraform-dev-sres
 {
     "Items": [
@@ -539,7 +539,7 @@ $ aws dynamodb scan --table-name terraform-dev-sres
 
 Se você der um 'terraform plan' em outra janela, é exatamente isso que você vai ver:
 
-```
+```bash
 $ terraform plan
 Acquiring state lock. This may take a few moments...
 
