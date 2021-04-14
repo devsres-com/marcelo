@@ -6,7 +6,25 @@
     <description>Recent content in Categories on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Thu, 11 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>calico</title>
+      <link>https://devsres.com/marcelo/categories/calico/</link>
+      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/categories/calico/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://devsres.com/marcelo/categories/kubernetes/</link>
+      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/categories/kubernetes/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>aws</title>
       <link>https://devsres.com/marcelo/categories/aws/</link>
@@ -22,15 +40,6 @@
       <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/categories/terraform/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://devsres.com/marcelo/categories/kubernetes/</link>
-      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/categories/kubernetes/</guid>
       <description></description>
     </item>
     
@@ -121,15 +130,6 @@
       <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/categories/avan%C3%A7ado/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>calico</title>
-      <link>https://devsres.com/marcelo/categories/calico/</link>
-      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://devsres.com/marcelo/categories/calico/</guid>
       <description></description>
     </item>
     

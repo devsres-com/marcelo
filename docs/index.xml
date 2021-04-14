@@ -6,13 +6,25 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Thu, 11 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Sobrevivendo com Terraform na AWS - parte 1</title>
+      <title>Calico IPPool dedicado para Infraestrutura</title>
       <link>https://devsres.com/marcelo/blog/surviving-with-terraforming-on-aws-1/</link>
-      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://devsres.com/marcelo/blog/surviving-with-terraforming-on-aws-1/</guid>
+      <description>Setup: Kubernetes com Calico CNI.
+Você tem o IPPool &amp;ldquo;oficial&amp;rdquo; para os pods de workload dos seus tenants, limitado porque conta com IPs válidos na rede para auditoria e que não sofrem NAT (natOutgoing=false) em suas comunicações com serviços dentro ou fora do cluster.
+Ok.
+Mas temos alguns pods &amp;ldquo;de infraestrutura&amp;rdquo;. Esses pods executam nos mesmos hosts de workload normal, mas precisam de acesso diferenciado e não queremos desperdiçar IPs válidos com eles.</description>
+    </item>
+    
+    <item>
+      <title>Sobrevivendo com Terraform na AWS - parte 1</title>
+      <link>https://devsres.com/marcelo/blog/calico-cni-ippool-infrastructure/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/calico-cni-ippool-infrastructure/</guid>
       <description>Sobrevivendo com Terraform na AWS Então, um pássaro preto gigante te jogou em um terreno desconhecido e inóspito conhecido como AWS e a única coisa que você tem é um terminal Linux e o binário terraform da Hashicorp. O que você faz?
 (Ou talvez não tenha sido um pássaro preto; talvez tenha sido o seu gerente de TI que te incumbiu de construir tudo que será necessário para o início das atividades na AWS.</description>
     </item>

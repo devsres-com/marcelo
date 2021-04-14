@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>Sobrevivendo com Terraform na AWS - parte 1 - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.81.0" /><meta itemprop="name" content="Sobrevivendo com Terraform na AWS - parte 1">
+<meta itemprop="description" content="Como começar do zero com Terraform na AWS"><meta itemprop="datePublished" content="2021-03-11T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-03-11T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2563"><meta itemprop="image" content="">
+<meta itemprop="keywords" content="terraform,aws," /><meta property="og:title" content="Sobrevivendo com Terraform na AWS - parte 1" />
+<meta property="og:description" content="Como começar do zero com Terraform na AWS" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/calico-cni-ippool-infrastructure/" /><meta property="og:image" content="" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-03-11T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-03-11T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Sobrevivendo com Terraform na AWS - parte 1"/>
+<meta name="twitter:description" content="Como começar do zero com Terraform na AWS"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.7af44880fa8f2867fbbf1b1e6758774b791bf321699b23f84be69e26e842c64a.css" integrity="sha256-evRIgPqPKGf7vxseZ1h3S3kb8yFpmyP4S&#43;aeJuhCxko="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f&amp;title=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f&amp;title=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f&amp;description=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/calico-cni-ippool-infrastructure/">Sobrevivendo com Terraform na AWS - parte 1</a></h2>
+    
+    
+      <p>Como começar do zero com Terraform na AWS</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2021-03-11 00:00:00 &#43;0000 UTC">11 de March, 2021</time>
+    <p>Marcelo Andrade</p>
+    <p>13 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f&amp;title=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f&amp;title=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f&amp;description=Sobrevivendo%20com%20Terraform%20na%20AWS%20-%20parte%201" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-cni-ippool-infrastructure%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/calico-cni-ippool-infrastructure/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/valhein-dropoff.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/valhein-dropoff.png" alt="Minecraft">
+  </a>
+      <h1 id="sobrevivendo-com-terraform-na-aws">Sobrevivendo com Terraform na AWS</h1>
+<p>Então, um pássaro preto gigante te jogou em um terreno desconhecido e inóspito conhecido como <strong>AWS</strong> e a única coisa que você tem é um terminal Linux e o binário <strong>terraform</strong> da Hashicorp. O que você faz?</p>
+<p>(Ou talvez não tenha sido um pássaro preto; talvez tenha sido o seu gerente de TI que te incumbiu de construir tudo que será necessário para o início das atividades na AWS. Mas a ideia do pássaro preto gigante parece mais legal).</p>
+<h2 id="interlude">Interlude</h2>
+<h3 id="iam-e-um-usuário-administrativo-não-root">IAM e um usuário administrativo não-&ldquo;root&rdquo;</h3>
+<p>Na &ldquo;língua nativa AWS&rdquo;, o usuário <strong>root</strong> é aquele com o e-mail que criou a conta. Em ambientes empresariais complexos, teríamos uma estrutura de <a href="https://aws.amazon.com/pt/organizations/"><em>Organizations</em></a> com várias contas encadeadas e possivelmente integração com alguma base de usuários locais usando esta ou aquela estratégia de autenticação. Vamos abstrair isso; o usuário <strong>root</strong> é o gerente de TI que criou a conta e cadastrou o cartão de crédito corporativo sem limites (ou não!) da empresa e te entregou <strong>uma</strong> única coisa:</p>
+<ul>
+<li>Um usuário do IAM com seu nome.</li>
+</ul>
+<p>É com ele (e com uma senha temporária) que você irá logar a primeira (e última!) vez na Console Web AWS. Afinal, nós vivemos para a tela preta do console.</p>
+<ul>
+<li>Autentique-se na Console usando a página customizada de login, o alias da conta ou simplesmente o ID se nada disso tiver sido feito.</li>
+<li>Busque por <strong>IAM</strong>, e clique no seu usuário.</li>
+<li>Clique em <strong>Credenciais de Segurança</strong></li>
+</ul>
+<p>Aqui temos <strong>duas</strong> atividades para fazer:</p>
+<ul>
+<li>
+<p>Crie uma chave de acesso. É um par ID e chave de acesso que você usará para &ldquo;acessar programaticamente&rdquo; a AWS usando o cliente de linha de comando (e, consequentemente, o terraform). Você pode baixar o .CSV se não estiver pronto para usá-la ainda.</p>
+</li>
+<li>
+<p>Faça o upload de sua chave pública SSH para poder usá-la com o <a href="https://aws.amazon.com/pt/codecommit/"><em>AWS Code Commit</em></a>. Escreva em algum lugar o &ldquo;*ID da chave do SSH&rdquo;, que é um conjunto de letras em sentido - vamos precisar dela mais na frente.</p>
+</li>
+</ul>
+<p>(<strong>Nota</strong>: você obviamente não precisa usar o CodeCommit se preferir usar o Github, mas né, a título de laboratório, vamos nos ater às coisas AWS).</p>
+<p>Com isso, você está pronto para abandonar o excessivamente colorido universo WWW e partir para o que realmente importa.</p>
+<h3 id="baixando-e-configurando-os-programas-essenciais">Baixando e configurando os programas essenciais</h3>
+<p>Vamos precisar de dois programas para nos divertir com este trabalho:</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install">Cliente AWS</a></li>
+<li><a href="https://learn.hashicorp.com/tutorials/terraform/install-cli">Terraform</a></li>
+</ul>
+<p>Os dois links acima constam com procedimentos para instalação da última versão, que na data deste post, são aws-cli/2.1.30 e terraform /0.14.7.</p>
+<h3 id="configurando-o-aws-cli">Configurando o aws cli</h3>
+<p>Para configurar o AWS cli, basta executar:</p>
+<pre><code>$ aws configure
+AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name [None]: sa-east-1
+Default output format [None]: json
+</code></pre><p>(Não, eu não esqueci minhas access keys aqui, esse é o <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html">exemplo da página oficial</a>)</p>
+<p>Será que está tudo ok? Teste vendo a si mesmo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws iam list-users --query <span style="color:#e6db74">&#34;Users[?UserName==&#39;the-ops-hero&#39;]&#34;</span>
+<span style="color:#f92672">[</span>
+    <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;Path&#34;</span>: <span style="color:#e6db74">&#34;/&#34;</span>,
+        <span style="color:#e6db74">&#34;UserName&#34;</span>: <span style="color:#e6db74">&#34;the-ops-hero&#34;</span>,
+        <span style="color:#e6db74">&#34;UserId&#34;</span>: <span style="color:#e6db74">&#34;AIDQWERJLATCU123CR7M3UJ&#34;</span>,
+        <span style="color:#e6db74">&#34;Arn&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:iam::446926690069:user/the-ops-hero&#34;</span>,
+        <span style="color:#e6db74">&#34;CreateDate&#34;</span>: <span style="color:#e6db74">&#34;2021-03-11T03:12:47+00:00&#34;</span>,
+        <span style="color:#e6db74">&#34;PasswordLastUsed&#34;</span>: <span style="color:#e6db74">&#34;2021-03-11T03:13:42+00:00&#34;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">]</span>
+</code></pre></div><p>(Essa query syntax chama-se <a href="https://jmespath.org/">JMESPATH</a> e, se quiser usar adequadamente o AWS cli, é bom ir se <a href="https://gist.github.com/magnetikonline/6a382a4c4412bbb68e33e137b9a74168">acostumando com ela</a>!)</p>
+<h3 id="configurando-o-terraform">Configurando o Terraform</h3>
+<p>É criar o diretório e configurar o provider AWS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir terraform-boostrap
+$ cd terraform-bootstrap
+$ cat <span style="color:#e6db74">&lt;&lt; &#39;EOF&#39; &gt; provider.aws.tf
+</span><span style="color:#e6db74">provider &#34;aws&#34; {
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">  region = &#34;sa-east-1&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+</code></pre></div><h1 id="traçando-uma-estratégia-inicial">Traçando uma estratégia inicial</h1>
+<p>Aqui, definimos os pré-requisitos para trabalhar com Terraform com o mínimo de profissionalismo. Quais são?</p>
+<ul>
+<li>Precisamos <strong>versionar</strong> as coisas que criamos;</li>
+<li>Precisamos de um lugar para guardar o nosso &lsquo;<em>statefile</em>&rsquo; que não seja na nossa máquina local;</li>
+<li>Precisamos de uma estratégia para lidar com <em>concorrência</em> de execuções.</li>
+</ul>
+<p>Vamos atacar cada um desses pontos progressivamente.</p>
+<h2 id="requisito-1-versionando-o-código-terraform-usando-codecommit">Requisito 1: Versionando o código Terraform usando CodeCommit</h2>
+<p>Temos à nossa disposição o serviço <a href="https://aws.amazon.com/pt/codecommit/"><em>AWS Code Commit</em></a>, que é um servidor de repositórios Git mantido pela AWS.</p>
+<p>(Precisamos usar ele? Não, você pode usar Github ou qualquer outra coisa se preferir, mas para manter tudo homogêneo, vamos usá-lo!)</p>
+<p>Então a primeira coisa a fazer é criar o tal repositório&hellip; Usando Terraform!</p>
+<p>Vamos começar a confeccionar o nosso arquivo terraform-bootstrap.tf assim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># ./terraform-bootstrap.tf</span>
+<span style="color:#75715e"># Qualquer nome que termine com .tf será processado. A maioria das pessoas usa main.tf, mas eu gosto de ser diferente.</span>
+
+<span style="color:#75715e"># Repositório GIT para servir de base para a Infraestrutura de Terraform:</span>
+resource <span style="color:#e6db74">&#34;aws_codecommit_repository&#34;</span> <span style="color:#e6db74">&#34;terraform-bootstrap&#34;</span> <span style="color:#f92672">{</span>
+  repository_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-git&#34;</span>
+  description     <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Comecei na AWS agora, este repositorio tem tudo que preciso para comecar a rodar terraform&#34;</span>
+
+  tags <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    Name        <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-dev-sres&#34;</span>
+    CreatedBy   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform&#34;</span>
+    Environment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;production&#34;</span>
+  <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Não esqueça de customizar as tags de acordo com seu gosto. Na AWS, <strong>tags</strong> são tudo.</p>
+<p>Vamos criar nosso primeiro recurso?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ terraform plan -out terraform-bootstrap.plan
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  <span style="color:#75715e"># aws_codecommit_repository.terraform-bootstrap will be created</span>
+  + resource <span style="color:#e6db74">&#34;aws_codecommit_repository&#34;</span> <span style="color:#e6db74">&#34;terraform-bootstrap&#34;</span> <span style="color:#f92672">{</span>
+      + arn             <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>known after apply<span style="color:#f92672">)</span>
+      + clone_url_http  <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>known after apply<span style="color:#f92672">)</span>
+      + clone_url_ssh   <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>known after apply<span style="color:#f92672">)</span>
+      + description     <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Comecei na AWS agora, este repositorio tem tudo que preciso para comecar a rodar terraform&#34;</span>
+      + id              <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>known after apply<span style="color:#f92672">)</span>
+      + repository_id   <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>known after apply<span style="color:#f92672">)</span>
+      + repository_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-git&#34;</span>
+      + tags            <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+          + <span style="color:#e6db74">&#34;CreatedBy&#34;</span>   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform&#34;</span>
+          + <span style="color:#e6db74">&#34;Environment&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;production&#34;</span>
+          + <span style="color:#e6db74">&#34;Name&#34;</span>        <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-dev-sres&#34;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+Plan: <span style="color:#ae81ff">1</span> to add, <span style="color:#ae81ff">0</span> to change, <span style="color:#ae81ff">0</span> to destroy.
+
+------------------------------------------------------------------------
+
+This plan was saved to: terraform-bootstrap.plan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply <span style="color:#e6db74">&#34;terraform-bootstrap.plan&#34;</span>
+</code></pre></div><p>Não criamos nada ainda, executamos um plan apenas para dar uma olhada. Vamos criar esse troço!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ terraform apply terraform-bootstrap.plan
+aws_codecommit_repository.terraform-bootstrap: Creating...
+aws_codecommit_repository.terraform-bootstrap: Creation complete after 1s <span style="color:#f92672">[</span>id<span style="color:#f92672">=</span>terraform-bootstrapx<span style="color:#f92672">]</span>
+
+Apply complete! Resources: <span style="color:#ae81ff">1</span> added, <span style="color:#ae81ff">0</span> changed, <span style="color:#ae81ff">0</span> destroyed.
+
+The state of your infrastructure has been saved to the path
+below. This state is required to modify and destroy your
+infrastructure, so keep it safe. To inspect the complete state
+use the <span style="color:#e6db74">`</span>terraform show<span style="color:#e6db74">`</span> command.
+
+State path: terraform.tfstate
+</code></pre></div><p>Agora, vamos usar o tal repositório!</p>
+<p>&hellip; como dou clone?</p>
+<p>Duas opções:</p>
+<ul>
+<li>Pede informações usando a AWS CLI:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Se você preferir, pode executar sem o --query para ver toods os campos.</span>
+$ aws codecommit get-repository --repository-name<span style="color:#f92672">=</span>terraform-bootstrap --query repositoryMetadata.cloneUrlSsh --output text
+ssh://git-codecommit.sa-east-1.amazonaws.com/v1/repos/terraform-git
+</code></pre></div><ul>
+<li>Cria um output no Terraform</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># arquivo ./outputs.tf</span>
+
+<span style="color:#75715e"># Você pode imprimir todas as informações</span>
+output <span style="color:#e6db74">&#34;codecommit-terraform-bootstrap&#34;</span> <span style="color:#f92672">{</span>
+        value <span style="color:#f92672">=</span> aws_codecommit_repository.terraform-bootstrap
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># Ou apenas filtrar pela url:</span>
+output <span style="color:#e6db74">&#34;codecommit-terraform-bootstrap-url-ssh&#34;</span> <span style="color:#f92672">{</span>
+        value <span style="color:#f92672">=</span> aws_codecommit_repository.terraform-bootstrap.clone_url_ssh
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Para ver a saída do output, será necesário um <em>refresh</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ terraform refresh
+aws_codecommit_repository.terraform-bootstrap: Refreshing state... <span style="color:#f92672">[</span>id<span style="color:#f92672">=</span>terraform-bootstrapx<span style="color:#f92672">]</span>
+
+Outputs:
+
+codecommit-terraform-bootstrap <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ssh://git-codecommit.sa-east-1.amazonaws.com/v1/repos/terraform-git&#34;</span>
+</code></pre></div><p>Agora é só dar o git clone, certo?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ REPO<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span> aws codecommit get-repository --repository-name<span style="color:#f92672">=</span>terraform-bootstrap --query repositoryMetadata.cloneUrlSsh --output text <span style="color:#66d9ef">)</span>
+$ git clone $REPO
+Cloning into <span style="color:#e6db74">&#39;terraform-bootstrap&#39;</span>...
+Warning: Permanently added the RSA host key <span style="color:#66d9ef">for</span> IP address <span style="color:#e6db74">&#39;52.94.206.167&#39;</span> to the list of known hosts.
+marcelo@git-codecommit.sa-east-1.amazonaws.com: Permission denied <span style="color:#f92672">(</span>publickey<span style="color:#f92672">)</span>.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+</code></pre></div><p>Putz, não rolou. Mas eu fiz o upload da minha chave no IAM, certo? Deveria funcionar, certo?</p>
+<p><strong>Não</strong>.</p>
+<p><a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-ssh-unixes.html#setting-up-ssh-unixes-keys">RTFM</a>, em especial a parte 8:</p>
+<blockquote>
+<p>On your local machine, use a text editor to create a config file in the ~/.ssh directory, and then add the following lines to the file, where the value for User is the SSH key ID you copied earlier:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Host git-codecommit.*.amazonaws.com
+  User APKAEIBAERJR2EXAMPLE
+  IdentityFile ~/.ssh/codecommit_rsa
+</code></pre></div><p>Ah, lembra daquele tal &ldquo;Id da chave SSH&rdquo;, <strong>ele</strong> é o seu usuário no CodeCommit, não seu usuário do IAM, o que faz todo sentido, pensando direitinho.</p>
+<p>Configure seu ~/.ssh/config e tente novamente que vai funcionar.</p>
+<h3 id="interlude---git-bureaucracy">Interlude - git bureaucracy</h3>
+<p>Eu normalmente aplico um &lsquo;git clone&rsquo; no repo vazio e mudo o diretório .git de lugar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone $REPO
+mv terraform-git/.git ./
+git add . -A
+git commit -m <span style="color:#e6db74">&#39;yay funcinou&#39;</span>
+git push 
+</code></pre></div><p>Mas eu reconheço que isso é feio, então talvez esses comandos mais verboses agradem mais:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git init 
+$ git remote add origin $REPO
+$ git pull origin
+<span style="color:#75715e"># ... ao fim de tudo # </span>
+$ git push --set-upstream origin master
+</code></pre></div><p>Não vou me incomodar com git aqui, ok?</p>
+<p>Não esqueça de colocar um <a href="https://raw.githubusercontent.com/github/gitignore/master/Terraform.gitignore">.gitignore</a> apropriado no seu repositório.</p>
+<h2 id="requisito-2-armazenando-estado-do-terraform-usando-s3">Requisito 2: Armazenando estado do Terraform usando S3</h2>
+<p>Se você olhar no diretório corrente, vai encontrar o seguinte:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ls *.tfstate*
+terraform.tfstate  terraform.tfstate.backup
+</code></pre></div><p>Se sua máquina morrer agora (não estou agourando!), é como se o seu Terraform não tivesse existido. As coisas que ele criou irão persistir, mas esse arquivo <strong>é</strong> o Terraform; ele que mapeia o que ele criou, o que ele controla, quais são os atributos e o que fazer com eles.</p>
+<p>Esse arquivo <strong>não</strong> pode ficar em uma máquina local.</p>
+<p>Onde colocar?</p>
+<p>Estando na AWs, o melhor lugar para colocar (também chamado de &lsquo;<em>backend</em>') é o <a href="https://www.terraform.io/docs/language/settings/backends/s3.html">AWS S3</a>, o serviço de armazenamento de objetos da AWS.</p>
+<p>Como fazer isso?</p>
+<p>Bem, primeiro, precisamos de um Bucket S3. E qual a melhor maneira de criar isso? Usando Terraform, é claro!</p>
+<h3 id="criando-buckets-s3-com-terraform">Criando Buckets S3 com Terraform</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># bucket.tf. Não precisa ser outro arquivo, mas pode ser se você quiser.</span>
+
+resource <span style="color:#e6db74">&#34;aws_s3_bucket&#34;</span> <span style="color:#e6db74">&#34;terraform-bootstrap&#34;</span> <span style="color:#f92672">{</span>
+  <span style="color:#75715e"># não se esqueça de colocar o seu nome, nomes de buckets são globais na aws.</span>
+  bucket <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres&#34;</span>
+  acl    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;private&#34;</span>
+
+  versioning <span style="color:#f92672">{</span>
+    enabled <span style="color:#f92672">=</span> true
+  <span style="color:#f92672">}</span>
+
+  tags <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    Name        <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap&#34;</span>
+    Environment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;production&#34;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Aqui, não esqueça das <strong>Tags</strong> e de habilitar o <strong>versioning</strong>, que vai te proteger se alguem decidir excluir ou sobrescrever seu programa com algum copy/paste mal feito!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># vou suprimir as saídas destes comandos porque são altamente irrelevantes.</span>
+$ terraform plan -out terraform-bootstrap.pan
+...
+$ terraform apply terraform-bootstrap.plan
+...
+</code></pre></div><p>Ok! Temos um bucket!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws s3api list-buckets --query Buckets<span style="color:#f92672">[]</span>.Name --output text
+terraform-bootstrap-dev-sres
+</code></pre></div><h3 id="configurando-o-bucket-s3-como-backend">Configurando o bucket S3 como Backend</h3>
+<p>Como configurar este bucket como backend?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># backend.tf</span>
+terraform <span style="color:#f92672">{</span>
+  backend <span style="color:#e6db74">&#34;s3&#34;</span> <span style="color:#f92672">{</span>
+    bucket         <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres&#34;</span>
+    key            <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap/tfstate&#34;</span>
+    region         <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sa-east-1&#34;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Após modificaçõçes de <strong>backend</strong>, será necessário aplicar novamente a operação <em>init</em>. Durante essa operação, ele irá perguntar se você quer copiar o arquivo de estado existente para o novo backend. A resposta é um óbvio sim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ terraform init
+
+Initializing the backend...
+Backend configuration changed!
+
+Terraform has detected that the configuration specified <span style="color:#66d9ef">for</span> the backend
+has changed. Terraform will now check <span style="color:#66d9ef">for</span> existing state in the backends.
+
+
+Do you want to copy existing state to the new backend?
+  Pre-existing state was found <span style="color:#66d9ef">while</span> migrating the previous <span style="color:#e6db74">&#34;s3&#34;</span> backend to the
+  newly configured <span style="color:#e6db74">&#34;s3&#34;</span> backend. No existing state was found in the newly
+  configured <span style="color:#e6db74">&#34;s3&#34;</span> backend. Do you want to copy this state to the new <span style="color:#e6db74">&#34;s3&#34;</span>
+  backend? Enter <span style="color:#e6db74">&#34;yes&#34;</span> to copy and <span style="color:#e6db74">&#34;no&#34;</span> to start with an empty state.
+
+  Enter a value: yes
+
+$ terraform plan -out planfile
+...
+$ terraforma apply planfile
+...
+</code></pre></div><p>Após as últimas operações, podemos observar nosso arquivo de estados seguro em seu bucket s3:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws s3 ls terraform-bootstrap-dev-sres/terraform-bootstrap/
+2021-03-10 23:18:56      <span style="color:#ae81ff">18466</span>
+2021-03-10 23:52:00      <span style="color:#ae81ff">22110</span> tfstate
+</code></pre></div><p>E com isso completamos os dois primeiros requisitos.</p>
+<h2 id="requisito-3-usando-dynamodb-para-controlar-a-concorrência-de-execução">Requisito 3: Usando dynamodb para controlar a concorrência de execução</h2>
+<p>Se você executar um &lsquo;<em>terraform apply</em>&rsquo; sem um plan, ele vai solicitar um prompt de confirmação para você:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ terraform apply
+Acquiring state lock. This may take a few moments...
+...
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only <span style="color:#e6db74">&#39;yes&#39;</span> will be accepted to approve.
+
+  Enter a value:
+</code></pre></div><p>Se você abrir outro terminal e tentar executar o mesmo programa, receberá um erro:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform plan
+Acquiring state lock. This may take a few moments...
+
+Error: Error locking state: Error acquiring the state lock: ConditionalCheckFailedException: The conditional request failed
+Lock Info:
+  ID:        7ec4834e-f004-abd5-6b20-31ba68ba07e7
+  Path:      terraform-bootstrap<span style="color:#f92672">=</span>dev-sres/terraform-bootstrap/tfstate
+  Operation: OperationTypeApply
+  Who:       the-ops-hero@localhost
+  Version:   0.14.7
+  Created:   2021-03-11 05:06:10.5604146 +0000 UTC
+  Info:
+
+
+Terraform acquires a state lock to protect the state from being written
+by multiple users at the same time. Please resolve the issue above and try
+again. For most commands, you can disable locking with the <span style="color:#e6db74">&#34;-lock=false&#34;</span>
+flag, but this is not recommended.
+</code></pre></div><p>Isso porque o terraform aplica um <em>lock</em> para evitar execução concorrente, que pode ser devastadora em alguns casos.</p>
+<p>Obviamente, se alguém baixar o código do seu repositório git e executá-lo em outra máquina, ele conseguirá. Alguém eventualmente receberá um erro porque algo criado já existe.</p>
+<p>Para impedir isso, é importante usar um sistema de controle de concorrência centralizado. A melhor maneira de fazer isso na AWS é usando uma tabela Dynamodb.</p>
+<p>Qual a melhor maneira de criar uma tabela DynamoDB? Usando Terraform, oras!</p>
+<h3 id="criando-uma-tabela-dynamodb">Criando uma tabela Dynamodb</h3>
+<p>Essa etapa não é que seja difícil, mas falta informação.</p>
+<p>A primeira delas está escondida lá embaixo na <a href="https://www.terraform.io/docs/language/settings/backends/s3.html#dynamodb-state-locking">documentação oficial</a>:</p>
+<blockquote>
+<p>dynamodb_table - (Optional) Name of DynamoDB Table to use for state locking and consistency. The table must have a primary key named LockID with type of string. If not configured, state locking will be disabled.</p>
+</blockquote>
+<p>Então sabemos que a nossa tabela de DynamoDB precisa de um campo LockID. Se não existir, o state locking vai ser desativado.</p>
+<p>O segundo detalhe é o &lsquo;billing_mode&rsquo;. Temos as opções &lsquo;on-demand&rsquo; e &lsquo;provisioned&rsquo;. Em &lsquo;on-demand&rsquo;, ele está livre para consumir recursos que ele quiser. Em &lsquo;provisioned&rsquo;, você precisa fazer as contas. A parte importante é: <strong>apenas provisioned está incluso no free tier</strong>. Se você estiver apenas brincando de laboratório na AWS e não quer cobrança, use este.</p>
+<p>Então, se usar &lsquo;provisioned&rsquo;, vamos precisar especificar read e write capacity. Mas quanto?</p>
+<p>O &lsquo;free tier&rsquo; nos garante 25 de cada, além de 25GB de espaço. Na documentação oficial para criação de tabelas, ele relaciona ambos com 20 unidades. Se você quiser ler mais a respeito, <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html">siga em frente</a>. Eu arbitrariamente dividi por 10 e coloquei 2 read requests.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># dynamodb.tf</span>
+<span style="color:#75715e"># resource &#34;aws_dynamodb_table&#34; &#34;terraform-dev-sres&#34; {</span>
+  name           <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres&#34;</span>
+  billing_mode   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;PROVISIONED&#34;</span>
+  read_capacity  <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+  write_capacity <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+  hash_key       <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;LockID&#34;</span>
+
+  attribute <span style="color:#f92672">{</span>
+    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;LockID&#34;</span>
+    type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;S&#34;</span>
+  <span style="color:#f92672">}</span>
+
+  tags <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+    Name        <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres&#34;</span>
+    CreatedBy   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform&#34;</span>
+    Environment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;production&#34;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="configurando-a-tabela-dynamodb-para-controlar-concorrência">Configurando a tabela DynamoDB para controlar concorrência</h3>
+<p>Após um combo plan/apply, estamos aptos a modificar nosso backend novamente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform <span style="color:#f92672">{</span>
+  backend <span style="color:#e6db74">&#34;s3&#34;</span> <span style="color:#f92672">{</span>
+    bucket         <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres&#34;</span>
+    key            <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-bootstrap/tfstate&#34;</span>
+    region         <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sa-east-1&#34;</span>
+    dynamodb_table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;terraform-dev-sres&#34;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Novamente, toda modificação de &lsquo;backend&rsquo; demanda um novo init:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ terraform init
+... mude alguma coisa em algum lugar...
+$ terraform apply 
+...
+  Enter a value: 
+</code></pre></div><p><strong>Não</strong> dê yes.</p>
+<p>Execute o seguinte comando para olhar a sua tabela:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws dynamodb scan --table-name terraform-dev-sres
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;Items&#34;</span>: <span style="color:#f92672">[</span>
+        <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;LockID&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;S&#34;</span>: <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres/terraform-bootstrap/tfstate&#34;</span>
+            <span style="color:#f92672">}</span>,
+            <span style="color:#e6db74">&#34;Info&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;S&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;ID\&#34;:\&#34;c2869c54-ff40-2824-ffee-1a409a834d6e\&#34;,\&#34;Operation\&#34;:\&#34;OperationTypeApply\&#34;,\&#34;Info\&#34;:\&#34;\&#34;,\&#34;Who\&#34;:\&#34;the-ops-hero@localhost\&#34;,\&#34;Version\&#34;:\&#34;0.14.7\&#34;,\&#34;Created\&#34;:\&#34;2021-03-11T05:21:19.5567361Z\&#34;,\&#34;Path\&#34;:\&#34;terraform--bootstrap-dev-sres/terraform-bootstrap/tfstate\&#34;}&#34;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Digest&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;S&#34;</span>: <span style="color:#e6db74">&#34;4cca273212ee805d228e8d662d4f4c6d&#34;</span>
+            <span style="color:#f92672">}</span>,
+            <span style="color:#e6db74">&#34;LockID&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;S&#34;</span>: <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres/terraform-bootstrap/tfstate-md5&#34;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Digest&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;S&#34;</span>: <span style="color:#e6db74">&#34;413f17b8b57764a4c7339837f75e7516&#34;</span>
+            <span style="color:#f92672">}</span>,
+            <span style="color:#e6db74">&#34;LockID&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;S&#34;</span>: <span style="color:#e6db74">&#34;terraform-bootstrap-dev-sres/terraform-bootstrap/tfstatex-md5&#34;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">]</span>,
+    <span style="color:#e6db74">&#34;Count&#34;</span>: 3,
+    <span style="color:#e6db74">&#34;ScannedCount&#34;</span>: 3,
+    <span style="color:#e6db74">&#34;ConsumedCapacity&#34;</span>: null
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Se você der um &lsquo;terraform plan&rsquo; em outra janela, é exatamente isso que você vai ver:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ terraform plan
+Acquiring state lock. This may take a few moments...
+
+Error: Error locking state: Error acquiring the state lock: ConditionalCheckFailedException: The conditional request failed
+Lock Info:
+  ID:        c2869c54-ff40-2824-ffee-1a409a834d6e
+  Path:      terraform-bootstrap-dev-sres/terraform-bootstrap/tfstate
+  Operation: OperationTypeApply
+  Who:       the-ops-hero@localhost
+  Version:   0.14.7
+  Created:   2021-03-11 05:21:19.5567361 +0000 UTC
+  Info:
+
+
+Terraform acquires a state lock to protect the state from being written
+by multiple users at the same time. Please resolve the issue above and try
+again. For most commands, you can disable locking with the <span style="color:#e6db74">&#34;-lock=false&#34;</span>
+flag, but this is not recommended.
+</code></pre></div><p>Confirme as mudanças.</p>
+<p>Suba seu código para o git.</p>
+<p>Sua aventura Terraform com AWS agora está <strong>pronta para começar</strong>!</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/terraform/">terraform</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/aws/">aws</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/terraform/">terraform</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/aws/">aws</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+      <a href="/marcelo/blog/surviving-with-terraforming-on-aws-1/" class="button left"><span>Calico IPPool dedicado para Infraestrutura</span></a>
+    
+    
+      <a href="/marcelo/blog/kubernetes-on-prem-4/" class="button right"><span>Kubernetes on-premises - parte 4</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/surviving-with-terraforming-on-aws-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="Minecraft">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/surviving-with-terraforming-on-aws-1/">Calico IPPool dedicado para Infraestrutura</a></h2>
+          <time class="published" datetime="2021-04-13 00:00:00 &#43;0000 UTC">13 de April, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calico-cni-ippool-infrastructure/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/valhein-dropoff.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/valhein-dropoff.png" alt="Minecraft">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calico-cni-ippool-infrastructure/">Sobrevivendo com Terraform na AWS - parte 1</a></h2>
+          <time class="published" datetime="2021-03-11 00:00:00 &#43;0000 UTC">11 de March, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-4/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/minecraft.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/minecraft.png" alt="Minecraft">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-4/">Kubernetes on-premises - parte 4</a></h2>
+          <time class="published" datetime="2021-01-11 00:00:00 &#43;0000 UTC">11 de January, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-3/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/bridge-fail.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/bridge-fail.jpg" alt="There is a piece missing">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-3/">Kubernetes on-premises - parte 3</a></h2>
+          <time class="published" datetime="2021-01-01 00:00:00 &#43;0000 UTC">1 de January, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-2/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/blueprint.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/blueprint.jpg" alt="Building from ground up">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-2/">Kubernetes on-premises - parte 2</a></h2>
+          <time class="published" datetime="2020-12-19 00:00:00 &#43;0000 UTC">19 de December, 2020</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">10</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/on-prem/">on-prem<span class="count">4</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/passado/">passado<span class="count">4</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/aws/">aws<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ceph/">ceph<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/csi/">csi<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/govc/">govc<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ingress/">ingress<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/network/">network<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2021 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.81.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.1ac7a98b06451b2770fdaaee2f67721ab7e137a5fee8352dc78a33e7a69b3244.js" integrity="sha256-GsepiwZFGydw/aruL2dyGrfhN6X&#43;6DUtx4oz56abMkQ="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>
