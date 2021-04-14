@@ -2,19 +2,26 @@
 <html lang="pt">
   <head>
   <meta charset="utf-8">
-<title>prometheus - </title>
+<title>Calico IPPool dedicado para Infraestrutura - </title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="generator" content="Hugo 0.81.0" /><meta itemprop="name" content="prometheus">
-<meta itemprop="description" content=""><meta property="og:title" content="prometheus" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://devsres.com/marcelo/tags/prometheus/" />
+<meta name="generator" content="Hugo 0.81.0" /><meta itemprop="name" content="Calico IPPool dedicado para Infraestrutura">
+<meta itemprop="description" content="Como habilitar um IPPool apenas para os administradores"><meta itemprop="datePublished" content="2021-04-13T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-04-13T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="286"><meta itemprop="image" content="">
+<meta itemprop="keywords" content="calico,kubernetes," /><meta property="og:title" content="Calico IPPool dedicado para Infraestrutura" />
+<meta property="og:description" content="Como habilitar um IPPool apenas para os administradores" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/calico-ippool-infrastructure/" /><meta property="og:image" content="" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-04-13T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-04-13T00:00:00&#43;00:00" />
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="prometheus"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="Calico IPPool dedicado para Infraestrutura"/>
+<meta name="twitter:description" content="Como habilitar um IPPool apenas para os administradores"/>
 <meta name="twitter:site" content="@marcelo_devsres"/>
 <link rel="stylesheet" href="/marcelo/css/bundle.min.7af44880fa8f2867fbbf1b1e6758774b791bf321699b23f84be69e26e842c64a.css" integrity="sha256-evRIgPqPKGf7vxseZ1h3S3kb8yFpmyP4S&#43;aeJuhCxko="><link rel="stylesheet" href="/marcelo/css/add-on.css">
 </head>
@@ -27,7 +34,7 @@
     <h1 class="nav-title">
       <a href="/marcelo/" class="nav">
         
-          Tags
+          Blog
         
       </a>
     </h1>
@@ -122,37 +129,37 @@
 
   
     
-    <a href="//twitter.com/share?text=prometheus&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2ftags%2fprometheus%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+    <a href="//twitter.com/share?text=Calico%20IPPool%20dedicado%20para%20Infraestrutura&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
         <p>Twitter</p>
       </a>
   
 
   
-      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2ftags%2fprometheus%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
         <p>Facebook</p>
         </a>
   
 
   
-    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2ftags%2fprometheus%2f&amp;title=prometheus" target="_blank" rel="noopener" class="nav share-btn reddit">
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f&amp;title=Calico%20IPPool%20dedicado%20para%20Infraestrutura" target="_blank" rel="noopener" class="nav share-btn reddit">
           <p>Reddit</p>
         </a>
   
 
   
-        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2ftags%2fprometheus%2f&amp;title=prometheus" target="_blank" rel="noopener" class="nav share-btn linkedin">
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f&amp;title=Calico%20IPPool%20dedicado%20para%20Infraestrutura" target="_blank" rel="noopener" class="nav share-btn linkedin">
             <p>LinkedIn</p>
           </a>
   
 
   
-        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2ftags%2fprometheus%2f&amp;description=prometheus" target="_blank" rel="noopener" class="nav share-btn pinterest">
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f&amp;description=Calico%20IPPool%20dedicado%20para%20Infraestrutura" target="_blank" rel="noopener" class="nav share-btn pinterest">
           <p>Pinterest</p>
         </a>
   
 
   
-        <a href="mailto:?subject=Confira%20esta%20postagem%20por %7b%20%20%20%20%20%20%20%20map%5b%5d%7d&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2ftags%2fprometheus%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
           <p>Email</p>
         </a>
   
@@ -175,8 +182,6 @@
     <footer>
       <ul class="socnet-icons">
         
-    <li><a href="/marcelo/tags/prometheus/index.xml" type="application/rss+xml" target="_blank" title="RSS" class="fas fa-rss"></a></li>
-
 
         <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
 
@@ -227,44 +232,125 @@
 
       <main id="site-main">
         
-  
-  
-    <article class="post">
-  <header>
+  <article class="post">
+    <header>
   <div class="title">
     
-      <h2><a href="/marcelo/blog/prometheus-node-exporter-tls/">Prometheus node exporter com TLS</a></h2>
+      <h2><a href="/marcelo/blog/calico-ippool-infrastructure/">Calico IPPool dedicado para Infraestrutura</a></h2>
     
     
-      <p>Restringindo acesso ao endpoint de métricas da sua máquina</p>
+      <p>Como habilitar um IPPool apenas para os administradores</p>
     
   </div>
   <div class="meta">
-    <time datetime="2020-10-30 00:00:00 &#43;0000 UTC">30 de October, 2020</time>
+    <time datetime="2021-04-13 00:00:00 &#43;0000 UTC">13 de April, 2021</time>
     <p>Marcelo Andrade</p>
-    <p>7 Minutos De Leitura</p>
+    <p>2 Minutos De Leitura</p>
   </div>
 </header>
 
-  <div class="content">
-    <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/prometheus.png');">
-    <img src="https://devsres.com/marcelo/img/reusable/prometheus.png" alt="Prometheus having its liver devoured by the eagle">
-  </a>
+    <div id="socnet-share">
+      
+
+
+
+
+  
     
-    <p>Ah, Prometheus. O mundo &ldquo;<em>cloud-native</em>&rdquo; simplesmente <strong>adora</strong>.</p>
-  </div>
-  <footer>
-    <a href="/marcelo/blog/prometheus-node-exporter-tls/" class="button big">Leia Mais</a>
-    <div class="stats">
+    <a href="//twitter.com/share?text=Calico%20IPPool%20dedicado%20para%20Infraestrutura&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f&amp;title=Calico%20IPPool%20dedicado%20para%20Infraestrutura" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f&amp;title=Calico%20IPPool%20dedicado%20para%20Infraestrutura" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f&amp;description=Calico%20IPPool%20dedicado%20para%20Infraestrutura" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fcalico-ippool-infrastructure%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/calico-ippool-infrastructure/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="Minecraft">
+  </a>
+      <p><strong>Setup</strong>: Kubernetes com Calico CNI.</p>
+<p>Você tem o IPPool &ldquo;oficial&rdquo; para os pods de workload dos seus tenants, limitado porque conta com IPs válidos na rede para auditoria e que não sofrem NAT (<em>natOutgoing=false</em>) em suas comunicações com serviços dentro ou fora do cluster.</p>
+<p>Ok.</p>
+<p>Mas temos alguns pods &ldquo;de infraestrutura&rdquo;. Esses pods executam nos mesmos hosts de workload normal, mas precisam de acesso diferenciado e não queremos desperdiçar IPs válidos com eles.</p>
+<p><strong>Solução 1</strong>:</p>
+<p>Você pode usar .hostNetwork=true (o equivalente K8s para o Docker &ndash;net=host).</p>
+<p>Isso não é nem conveniente (colisão de portas?), nem seguro (<a href="https://research.nccgroup.com/2020/11/30/technical-advisory-containerd-containerd-shim-api-exposed-to-host-network-containers-cve-2020-15257/)">https://research.nccgroup.com/2020/11/30/technical-advisory-containerd-containerd-shim-api-exposed-to-host-network-containers-cve-2020-15257/)</a>.</p>
+<p><strong>Solução 2</strong>:</p>
+<p>Criar um <strong>IPPool</strong>, com outro <strong>CIDR</strong> diferente do anterior, e inválido na Intranet. Nele você pode até mesmo usar um <em>natOutgoing=true</em> (SNAT para o IP do nó) para garantir os mesmos acessos do host ao Pod (que pode ser, por exemplo, um logshipper estilo fluentd/bit).</p>
+<p>Mas como impedir que Pods de workload recebam IPs? O Calico oferece a seguinte alternativa:</p>
+<p>1 - No **IPPool ** novo, é possível configurar o <em>nodeSelector=!all()</em>, que fará com que nenhum nó irá pegar blocos dessa rede automaticamente (ref: <a href="https://docs.projectcalico.org/reference/resources/ippool)">https://docs.projectcalico.org/reference/resources/ippool)</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ae81ff">$ cat ippool.yaml</span>
+<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">crd.projectcalico.org/v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">IPPool</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">infraestrutura</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">blockSize</span>: <span style="color:#ae81ff">25</span>
+  <span style="color:#f92672">cidr</span>: <span style="color:#ae81ff">172.16.0.0</span><span style="color:#ae81ff">/16</span>
+  <span style="color:#f92672">ipipMode</span>: <span style="color:#ae81ff">CrossSubnet</span>
+  <span style="color:#f92672">natOutgoing</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">nodeSelector</span>: !<span style="color:#ae81ff">all()</span>
+</code></pre></div><p>2 -  Nos elementos de infraestrutura desejados (namespace/deployment/daemonset), pode-se usar a <em>annotation</em> <em>cni.projectcalico.org/ipv4pools: &ldquo;[&quot;pool-infra&quot;]&quot;</em>. O Calico CNI se responsabilizará por dar o IP adequado. (ref: <a href="https://docs.projectcalico.org/networking/legacy-firewalls">https://docs.projectcalico.org/networking/legacy-firewalls</a>)</p>
+<p>No caso, configurei os Runners do Gitlab para provisionarem os Pods com a annotation apropriada:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod runner-hfuy2bn3-project-19241-concurrent-0 -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/ipv4pools: <span style="color:#e6db74">&#39;[&#34;infraestrutura&#34;]&#39;</span>
+  generateName: runner-hfuy2bn3-project-19241-concurrent-0
+  labels:
+    pod: runner-hfuy2bn3-project-19241-concurrent-0
+  name: runner-hfuy2bn3-project-19241-concurrent-0629tc
+  namespace: gitlab-runners
+</code></pre></div><p>O resultado é o abaixo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{range .items[*]}{.status.podIP}:{.metadata.name}{&#39;\n&#39;}{end}&#34;</span>
+10.10.100.1:gitlab-gitlab-runner-74b8bfb9c9-762hc
+10.10.100.2:gitlab-gitlab-runner-74b8bfb9c9-7hn2l
+10.10.100.3:gitlab-gitlab-runner-74b8bfb9c9-qqrpg
+172.16.12.2:runner-hfuy2bn3-project-19241-concurrent-0629tc
+
+</code></pre></div>
+    </div>
+    <footer>
+      <div class="stats">
   
     <ul class="categories">
       
         
-          <li><a class="article-terms-link" href="/marcelo/categories/prometheus/">prometheus</a></li>
+          <li><a class="article-terms-link" href="/marcelo/categories/calico/">calico</a></li>
         
-          <li><a class="article-terms-link" href="/marcelo/categories/node-exporter/">node-exporter</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/categories/tls/">tls</a></li>
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">kubernetes</a></li>
         
       
     </ul>
@@ -273,23 +359,50 @@
     <ul class="tags">
       
         
-          <li><a class="article-terms-link" href="/marcelo/tags/prometheus/">prometheus</a></li>
+          <li><a class="article-terms-link" href="/marcelo/tags/calico/">calico</a></li>
         
-          <li><a class="article-terms-link" href="/marcelo/tags/node-exporter/">node-exporter</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/tags/tls/">tls</a></li>
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernetes/">kubernetes</a></li>
         
       
     </ul>
   
 </div>
 
-  </footer>
-</article>
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
 
   
   <div class="pagination">
     
+    
+      <a href="/marcelo/blog/surviving-with-terraforming-on-aws-1/" class="button right"><span>Sobrevivendo com Terraform na AWS - parte 1</span></a>
     
   </div>
 
@@ -455,8 +568,6 @@
   
       <ul class="socnet-icons">
         
-    <li><a href="/marcelo/tags/prometheus/index.xml" type="application/rss+xml" target="_blank" title="RSS" class="fas fa-rss"></a></li>
-
 
         <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
 
