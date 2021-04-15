@@ -2,26 +2,26 @@
 <html lang="pt">
   <head>
   <meta charset="utf-8">
-<title>Por que Docker? - </title>
+<title>Refatorando projetos de Terraform - </title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="generator" content="Hugo 0.81.0" /><meta itemprop="name" content="Por que Docker?">
-<meta itemprop="description" content="Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático"><meta itemprop="datePublished" content="2020-09-21T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-09-21T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="784"><meta itemprop="image" content="">
-<meta itemprop="keywords" content="containers,docker,iniciando," /><meta property="og:title" content="Por que Docker?" />
-<meta property="og:description" content="Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático" />
+<meta name="generator" content="Hugo 0.81.0" /><meta itemprop="name" content="Refatorando projetos de Terraform">
+<meta itemprop="description" content="Ou: como fazer cirurgias em statefiles"><meta itemprop="datePublished" content="2021-04-15T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-04-15T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="882"><meta itemprop="image" content="">
+<meta itemprop="keywords" content="terraform," /><meta property="og:title" content="Refatorando projetos de Terraform" />
+<meta property="og:description" content="Ou: como fazer cirurgias em statefiles" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://devsres.com/marcelo/blog/why-docker/" /><meta property="og:image" content="" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2020-09-21T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2020-09-21T00:00:00&#43;00:00" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/terraform-refactoring-state/" /><meta property="og:image" content="" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-04-15T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-04-15T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content=""/>
 
-<meta name="twitter:title" content="Por que Docker?"/>
-<meta name="twitter:description" content="Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático"/>
+<meta name="twitter:title" content="Refatorando projetos de Terraform"/>
+<meta name="twitter:description" content="Ou: como fazer cirurgias em statefiles"/>
 <meta name="twitter:site" content="@marcelo_devsres"/>
 <link rel="stylesheet" href="/marcelo/css/bundle.min.7af44880fa8f2867fbbf1b1e6758774b791bf321699b23f84be69e26e842c64a.css" integrity="sha256-evRIgPqPKGf7vxseZ1h3S3kb8yFpmyP4S&#43;aeJuhCxko="><link rel="stylesheet" href="/marcelo/css/add-on.css">
 </head>
@@ -129,37 +129,37 @@
 
   
     
-    <a href="//twitter.com/share?text=Por%20que%20Docker%3f&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+    <a href="//twitter.com/share?text=Refatorando%20projetos%20de%20Terraform&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
         <p>Twitter</p>
       </a>
   
 
   
-      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
         <p>Facebook</p>
         </a>
   
 
   
-    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn reddit">
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f&amp;title=Refatorando%20projetos%20de%20Terraform" target="_blank" rel="noopener" class="nav share-btn reddit">
           <p>Reddit</p>
         </a>
   
 
   
-        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn linkedin">
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f&amp;title=Refatorando%20projetos%20de%20Terraform" target="_blank" rel="noopener" class="nav share-btn linkedin">
             <p>LinkedIn</p>
           </a>
   
 
   
-        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;description=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn pinterest">
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f&amp;description=Refatorando%20projetos%20de%20Terraform" target="_blank" rel="noopener" class="nav share-btn pinterest">
           <p>Pinterest</p>
         </a>
   
 
   
-        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
           <p>Email</p>
         </a>
   
@@ -236,16 +236,16 @@
     <header>
   <div class="title">
     
-      <h2><a href="/marcelo/blog/why-docker/">Por que Docker?</a></h2>
+      <h2><a href="/marcelo/blog/terraform-refactoring-state/">Refatorando projetos de Terraform</a></h2>
     
     
-      <p>Docker e contêiners - razões diretas e pragmáticas perdidas em um texto bem menos direto e pragmático</p>
+      <p>Ou: como fazer cirurgias em statefiles</p>
     
   </div>
   <div class="meta">
-    <time datetime="2020-09-21 00:00:00 &#43;0000 UTC">21 de September, 2020</time>
+    <time datetime="2021-04-15 00:00:00 &#43;0000 UTC">15 de April, 2021</time>
     <p>Marcelo Andrade</p>
-    <p>4 Minutos De Leitura</p>
+    <p>5 Minutos De Leitura</p>
   </div>
 </header>
 
@@ -257,37 +257,37 @@
 
   
     
-    <a href="//twitter.com/share?text=Por%20que%20Docker%3f&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+    <a href="//twitter.com/share?text=Refatorando%20projetos%20de%20Terraform&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
         <p>Twitter</p>
       </a>
   
 
   
-      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
         <p>Facebook</p>
         </a>
   
 
   
-    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn reddit">
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f&amp;title=Refatorando%20projetos%20de%20Terraform" target="_blank" rel="noopener" class="nav share-btn reddit">
           <p>Reddit</p>
         </a>
   
 
   
-        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;title=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn linkedin">
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f&amp;title=Refatorando%20projetos%20de%20Terraform" target="_blank" rel="noopener" class="nav share-btn linkedin">
             <p>LinkedIn</p>
           </a>
   
 
   
-        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f&amp;description=Por%20que%20Docker%3f" target="_blank" rel="noopener" class="nav share-btn pinterest">
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f&amp;description=Refatorando%20projetos%20de%20Terraform" target="_blank" rel="noopener" class="nav share-btn pinterest">
           <p>Pinterest</p>
         </a>
   
 
   
-        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fwhy-docker%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2fterraform-refactoring-state%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
           <p>Email</p>
         </a>
   
@@ -295,39 +295,163 @@
 
     </div>
     <div class="content">
-      <a href="/marcelo/blog/why-docker/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
-    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+      <a href="/marcelo/blog/terraform-refactoring-state/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/toy-operation.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/toy-operation.jpg" alt="Operation">
   </a>
-      <p>Em conversas - principalmente com pessoas dos dois extremos do espectro de idade - sobre nosso glorioso mercado de TI vez por outra surge este questionamento: por que usar Docker?</p>
-<p>Eu tendo a reclamação, em especial de estudantes e do pessoal novo: em casa, sem um arsenal de ferramentas de CI/CD implantadas por terceiros, parece uma incrível bobagem e perda de tempo. Dockerfile, rede virtual, putz, pra que complicar, se eu posso rodar tudo na minha máquina sem problemas?</p>
-<p>(Já o pessoal antigo, é preguiça e má vontade: vá aprender a usar contêineres e saia da zona de conforto imediatamente!)</p>
-<h2 id="por-que-docker">Por que Docker?</h2>
-<p>Essa resposta é trivial:</p>
-<p><strong>Docker é simples; Docker é fácil de entender; Docker &ldquo;faz tudo&rdquo;</strong>.</p>
-<p>Docker abstrai a infinidade de detalhes necessários para a execução de contêineres no Linux com um cobertor quente, bonito e agradável que permite ao seu usuário ser produtivo com um mínimo de overhead no aprendizado de uma tecnologia &ldquo;colateral&rdquo;.</p>
-<p>E mais: o &ldquo;engine Docker&rdquo; vai muito além: o software veio cuidar de praticamente todas as etapas do ciclo de vida de um contêiner, desde sua criação até viabilizar que as imagens cheguem onde desejamos - seja no host, seja no Docker Registry, mantido pelo Docker! -, passando pela execução e manutenção dos containers e imagens no servidor.</p>
-<p>Existe uma pergunta muito mais difícil, que inclusive muitos administradores de sistemas que usam contêineres todos os dias nos últimos anos não sabe responder:</p>
-<p><strong>Se você não usar Docker, vai usar o quê?</strong></p>
-<p>Até mesmo pesquisar essa resposta é <a href="#sup1">difícil<sup>1</sup></a>; muitos dos conteúdos disponíveis sobre o assunto estão ou extremamente defasados ou simplesmente errados em suas comparações. A resposta a essa pergunta <strong>não atende às necessidades da maioria dos profissionais de TI</strong>, logo é irrelevante (você tem interesse na resposta? Se sim, <a href="https://twitter.com/marcelo_devsres">me</a> <a href="https://www.instagram.com/marcelo_devsres/">deixe</a> <a href="https://www.facebook.com/devsresnetwork">saber</a>!).</p>
-<p>Enquanto a &ldquo;concorrência&rdquo; não trabalhar isso, Docker será o líder incontestável em uso.</p>
-<h2 id="por-que-containers">Por que containers?</h2>
-<p>Falando a verdade, a pergunta correta não é &ldquo;por que usar Docker&rdquo;, e sim, por que usar contêineres. Esta sim, diferentemente da primeira, é uma pergunta sem resposta direta e imediata.</p>
-<p>Eu poderia copiar definições, justificativas e citar mil livros ou páginas importantes explicando o porquê da relevância da tecnologia de conteinerização sob as diferentes <a href="#sup2">óticas<sup>2</sup></a>. Mas, em verdade, o que falta para muitos é entender que problemas essa tecnologia veio resolver, e que pode ser resumido em uma sentença:</p>
-<p><strong>Contêineres resolvem o problema de &ldquo;na minha máquina funciona!&rdquo;.</strong></p>
-<p>Historicamente, sempre coube aos profissionais de infraestrutura o processo de implantação, manutenção e resolução de problemas em ambientes que executam programas elaborados por terceiros. E um desafio tradicional dessa época era a divergência entre os ambientes em que os softwares eram desenvolvidos, homologados e, por fim, postos em produção.</p>
-<p>Não era incomum ajustes nos ambientes serem feitos &ldquo;em tempo de homologação&rdquo; para corrigir problemas e se perderem na &ldquo;não documentação&rdquo; do sistema, que era passada para as áreas de operações implantarem (e, consequentemente, falharem). Também não era incomum o uso de plataformas radicalmente diferentes e incompatíveis entre si, gerando conflitos homéricos sobre o uso de versão de um sistema operacional não internalizado pela empresa, ou a necessidade de atualização de um serviço para uma tecnologia de pouco domínio por parte dos administradores de serviços. Mesmo para tecnologias que naturalmente são pensadas para &ldquo;rodar em todo lugar&rdquo;, como Java, encontra problemas com versões e parametrizações específicas que podem se perder na transição entre ambientes.</p>
-<p>Contêineres, por definição, resolvem o problema de &ldquo;reproducibilidade de resultados&rdquo;, ou &ldquo;portabilidade&rdquo; das aplicações: uma imagem Docker é gerada para a sua aplicação, com todos os arquivos (como elementos do sistema operacional, bibliotecas e utilitários) e configurações necessários para sua execução. Uma consequência comum da adoção deste modelo é a obrigatoriedade de adoção de um mínimo de boas práticas, como por exemplo a parametrização para que a aplicação receba configurações que variam de ambiente para ambiente.</p>
-<p>Este problema já foi amplamente abordado no passado como virtualização de servidores e tecnologias de orquestração e gestão de configuração; nenhuma delas, entretanto, resolveu com a elegância e simplicidade de simplesmente &ldquo;socar&rdquo; tudo que é necessário em uma unidade parametrizável e orquestrável.</p>
-<p>A partir desta entidade <a href="#sup3"><strong>Contêiner</strong><sup>3</sup></a> que trivializa a implantação (&quot;<em>deploy</em>&quot;) de um software, está aberto agora o caminho para a construção de novas soluções que resolvam outros problemas do processo de desenvolvimento de software e otimizem ainda mais o processo de entrega de resultados por parte das equipes.</p>
-<hr>
-<p><sup id=sup1>1</sup> Os melhores links sequer apareciam na página principal do Google:</p>
-<ul>
-<li><a href="https://www.capitalone.com/tech/cloud/container-runtime/">A Comprehensive Container Runtime Comparison</a></li>
-<li><a href="https://wiki.aquasec.com/display/containers/Docker+Alternatives+-+Rkt%2C+LXD%2C+OpenVZ%2C+Linux+VServer%2C+Windows+Containers">Aquasec: Docker Alternatives</a></li>
-</ul>
-<p><sup id=sup2>2</sup> <a href="https://duvidas.dicio.com.br/optica-optico-otica-ou-otico/">&ldquo;Ópticas&rdquo; é muito feio.</a></p>
-<p><sup id=sup2>3</sup> Observe que, no Linux, &ldquo;Contêiner&rdquo; <strong>não</strong> é uma primitiva do sistema operacional, e sim um conjunto destas. Do ponto de vista prático, acaba sendo uma.</p>
+      <p>Então, você fez algumas configurações em Terraform enquanto está aprendendo.</p>
+<p>Agora aprendeu que o ideal é agrupar as configurações comuns em <strong>Módulos</strong> para garantir reusabilidade de código. É hora de &ldquo;empacotá-las&rdquo;.</p>
+<p>Só que você já usou seu código algumas vezes. E aí, o que acontece?</p>
+<h2 id="criação-do-módulo">Criação do módulo</h2>
+<p>Fiz um exemplo bem simples: um código que cria um grupo e um repositório de Gitlab. Vou criar um módulo para ele.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#75715e"># modulo/gitlab-crap/main.tf
+</span><span style="color:#75715e"># 
+</span><span style="color:#75715e"># Um grupo é uma &#39;pasta&#39; lógica no Gitlab para agrupar repositórios.
+</span><span style="color:#75715e"># Não há equivalente no Github; o mais próximo é a maneira como repositórios são criados sob Organizations.
+</span><span style="color:#75715e">#
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;gitlab_group&#34; &#34;cluster_group&#34;</span> {<span style="color:#75715e">
+</span><span style="color:#75715e">  # Nome é o que será exibido. Pode ser uma string &#39;complicada&#39;.
+</span><span style="color:#75715e"></span>  name        <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">cluster_id</span><span style="color:#75715e">
+</span><span style="color:#75715e">  
+</span><span style="color:#75715e">  # Path é a parte que vai na URL. Precisa ser mais simples.
+</span><span style="color:#75715e"></span>  path        <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">cluster_id</span><span style="color:#75715e">
+</span><span style="color:#75715e">  
+</span><span style="color:#75715e">  # O grupo é criado na &#39;raiz&#39; ou em outro grupo? No meu caso, é em outro grupo.
+</span><span style="color:#75715e"></span>  parent_id   <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">gitlab_parent_id</span>
+  
+  visibility_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;private&#34;</span>
+  description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Cluster ${var.cluster_id}&#34;</span>
+}<span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">#
+</span><span style="color:#75715e"># O repositório git é chamado de &#39;Project&#39; no Gitlab.
+</span><span style="color:#75715e">#
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;gitlab_project&#34; &#34;cluster&#34;</span> {<span style="color:#75715e">
+</span><span style="color:#75715e">  # Nome é o que será exibido. Pode ser uma string &#39;complicada&#39;.
+</span><span style="color:#75715e"></span>  name        <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">cluster_id</span><span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">  # Aqui vai o grupo em que o repositório vai ser criado. Podia ser parent_id, né? Só que não é.
+</span><span style="color:#75715e"></span>  namespace_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">gitlab_group</span>.<span style="color:#66d9ef">cluster_group</span>.<span style="color:#66d9ef">id</span>
 
+  visibility_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;private&#34;</span>
+  description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Cluster ${var.cluster_id}&#34;</span>
+}
+</code></pre></div><p>Ok. Do jeito que está, o código obviamente é bem simples, apenas para exemplificar o problema.</p>
+<p>Todo código Terraform tem pelo menos um módulo; o principal, que é onde você executa Terraform init, plan, apply é chamado de módulo raiz ou <strong>Root Module</strong>.</p>
+<blockquote>
+<p>Dica: O conceito de <em>Root Module</em> pode parecer bobagem, mas a terminologia é importante se você pretende fazer a prova de certificação Hashicorp Terraform Associate.</p>
+</blockquote>
+<p>A ideia é migrar esse código para um módulo. Ok, sem mistérios.</p>
+<p>Criar um módulo é só combinar o arquivo acima com um arquivo de definição de variáveis, que serão as <strong>inputs</strong> do módulo:</p>
+<pre><code># modulo/gitlab-crap/variables.tf
+variable cluster_id {
+  type = string
+  description = &quot;Id do cluster no formato spx/dfy.&quot;
+}
+
+variable gitlab_parent_id {
+  type = string
+  description = &quot;Id do Grupo do Gitlab em que a estrutura será criada.&quot;
+}
+</code></pre><p>Como estamos usando as versões mais novas do Terraform, também precisamos da definição das versões de providers exigidas:</p>
+<pre><code>terraform {
+  required_providers {
+    gitlab = {
+      source = &quot;gitlabhq/gitlab&quot;
+      version = &quot;~&gt;3.6.0&quot;
+    }
+  }
+}
+</code></pre><p>Este requisito é particularmente necessário porque o Terraform não encontrará o <strong>provider</strong> gitlab automaticamente por não ser &lsquo;fornecido&rsquo; pela Hashicorp.</p>
+<h2 id="ajuste-do-módulo-raiz">Ajuste do módulo raiz</h2>
+<p>O código do módulo raiz agora é resumido a:</p>
+<pre><code>terraform {
+  required_providers {
+    gitlab = {
+      source = &quot;gitlabhq/gitlab&quot;
+      version = &quot;~&gt;3.6.0&quot;
+    }
+  }
+}
+
+provider &quot;gitlab&quot; {
+}
+
+data &quot;gitlab_group&quot; &quot;workgroup&quot; {
+  full_path = &quot;CDNPS/incubus&quot;
+}
+
+module &quot;gitlab_crap&quot; {
+
+  # 
+  source = &quot;/srv/terraform/modules/gitlab-crap&quot;
+  cluster_id = terraform.workspace
+  gitlab_parent_id = data.gitlab_group.workgroup.group_id
+
+}
+</code></pre><p>Sim, você precisa duplicar as configurações de required_providers em todos os módulos - é a maneira que o Teraform encontra para garantir que o programa funcionará.</p>
+<blockquote>
+<p>A atribuição &lsquo;~&gt;&rsquo; no campo <em>version</em> do <em>map</em> associado ao <em>provider</em> gitlab indica que podemos usar qualquer nova <em>patch release</em> da <em>minor version</em> especificada (ou seja, 3.6.*). Enfatizando: se a versão 3.6.1 for lançada, meu código poderá fazer uso dessa versão, mas se a atualização for 3.7.0, o Terraform <strong>a ignorará</strong>.]</p>
+</blockquote>
+<h2 id="o-que-vai-acontecer">O que vai acontecer?</h2>
+<p>Okay. Meu código já foi modularizado. Eu já rodei o código antes, e coisas foram criadas.</p>
+<ul>
+<li>
+<p>O que eu gostaria que acontecesse? Que <strong>nada</strong> fosse modificado, já que efetivamente eu apenas movi código de lugar, não modifiquei nada da minha infraestrutura.</p>
+</li>
+<li>
+<p>O que vai acontecer?</p>
+</li>
+</ul>
+<p>Isso aqui:</p>
+<pre><code># Gerar arquivo das modificações
+$ terraform plan -out plan
+
+# Como ler o plan do Terraform? Com o comando show -json e jq.
+$ terraform show -json plan | jq -r '.resource_changes[] | &quot;\(.change.actions[]):\(.address)&quot;'
+delete:gitlab_group.cluster_group
+delete:gitlab_project.cluster
+create:module.gitlab-crap.gitlab_group.cluster_group
+create:module.gitlab-crap.gitlab_project.cluster
+</code></pre><p>Logo, em vez de simplesmente &lsquo;renomear&rsquo; os <em>resources</em> criados, o Terraform irá destruir tudo que existia e recriar a mesma coisa sob o novo nome de resource, agora referenciando o <em>module</em>.</p>
+<p>Observe que são os mesmos nomes, exceto pelo prefixo.</p>
+<h2 id="o-que-fazer">O que fazer?</h2>
+<p>No meu exemplo bobo, eu podia simplesmente ignorar e deixar rolar.</p>
+<p>Mas preferi parar o trabalho gastar um tempo escrevendo este post para você! Então vamos operar no <em>Statefile</em>, para impedir essa devastação na infraestrutura.</p>
+<pre><code># Este comando exibe o que está no statefile:
+$ terraform state list
+data.gitlab_group.workgroup
+gitlab_group.cluster_group
+gitlab_project.cluster
+</code></pre><p>Vamos mover os recursos (não precisamos mexer no data) para colocá-los sob o módulo. Basta replicar a estrutura exibida pelo <em>Plan</em>.</p>
+<pre><code>$ terraform state mv gitlab_project.cluster module.gitlab-crap.gitlab_project.cluster
+Move &quot;gitlab_project.cluster&quot; to &quot;module.gitlab-crap.gitlab_project.cluster&quot;
+Successfully moved 1 object(s).
+
+$ terraform state mv gitlab_group.cluster_group module.gitlab-crap.gitlab_group.cluster_group
+Move &quot;gitlab_group.cluster_group&quot; to &quot;module.gitlab-crap.gitlab_group.cluster_group&quot;
+Successfully moved 1 object(s).
+</code></pre><p>Aquela verificada para ver o state:</p>
+<pre><code>$ terraform state list
+data.gitlab_group.workgroup
+module.gitlab-crap.gitlab_group.cluster_group
+module.gitlab-crap.gitlab_project.cluster
+</code></pre><p>Será que funcionou?</p>
+<pre><code>$ terraform plan
+module.gitlab_terraform_pipelines.gitlab_group.cluster_group: Refreshing state... [id=11914]
+module.gitlab_terraform_pipelines.gitlab_project.cluster: Refreshing state... [id=19325]
+
+No changes. Infrastructure is up-to-date.
+
+This means that Terraform did not detect any differences between your
+configuration and real physical resources that exist. As a result, no
+actions need to be performed.
+</code></pre><p>Win!</p>
+<hr>
+<p>Como o post não era de shell script, eu preferi clareza over shell script quality, mas poderíamos ter feito assim:</p>
+<pre><code>$ for i in $( terraform state list | tail -n+2); do \
+&gt;   terraform state mv {,module.gitlab-crap.}$i
+&gt; done
+</code></pre>
     </div>
     <footer>
       <div class="stats">
@@ -335,11 +459,7 @@
     <ul class="categories">
       
         
-          <li><a class="article-terms-link" href="/marcelo/categories/containers/">containers</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/categories/docker/">docker</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/categories/iniciando/">Iniciando</a></li>
+          <li><a class="article-terms-link" href="/marcelo/categories/terraform/">terraform</a></li>
         
       
     </ul>
@@ -348,11 +468,7 @@
     <ul class="tags">
       
         
-          <li><a class="article-terms-link" href="/marcelo/tags/containers/">containers</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/tags/docker/">docker</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/tags/iniciando/">iniciando</a></li>
+          <li><a class="article-terms-link" href="/marcelo/tags/terraform/">terraform</a></li>
         
       
     </ul>
@@ -392,10 +508,8 @@
   
   <div class="pagination">
     
-      <a href="/marcelo/blog/terraform-import-watch-out/" class="button left"><span>Cuidado com terraform import</span></a>
     
-    
-      <a href="/marcelo/blog/kubernetes-where-to-start/" class="button right"><span>Kubernetes: por onde começar</span></a>
+      <a href="/marcelo/blog/calico-ippool-infrastructure/" class="button right"><span>Calico IPPool dedicado para Infraestrutura</span></a>
     
   </div>
 

@@ -6,7 +6,19 @@
     <description>Recent content in terraform on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Thu, 11 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/terraform/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/categories/terraform/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Refatorando projetos de Terraform</title>
+      <link>https://devsres.com/marcelo/blog/terraform-refactoring-state/</link>
+      <pubDate>Thu, 15 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/terraform-refactoring-state/</guid>
+      <description>Então, você fez algumas configurações em Terraform enquanto está aprendendo.
+Agora aprendeu que o ideal é agrupar as configurações comuns em Módulos para garantir reusabilidade de código. É hora de &amp;ldquo;empacotá-las&amp;rdquo;.
+Só que você já usou seu código algumas vezes. E aí, o que acontece?
+Criação do módulo Fiz um exemplo bem simples: um código que cria um grupo e um repositório de Gitlab. Vou criar um módulo para ele.</description>
+    </item>
+    
     <item>
       <title>Sobrevivendo com Terraform na AWS - parte 1</title>
       <link>https://devsres.com/marcelo/blog/surviving-with-terraforming-on-aws-1/</link>

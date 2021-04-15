@@ -1,0 +1,58 @@
++++
+title = "DNS no Kubernetes - 101"
+description = "Aprendendo o básico de resolução de nomes do Kubernetes"
+author = "Marcelo Andrade"
+date = "2021-04-13"
+tags = ["coredns", "kubernetes"]
+categories = ["coredns", "kubernetes"]
+[[images]]
+  src = "img/reusable/hammer-screw.jpg"
+  alt = "Minecraft"
+  stretch = ""
++++
+
+# DNS on K8s 101DNS no Kubernetes - 101
+
+Se você mexe com um pouco mais de destreza com Kubernetes, já teve a curiosidade de executar o seguinte comando em um pod:
+
+```bash
+$ k run diagnostics --image=internal.hub/diagnostics 
+$ k expose pod/diagnostics --port 443
+$ k exec diagnostics -- cat /etc/resolv.conf
+nameserver 169.254.25.10
+search default.svc.cluster.local svc.cluster.local cluster.local
+options ndots:5
+```
+
+A partir da leitura [da documentação oficial](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/), podemos aprender que:
+
+> "Normal" (not headless) Services are assigned a DNS A or AAAA record, depending on the IP family of the service, for a name of the form **my-svc**.**my-namespace**.svc.cluster-domain.example
+
+No exemplo acima:
+
+```bash
+$ k exec diagnostics -- host diagnostics
+diagnostics.default.svc.infra.intranet.zone has address 10.43.0.11
+```
+
+É **bem menos conhecido** (até por ser meio inútil), mas também é criado um registro DNS apontando para **cada pod**. Qual a pegadinha?
+
+> In general a pod has the following DNS resolution: pod-ip-address.my-namespace.pod.cluster-domain.example.
+
+Putz, um registro DNS que tem o IP como parte do nome não ajuda muito.
+
+```bash
+$ k exec pod-comum -- host 192-168-42-69.gitlab-runners.pod.infra.intranet.zone
+192-168-42-69.default.pod.infra.intranet.zone has address 192.168.42.69
+```
+
+Ele faz a mesma coisa com deployments e daemonsets:
+
+```bash
+$ k exec pod-comum -- host 192-168-0-11.coredns.kube-system.svc
+192-168-0-11.coredns.kube-system.svc.infra.intranet.zone has address 192.168.0.11
+
+$ k exec pod-comum -- host 10-0-0-5.prometheus-node-exporter.kube-system.svc
+10-0-0-5.prometheus-node-exporter.kube-system.svc.infra.intranet.zone has address 10.0.0.5
+```
+
