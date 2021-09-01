@@ -233,77 +233,6 @@
   <header>
   <div class="title">
     
-      <h2><a href="/marcelo/blog/aws-ssm-session-manager-advanced/">SSH na AWS sem precisar abrir portas!</a></h2>
-    
-    
-      <p>Acessando máquinas sem abrir firewall na AWS</p>
-    
-  </div>
-  <div class="meta">
-    <time datetime="2021-08-31 00:00:00 &#43;0000 UTC">31 de August, 2021</time>
-    <p>Marcelo Andrade</p>
-    <p>2 Minutos De Leitura</p>
-  </div>
-</header>
-
-  <div class="content">
-    <a href="/marcelo/blog/aws-ssm-session-manager-advanced/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
-    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
-  </a>
-    
-    <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Uma outra maneira seria  usar</span>
-<span style="color:#75715e"># aws iam get-user --query=&#39;User.Username&#39;</span>
-$ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span> aws sts get-caller-identity --query <span style="color:#e6db74">&#39;Arn&#39;</span> --output text | cut -f2 -d<span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#66d9ef">)</span>
-</code></pre></div><ul>
-<li>Upload da chave SSH:</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws ec2 import-key-pair <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --key-name <span style="color:#e6db74">&#34;</span>$AWS_USER<span style="color:#e6db74">&#34;</span>  <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --public-key-material<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;
-</span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span> cat ~/.ssh/id_ed25519.pub | base64 <span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-<span style="color:#f92672">{</span>
-    <span style="color:#e6db74">&#34;KeyFingerprint&#34;</span>: <span style="color:#e6db74">&#34;dqDNVFIfUJjiyoW3WGhucBmfzLe0t6tMs0VX7Hhz4CI=&#34;</span>,
-    <span style="color:#e6db74">&#34;KeyName&#34;</span>: <span style="color:#e6db74">&#34;cloud_user&#34;</span>,&hellip;</code></pre></div>
-  </div>
-  <footer>
-    <a href="/marcelo/blog/aws-ssm-session-manager-advanced/" class="button big">Leia Mais</a>
-    <div class="stats">
-  
-    <ul class="categories">
-      
-        
-          <li><a class="article-terms-link" href="/marcelo/categories/aws/">aws</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/categories/ssm/">ssm</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/categories/ssh/">ssh</a></li>
-        
-      
-    </ul>
-  
-  
-    <ul class="tags">
-      
-        
-          <li><a class="article-terms-link" href="/marcelo/tags/aws/">aws</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/tags/ssm/">ssm</a></li>
-        
-          <li><a class="article-terms-link" href="/marcelo/tags/ssh/">ssh</a></li>
-        
-      
-    </ul>
-  
-</div>
-
-  </footer>
-</article>
-
-  
-    <article class="post">
-  <header>
-  <div class="title">
-    
       <h2><a href="/marcelo/blog/aws-ssm-session-manager/">SSH na AWS sem precisar abrir portas!</a></h2>
     
     
@@ -410,6 +339,61 @@ $ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</sp
 </article>
 
   
+    <article class="post">
+  <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/calico-ippool-infrastructure/">Calico IPPool dedicado para Infraestrutura</a></h2>
+    
+    
+      <p>Como habilitar um IPPool apenas para os administradores</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2021-04-13 00:00:00 &#43;0000 UTC">13 de April, 2021</time>
+    <p>Marcelo Andrade</p>
+    <p>2 Minutos De Leitura</p>
+  </div>
+</header>
+
+  <div class="content">
+    <a href="/marcelo/blog/calico-ippool-infrastructure/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="Minecraft">
+  </a>
+    
+    <p><strong>Setup</strong>: Kubernetes com Calico CNI.</p>
+  </div>
+  <footer>
+    <a href="/marcelo/blog/calico-ippool-infrastructure/" class="button big">Leia Mais</a>
+    <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/calico/">calico</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/kubernetes/">kubernetes</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/calico/">calico</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/kubernetes/">kubernetes</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+  </footer>
+</article>
+
+  
   <div class="pagination">
     
     
@@ -424,16 +408,6 @@ $ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</sp
       <header>
         <h1>Posts Recentes</h1>
       </header>
-      
-      <article class="mini-post">
-          <a href="/marcelo/blog/aws-ssm-session-manager-advanced/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
-    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
-  </a>
-        <header>
-          <h2><a href="/marcelo/blog/aws-ssm-session-manager-advanced/">SSH na AWS sem precisar abrir portas!</a></h2>
-          <time class="published" datetime="2021-08-31 00:00:00 &#43;0000 UTC">31 de August, 2021</time>
-        </header>
-      </article>
       
       <article class="mini-post">
           <a href="/marcelo/blog/aws-ssm-session-manager/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
@@ -475,6 +449,16 @@ $ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</sp
         </header>
       </article>
       
+      <article class="mini-post">
+          <a href="/marcelo/blog/kubernetes-on-prem-4/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/minecraft.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/minecraft.png" alt="Minecraft">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/kubernetes-on-prem-4/">Kubernetes on-premises - parte 4</a></h2>
+          <time class="published" datetime="2021-01-11 00:00:00 &#43;0000 UTC">11 de January, 2021</time>
+        </header>
+      </article>
+      
       
         <footer>
           <a href="/marcelo/blog/" class="button">Veja Mais</a>
@@ -503,9 +487,6 @@ $ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</sp
               <a href="/marcelo/categories/passado/">passado<span class="count">4</span></a>
           
           <li>
-              <a href="/marcelo/categories/aws/">aws<span class="count">3</span></a>
-          
-          <li>
               <a href="/marcelo/categories/calico/">calico<span class="count">3</span></a>
           
           <li>
@@ -515,16 +496,13 @@ $ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</sp
               <a href="/marcelo/categories/terraform/">terraform<span class="count">3</span></a>
           
           <li>
+              <a href="/marcelo/categories/aws/">aws<span class="count">2</span></a>
+          
+          <li>
               <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
           
           <li>
               <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
-          
-          <li>
-              <a href="/marcelo/categories/ssh/">ssh<span class="count">2</span></a>
-          
-          <li>
-              <a href="/marcelo/categories/ssm/">ssm<span class="count">2</span></a>
           
           <li>
               <a href="/marcelo/categories/vmware/">vmware<span class="count">2</span></a>
@@ -558,6 +536,12 @@ $ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</sp
           
           <li>
               <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ssh/">ssh<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ssm/">ssm<span class="count">1</span></a>
           
           <li>
               <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
