@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+  <meta charset="utf-8">
+<title>SSH na AWS sem precisar abrir portas! - </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.81.0" /><meta itemprop="name" content="SSH na AWS sem precisar abrir portas!">
+<meta itemprop="description" content="Acessando máquinas sem abrir firewall na AWS"><meta itemprop="datePublished" content="2021-08-31T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-08-31T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="983"><meta itemprop="image" content="">
+<meta itemprop="keywords" content="aws,ssm,ssh," /><meta property="og:title" content="SSH na AWS sem precisar abrir portas!" />
+<meta property="og:description" content="Acessando máquinas sem abrir firewall na AWS" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://devsres.com/marcelo/blog/aws-ssm-session-manager/" /><meta property="og:image" content="" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-08-31T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-08-31T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content=""/>
+
+<meta name="twitter:title" content="SSH na AWS sem precisar abrir portas!"/>
+<meta name="twitter:description" content="Acessando máquinas sem abrir firewall na AWS"/>
+<meta name="twitter:site" content="@marcelo_devsres"/>
+<link rel="stylesheet" href="/marcelo/css/bundle.min.7af44880fa8f2867fbbf1b1e6758774b791bf321699b23f84be69e26e842c64a.css" integrity="sha256-evRIgPqPKGf7vxseZ1h3S3kb8yFpmyP4S&#43;aeJuhCxko="><link rel="stylesheet" href="/marcelo/css/add-on.css">
+</head>
+
+  <body>
+    
+
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/marcelo/" class="nav">
+        
+          Blog
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu menu">
+      
+        
+          
+          <a href="/marcelo/" class="nav link"><i class='fas fa-home'></i> Início</a>
+        
+      
+        
+          
+          <a href="/marcelo/about/" class="nav link"><i class='far fa-id-card'></i> Sobre</a>
+        
+      
+        
+          
+          <a href="/marcelo/blog/" class="nav link"><i class='far fa-newspaper'></i> Blog</a>
+        
+      
+        
+          
+          <a href="/marcelo/categories/" class="nav link"><i class='fas fa-sitemap'></i> Categorias</a>
+        
+      
+        
+          
+          <a href="/marcelo/contact/" class="nav link"><i class='far fa-envelope'></i> Contato</a>
+        
+      
+      <a href="#share-menu" class="nav link share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      <a href="#search-input" class="nav link search-toggle"><i class="fas fa-search">&nbsp;</i>Search</a>
+    </menu>
+    <a href="#search-input" class="nav search-toggle"><i class="fas fa-search fa-2x">&nbsp;</i></a>
+    <a href="#share-menu" class="nav share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="nav lang-toggle" lang="pt">pt</a>
+    <a href="#site-nav" class="nav nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="search" class="menu"><input id="search-input" class="search-input menu"></input><div id="search-results" class="search-results menu"></div></menu>
+  <menu id="lang-menu" class="flyout-menu menu">
+  <a href="#" lang="pt" class="nav link active">Português (pt)</a>
+  
+    
+      
+        <a href="/marcelo/en" lang="en" class="nav no-lang link">English (en)</a>
+      
+    
+      
+        <a href="/marcelo/fr" lang="fr" class="nav no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/marcelo/pl" lang="pl" class="nav no-lang link">Polski (pl)</a>
+      
+    
+      
+    
+      
+        <a href="/marcelo/de" lang="de" class="nav no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/marcelo/es" lang="es" class="nav no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/marcelo/zh-cn" lang="zh-cn" class="nav no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/marcelo/zh-tw" lang="zh-tw" class="nav no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/marcelo/ja" lang="ja" class="nav no-lang link">日本語 (ja)</a>
+      
+    
+      
+        <a href="/marcelo/nl" lang="nl" class="nav no-lang link">Nederlands (nl)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f&amp;title=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f&amp;title=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f&amp;description=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/marcelo/"><img src="https://devsres.com/marcelo/img/main/marcelo.jpg" class="circle" width="100" alt="/dev/sre" /></a>
+  <header>
+    <h1>Marcelo Andrade</h1>
+  </header>
+  <main>
+    <p><b>Sysop 2 SRE</b></p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        
+  <article class="post">
+    <header>
+  <div class="title">
+    
+      <h2><a href="/marcelo/blog/aws-ssm-session-manager/">SSH na AWS sem precisar abrir portas!</a></h2>
+    
+    
+      <p>Acessando máquinas sem abrir firewall na AWS</p>
+    
+  </div>
+  <div class="meta">
+    <time datetime="2021-08-31 00:00:00 &#43;0000 UTC">31 de August, 2021</time>
+    <p>Marcelo Andrade</p>
+    <p>5 Minutos De Leitura</p>
+  </div>
+</header>
+
+    <div id="socnet-share">
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21&amp;url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f" target="_blank" rel="noopener" class="nav share-btn twitter">
+        <p>Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f" target="_blank" rel="noopener" class="nav share-btn facebook">
+        <p>Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f&amp;title=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21" target="_blank" rel="noopener" class="nav share-btn reddit">
+          <p>Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f&amp;title=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21" target="_blank" rel="noopener" class="nav share-btn linkedin">
+            <p>LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f&amp;description=SSH%20na%20AWS%20sem%20precisar%20abrir%20portas%21" target="_blank" rel="noopener" class="nav share-btn pinterest">
+          <p>Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Confira%20esta%20postagem%20por Marcelo%20Andrade&amp;body=https%3a%2f%2fdevsres.com%2fmarcelo%2fblog%2faws-ssm-session-manager%2f" target="_blank" class="nav share-btn email" data-proofer-ignore>
+          <p>Email</p>
+        </a>
+  
+
+
+    </div>
+    <div class="content">
+      <a href="/marcelo/blog/aws-ssm-session-manager/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+  </a>
+      <p>Algum tempo atrás, postei na minha página do Instagram um roteiro para começar a usar a AWS cli e criar uma instância EC2 na AWS. No fim, para mostrar que tudo funcionou, acessei a instância via SSH.</p>
+<p>Embora eu tenha restringido o Security Group da instância para meu endereço IP, no mundo ideal não devemos abrir a porta SSH dos hosts diretamente para Internet. A recomendação oficial é que se use um &ldquo;jumpbox&rdquo; como Bastion Host.</p>
+<p>A AWS oferece um recurso adicional: que tal acessar a sua máquina por meio da própria API? Isso é possível por meio do uso do <strong>AWS Systems Manager</strong>.</p>
+<p>O caminho é um pouco burocrático para chegar lá - especialmente se você quiser seguir o caminho ideal de hosts em subnet privadas sendo acessados via VPC endpoint. Tendo isso em consideração, vamos começar do jeito mais simples: uma máquina EC2 criada exatamente no mesmo modelo do primeiro post, com a única diferença de não contar com um <strong>Security Group</strong> com a porta 22 aberta.</p>
+<h2 id="foreplay">Foreplay</h2>
+<p>Para viabilizar o acesos da instância EC2 por meio do <strong>Systems Manager</strong>, vamos precisar gerenciar o IAM.</p>
+<p>Estas operações são bem mais simples usando a interface gráfica; justamente por isso, vamos fazer tudo pela <strong>linha de comando</strong>!</p>
+<p>Normalmente, para que uma instância EC2 faça uso de um serviço da AWS, é necessário atribuir uma <strong>Role</strong> do <strong>IAM</strong> para ela garantindo essas permissões. Por exemplo: sua aplicação irá acessar um <strong>bucket S3</strong> e o <strong>DynamoDB</strong>; a melhor maneira de viabilizar esse acesso é criar uma <strong>Role</strong> com as <strong>Policies</strong> apropriadas liberando os acessos. Ao fazer essa atribuição, a instância acessará os serviços sem precisar de credenciais na máquina ou algo assim.</p>
+<p>Precisaremos fazer isso neste laboratório. Descrevendo o procedimento etapa por etapa, é necessário:</p>
+<ul>
+<li>Criar a <strong>Policy</strong> do IAM;</li>
+<li>Criar a <strong>Role</strong> do IAM;</li>
+<li>Atrelar a <strong>Policy</strong> a <strong>Role</strong> do IAM;</li>
+<li>Atrelar a <strong>Role</strong> a um <strong>Instance Profile</strong>;</li>
+<li>Atrelar o <strong>Instance Profile</strong> à instância EC2.</li>
+</ul>
+<p><strong>Instance Profile</strong> é uma coisa que você não vê a partir da Console - a AWS cria implicitamente para você quando uma <strong>Role</strong> é associada a uma instância. Não é o caso pela linha de comando: você tem que saber que isso existe e sev irar.</p>
+<ul>
+<li>Vamos criar a policy garantindo os acessos necessários para o <strong>Systems Manager</strong>:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat &gt; ssm.policy.json <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">    &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span><span style="color:#e6db74">    &#34;Statement&#34;: [
+</span><span style="color:#e6db74">        {
+</span><span style="color:#e6db74">            &#34;Effect&#34;: &#34;Allow&#34;,
+</span><span style="color:#e6db74">            &#34;Action&#34;: [
+</span><span style="color:#e6db74">                &#34;ssm:UpdateInstanceInformation&#34;,
+</span><span style="color:#e6db74">                &#34;ssmmessages:CreateControlChannel&#34;,
+</span><span style="color:#e6db74">                &#34;ssmmessages:CreateDataChannel&#34;,
+</span><span style="color:#e6db74">                &#34;ssmmessages:OpenControlChannel&#34;,
+</span><span style="color:#e6db74">                &#34;ssmmessages:OpenDataChannel&#34;
+</span><span style="color:#e6db74">            ],
+</span><span style="color:#e6db74">            &#34;Resource&#34;: &#34;*&#34;
+</span><span style="color:#e6db74">        },
+</span><span style="color:#e6db74">        {
+</span><span style="color:#e6db74">            &#34;Effect&#34;: &#34;Allow&#34;,
+</span><span style="color:#e6db74">            &#34;Action&#34;: [
+</span><span style="color:#e6db74">                &#34;s3:GetEncryptionConfiguration&#34;
+</span><span style="color:#e6db74">            ],
+</span><span style="color:#e6db74">            &#34;Resource&#34;: &#34;*&#34;
+</span><span style="color:#e6db74">        }
+</span><span style="color:#e6db74">    ]
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+$ POLICY_NAME<span style="color:#f92672">=</span>ssm-lab-policy
+$ POLICY_ARN<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> aws iam create-policy     <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--policy-name $POLICY_NAME                 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--policy-document file://ssm.policy.json   <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--query <span style="color:#e6db74">&#39;Policy.Arn&#39;</span> --output text<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><ul>
+<li>Agora é a vez da <strong>Role</strong>. Note que é necessário passar um <strong>Assume Role Policy Document</strong> para o comando - na Console AWS, ele te oferece uma lista de botões para selecionar o serviço para ocultar a complexidade abaixo:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat &gt; arpd.ec2.json <span style="color:#e6db74">&lt;&lt; EOF 
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span><span style="color:#e6db74">  &#34;Statement&#34;: [
+</span><span style="color:#e6db74">    {
+</span><span style="color:#e6db74">      &#34;Effect&#34;: &#34;Allow&#34;,
+</span><span style="color:#e6db74">      &#34;Principal&#34;: {
+</span><span style="color:#e6db74">        &#34;Service&#34;: &#34;ec2.amazonaws.com&#34;
+</span><span style="color:#e6db74">      },
+</span><span style="color:#e6db74">      &#34;Action&#34;: &#34;sts:AssumeRole&#34;
+</span><span style="color:#e6db74">    }
+</span><span style="color:#e6db74">  ]
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+$ ROLE_NAME<span style="color:#f92672">=</span>ssm-lab-role
+
+$ ROLE_ARN<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> aws iam          <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  create-role                   <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --role-name $ROLE_NAME        <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --assume-role-policy-document <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  file://arpd.ec2.json          <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --query <span style="color:#e6db74">&#39;Role.Arn&#39;</span>            <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --output text<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><ul>
+<li>Não há qualquer associação da <strong>Role</strong> com a <strong>Policy</strong>. Você precisa fazê-la:</li>
+</ul>
+<pre><code>$ aws iam \ 
+  attach-role-policy         \
+  --role-name &quot;$ROLE_NAME&quot;   \
+  --policy-arn &quot;$POLICY_ARN&quot;
+</code></pre><blockquote>
+<p>Observação: caso não tivéssemos criado uma Policy &ldquo;nomeada&rdquo;, poderíamos passar a Policy no modo <strong>inline</strong> para a Role. Seria uma alternativa tranquila sem impacto aqui.</p>
+</blockquote>
+<ul>
+<li>Chegou a vez do <strong>Instance Profile</strong>:</li>
+</ul>
+<pre><code>$ IPROF_NAME=ssm-lab-irpof
+$ IPROF_ARN=$( aws iam               \ 
+create-instance-profile              \ 
+--instance-profile-name $IPROF_NAME  \ 
+--query 'InstanceProfile.Arn'        \
+--output text)
+
+$ echo $IPROF_ARN
+arn:aws:iam::533426116307:instance-profile/ssm-lab-iprof
+</code></pre><ul>
+<li>E da associação da Role ao Instance Profile:</li>
+</ul>
+<pre><code>$ aws iam                             \ 
+  add-role-to-instance-profile        \ 
+  --instance-profile-name $IPROF_NAME \
+  --role-name $ROLE_NAME
+</code></pre><h2 id="e-se-minha-máquina-já-existir">&ldquo;E se minha máquina já existir?&rdquo;</h2>
+<p>Sem bronca!</p>
+<p>Você precisa recuperar o ID da instância e fazer a atribuição com o comando abaixo.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws ec2 associate-iam-instance-profile --instance-id $INSTANCE_ID --iam-instance-profile Name<span style="color:#f92672">=</span>$IPROF_NAME
+
+An error occurred <span style="color:#f92672">(</span>IncorrectState<span style="color:#f92672">)</span> when calling the AssociateIamInstanceProfile operation: There is an existing association <span style="color:#66d9ef">for</span> instance i-0bc64fb2224bb30a9
+</code></pre></div><p>Obviamente, a saída do meu deu erro porque ele já contava com um Instance Profile associado. Se você receber esse erro, é porque a instância já conta com um Instance Profile e você não pode fazer a atribuição sem destituir o original.</p>
+<p>&ldquo;Ah, mas eu quero substituir mesmo assim!&rdquo;</p>
+<p>Não recomendo ir por aí; a saída deu erro porque já existe uma atribuição. E se existe uma atribuição, provavelmente é porque o Instance Profile <strong>serve para alguma coisa</strong>. Se o resto dos procedimentos para acecsso não funcionar, você pode averiguar a possibilidade de fazer um <strong>attach</strong> da <strong>Policy</strong> à <strong>Role</strong> associada ao <strong>Instance Profile</strong>.</p>
+<h2 id="criação-da-vm">Criação da VM</h2>
+<ul>
+<li>Garanta que você é quem você espera:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Alternativa mais segura ao aws iam get-user</span>
+$ AWS_USER<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span> aws sts         <span style="color:#ae81ff">\ </span>
+  get-caller-identity         <span style="color:#ae81ff">\ </span>
+  --query <span style="color:#e6db74">&#39;Arn&#39;</span> --output text <span style="color:#ae81ff">\ </span>
+  | cut -f2 -d<span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#66d9ef">)</span>
+
+$ echo $AWS_USER
+cloud_user
+</code></pre></div><ul>
+<li>Criação do Security Group</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ AWS_SG_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> 
+    aws ec2 create-security-group  <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --group-name <span style="color:#e6db74">&#39;Allow-NOTHING&#39;</span>   <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --description <span style="color:#e6db74">&#39;Allow-NOTHING&#39;</span>  <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --query <span style="color:#e6db74">&#39;GroupId&#39;</span>              <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --output text <span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+
+$ echo $AWS_SG_ID
+sg-0d02a898f10f974fa    
+</code></pre></div><ul>
+<li>Vocês lembram como recuperar o nome da AMI mais recente da region em uso? Não esqueçam, AMI IDs são diferentes em cada região.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ NS<span style="color:#f92672">=</span>ami-amazon-linux-latest
+$ TYPE<span style="color:#f92672">=</span>amzn2-ami-hvm-x86_64-ebs
+$ QUERY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Parameters[?ends_with(Name,\&#34;</span>$TYPE<span style="color:#e6db74">\&#34;)]&#34;</span>
+$ QUERY<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>QUERY//<span style="color:#ae81ff">\&#34;</span>/<span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">}</span>
+$ AWS_IMAGE_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> aws ssm    <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    get-parameters-by-path    <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --path /aws/service/<span style="color:#e6db74">${</span>NS<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --query <span style="color:#e6db74">${</span>QUERY<span style="color:#e6db74">}</span>.Value    <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --output<span style="color:#f92672">=</span>text <span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+
+$ echo $AWS_IMAGE_ID
+ami-0f5ea7c2783b14c09 
+</code></pre></div><ul>
+<li>Criação da EC2:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ INSTANCE_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> aws ec2          <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  run-instances --count <span style="color:#ae81ff">1</span>          <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --iam-instance-profile Name<span style="color:#f92672">=</span>$IPROF_NAME <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --instance-type t3.medium        <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --image-id $AWS_IMAGE_ID         <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --security-group-ids $AWS_SG_ID  <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --query <span style="color:#e6db74">&#39;Instances[].InstanceId&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --output text<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+
+$ echo $INSTANCE_ID
+i-066da13197caef1c4
+</code></pre></div><ul>
+<li>Recuperando o IP público:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ QUERY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Reservations[].Instances[].PublicIpAddress&#34;</span>
+$ INSTANCE_IP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span> aws ec2      <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  describe-instances         <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --instance-id $INSTANCE_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --query $QUERY --output text <span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><ul>
+<li>Testando a conectividade com o host:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ssh ec2_user@$INSTANCE_IP
+ssh: connect to host 44.195.32.134 port 22: Connection timed out
+</code></pre></div><p>Nada feito. Ótimo!</p>
+<p>Para acessá-la, vamos usar o <strong>Systems Manager</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws ssm start-session --target $INSTANCE_ID
+
+Starting session with SessionId: cloud_user-0af04a7a1abc2b0c8
+
+sh-4.2$ sudo -i
+<span style="color:#f92672">[</span>root@ip-172-31-10-222 ~<span style="color:#f92672">]</span><span style="color:#75715e">#</span>
+</code></pre></div><p>Win!</p>
+
+    </div>
+    <footer>
+      <div class="stats">
+  
+    <ul class="categories">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/aws/">aws</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/ssm/">ssm</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/categories/ssh/">ssh</a></li>
+        
+      
+    </ul>
+  
+  
+    <ul class="tags">
+      
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/aws/">aws</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/ssm/">ssm</a></li>
+        
+          <li><a class="article-terms-link" href="/marcelo/tags/ssh/">ssh</a></li>
+        
+      
+    </ul>
+  
+</div>
+
+    </footer>
+  </article>
+  
+    
+  <article class="post">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "devsres-marcelo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </article>
+
+
+
+
+  
+  <div class="pagination">
+    
+      <a href="/marcelo/blog/aws-ssm-session-manager-advanced/" class="button left"><span>SSH na AWS sem precisar abrir portas!</span></a>
+    
+    
+      <a href="/marcelo/blog/terraform-refactoring-state/" class="button right"><span>Refatorando projetos de Terraform</span></a>
+    
+  </div>
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Posts Recentes</h1>
+      </header>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/aws-ssm-session-manager-advanced/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/aws-ssm-session-manager-advanced/">SSH na AWS sem precisar abrir portas!</a></h2>
+          <time class="published" datetime="2021-08-31 00:00:00 &#43;0000 UTC">31 de August, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/aws-ssm-session-manager/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/boxes.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/boxes.jpg" alt="Boxes are containers">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/aws-ssm-session-manager/">SSH na AWS sem precisar abrir portas!</a></h2>
+          <time class="published" datetime="2021-08-31 00:00:00 &#43;0000 UTC">31 de August, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/terraform-refactoring-state/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/toy-operation.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/toy-operation.jpg" alt="Operation">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/terraform-refactoring-state/">Refatorando projetos de Terraform</a></h2>
+          <time class="published" datetime="2021-04-15 00:00:00 &#43;0000 UTC">15 de April, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/calico-ippool-infrastructure/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/hammer-screw.jpg');">
+    <img src="https://devsres.com/marcelo/img/reusable/hammer-screw.jpg" alt="Minecraft">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/calico-ippool-infrastructure/">Calico IPPool dedicado para Infraestrutura</a></h2>
+          <time class="published" datetime="2021-04-13 00:00:00 &#43;0000 UTC">13 de April, 2021</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+          <a href="/marcelo/blog/surviving-with-terraforming-on-aws-1/" class="image" style="--bg-image: url('https://devsres.com/marcelo/img/reusable/valhein-dropoff.png');">
+    <img src="https://devsres.com/marcelo/img/reusable/valhein-dropoff.png" alt="Minecraft">
+  </a>
+        <header>
+          <h2><a href="/marcelo/blog/surviving-with-terraforming-on-aws-1/">Sobrevivendo com Terraform na AWS - parte 1</a></h2>
+          <time class="published" datetime="2021-03-11 00:00:00 &#43;0000 UTC">11 de March, 2021</time>
+        </header>
+      </article>
+      
+      
+        <footer>
+          <a href="/marcelo/blog/" class="button">Veja Mais</a>
+        </footer>
+      
+    </section>
+  
+
+  
+    
+
+      <section id="categories">
+        <header>
+          <h1><a href="/marcelo/categories">Categorias</a></h1>
+        </header>
+        <ul>
+          
+          
+          <li>
+              <a href="/marcelo/categories/kubernetes/">kubernetes<span class="count">10</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/on-prem/">on-prem<span class="count">4</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/passado/">passado<span class="count">4</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/aws/">aws<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/calico/">calico<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/intermedi%C3%A1rio/">intermediário<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/terraform/">terraform<span class="count">3</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/docker/">docker<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/iniciando/">iniciando<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ssh/">ssh<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ssm/">ssm<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/vmware/">vmware<span class="count">2</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/avan%C3%A7ado/">avançado<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ceph/">ceph<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/containers/">containers<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/csi/">csi<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/govc/">govc<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/ingress/">ingress<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/linux/">linux<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/network/">network<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/node-exporter/">node-exporter<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/prometheus/">prometheus<span class="count">1</span></a>
+          
+          <li>
+              <a href="/marcelo/categories/tls/">tls<span class="count">1</span></a>
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>Sobre</h1>
+      </header>
+      <p>SRE e Cloud Native solutions engineer.<br>Respirando software livre desde 1997</p>
+      <footer>
+        <a href="/marcelo/about" class="button">Saber Mais</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/marcelo-devsres" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//linkedin.com/in/mrrandrade" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+
+
+
+
+<li><a href="//facebook.com/devsresnetwork" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+
+
+<li><a href="//youtube.com/channel/UCgbbwB1Wxndh8urBPpyx9XA/" target="_blank" rel="noopener" title="YouTube" class="fab fa-youtube"></a></li>
+
+
+
+
+
+<li><a href="//instagram.com/marcelo_devsres" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/marcelo_devsres" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+
+
+<li><a href="//telegram.me//dev/sres" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+
+
+
+
+
+      </ul>
+  
+  <p class="copyright">
+    © 2021 
+      <br>
+    Tema: <a href='https://themes.gohugo.io/hugo-future-imperfect-slim/' target='_blank' rel='noopener'>Hugo Future Imperfect</a><br>Adaptado de <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP</a> | Disponibilizado pelo <a href='https://gohugo.io/' title='0.81.0' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/marcelo/js/highlight.js"></script>
+    
+    <script>hljs.initHighlightingOnLoad();</script><script src="/marcelo/js/bundle.min.1ac7a98b06451b2770fdaaee2f67721ab7e137a5fee8352dc78a33e7a69b3244.js" integrity="sha256-GsepiwZFGydw/aruL2dyGrfhN6X&#43;6DUtx4oz56abMkQ="></script>
+    <script src="/marcelo/js/add-on.js"></script>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177944209', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    </div>
+  </body>
+</html>

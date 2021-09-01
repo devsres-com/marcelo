@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ssm on </title>
+    <link>https://devsres.com/marcelo/tags/ssm/</link>
+    <description>Recent content in ssm on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Tue, 31 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://devsres.com/marcelo/tags/ssm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SSH na AWS sem precisar abrir portas!</title>
+      <link>https://devsres.com/marcelo/blog/aws-ssm-session-manager-advanced/</link>
+      <pubDate>Tue, 31 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/aws-ssm-session-manager-advanced/</guid>
+      <description>Quem sou eu?  # Uma outra maneira seria usar # aws iam get-user --query=&amp;#39;User.Username&amp;#39; $ AWS_USER=$( aws sts get-caller-identity --query &amp;#39;Arn&amp;#39; --output text | cut -f2 -d&amp;#39;/&amp;#39; )  Upload da chave SSH:  $ aws ec2 import-key-pair \  --key-name &amp;#34;$AWS_USER&amp;#34; \  --public-key-material=&amp;#34; $( cat ~/.ssh/id_ed25519.pub | base64 )&amp;#34; { &amp;#34;KeyFingerprint&amp;#34;: &amp;#34;dqDNVFIfUJjiyoW3WGhucBmfzLe0t6tMs0VX7Hhz4CI=&amp;#34;, &amp;#34;KeyName&amp;#34;: &amp;#34;cloud_user&amp;#34;, &amp;#34;KeyPairId&amp;#34;: &amp;#34;key-07c7ea29a43b32a04&amp;#34; } Hoje vamos criar um VPC.
+$ VPC_ID=$( aws ec2 create-vpc \  --cidr-block 192.</description>
+    </item>
+    
+    <item>
+      <title>SSH na AWS sem precisar abrir portas!</title>
+      <link>https://devsres.com/marcelo/blog/aws-ssm-session-manager/</link>
+      <pubDate>Tue, 31 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://devsres.com/marcelo/blog/aws-ssm-session-manager/</guid>
+      <description>Algum tempo atrás, postei na minha página do Instagram um roteiro para começar a usar a AWS cli e criar uma instância EC2 na AWS. No fim, para mostrar que tudo funcionou, acessei a instância via SSH.
+Embora eu tenha restringido o Security Group da instância para meu endereço IP, no mundo ideal não devemos abrir a porta SSH dos hosts diretamente para Internet. A recomendação oficial é que se use um &amp;ldquo;jumpbox&amp;rdquo; como Bastion Host.</description>
+    </item>
+    
+  </channel>
+</rss>
